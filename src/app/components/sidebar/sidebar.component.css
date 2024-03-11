@@ -1,0 +1,65 @@
+.sidebar {
+    width: 200px;
+    background-color:  #545859;
+    height: calc(100vh - 66px - 74px);
+    padding: 20px;
+    position: fixed;
+    top : 66px;
+    overflow: auto;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px; /* Adjust margin as needed to create space between each link */
+    background-color: #ffd100; /* Optional: Add background color to each link block */
+    padding: 10px; /* Optional: Add padding to each link block */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 12px;
+    cursor: pointer; /*Show Cursor */
+}
+
+.tab-info {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    padding: 8px;
+}
+
+.tab-icon {
+    margin-left: 3px;
+    margin-top: 8px;
+    margin-right: 8px; /* Adjust margin as needed */
+}
+
+.tab-name{
+    font-size: 16px;
+    font-weight: bold;
+    color: #4b5563;
+}
+
+.custom-tree{
+    font-weight: bold;
+}
+
+  :host{
+    ::ng-deep{
+        .p-component{
+            font-family: 'NT' !important;
+        }
+    }
+  }
+
+    
+  
+
+
+  
+
+
+

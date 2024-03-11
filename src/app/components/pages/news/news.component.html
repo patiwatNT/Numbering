@@ -1,0 +1,100 @@
+<form [formGroup]="myForm">
+  <div class="container" *ngIf="editLoading; else container">
+    <div class="title">เพิ่มข่าวประชาสัมพันธ์</div>
+    <div class="line-1"></div>
+    <div class="add-news-group">
+      <div class="news-title-group">
+        <div class="news-title">
+          <div class="text">เพิ่มหัวข้อ</div>
+          <div class="skeleton">
+            <p-skeleton width="100%" height="44px"></p-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="line-2"></div>
+    <div class="text-editor">
+      <div class="text2">เพิ่มเนื้อหา</div>
+      <div class="content" role="main">
+        <p-skeleton width="100%" height="239.42px"></p-skeleton>
+      </div>
+    </div>
+    <div class="group-button">
+      <div class="button-success">
+        <p-skeleton width="120px" height="44px"></p-skeleton>
+      </div>
+      <p-skeleton width="120px" height="44px"></p-skeleton>
+    </div>
+  </div>
+  <ng-template #container>
+    <div class="container">
+      <div class="title">เพิ่มข่าวประชาสัมพันธ์</div>
+      <div class="line-1"></div>
+      <div class="add-news-group">
+        <div class="news-title-group">
+          <div class="news-title">
+            <div class="text">เพิ่มหัวข้อ</div>
+            <input
+              type="text"
+              pInputText
+              placeholder="หัวข้อข่าว"
+              style="width: 85%"
+              formControlName="newsTitle"
+            />
+          </div>
+          <div
+            *ngIf="
+              myForm.get('newsTitle')!.invalid &&
+              (myForm.get('newsTitle')!.dirty ||
+                myForm.get('newsTitle')!.touched)
+            "
+            class="error-message-title"
+          >
+            กรุณาเพิ่มหัวข้อข่าว
+          </div>
+        </div>
+      </div>
+      <div class="line-2"></div>
+      <div class="text-editor">
+        <div class="text2">เพิ่มเนื้อหา</div>
+        <div class="content" role="main">
+          <ckeditor
+            [editor]="Editor"
+            data=""
+            (ready)="onReady($event)"
+            (change)="onChange($event)"
+            formControlName="newsDetail"
+            [config]="{ placeholder: 'เพิ่มเนื้อหา' }"
+          >
+          </ckeditor>
+        </div>
+        <div
+          *ngIf="
+            myForm.get('newsDetail')!.invalid &&
+            (myForm.get('newsDetail')!.dirty ||
+              myForm.get('newsDetail')!.touched)
+          "
+          class="error-message-detail"
+        >
+          กรุณาเพิ่มเนื้อหาข่าว
+        </div>
+      </div>
+      <div class="group-button">
+        <p-confirmDialog></p-confirmDialog>
+        <div class="button-success">
+          <p-button
+            (onClick)="Confirm(myForm)"
+            label="บันทึกการแก้ไข"
+            severity="success"
+            [loading]="loading"
+          ></p-button>
+        </div>
+        <p-button
+          (onClick)="Close()"
+          label="ยกเลิก"
+          severity="danger"
+        ></p-button>
+      </div>
+    </div>
+  </ng-template>
+</form>

@@ -1,0 +1,68 @@
+<div class="sidebar">
+  <ul>
+    <li (onNodeExpand)="expandNode(phoneInfoNode[0])">
+      <p-tree [value]="phoneInfoNode" selectionMode="single" (onNodeSelect)="onNodeSelect($event)">
+        <ng-template pTemplate="togglericon" let-open>
+          <span *ngIf="open">
+            <img src="assets/icons/info.png" height="30" />
+          </span>
+          <span *ngIf="!open">
+            <img src="assets/icons/info.png" height="30" />
+          </span>
+        </ng-template>
+      </p-tree>
+    </li>
+    <li (onNodeExpand)="expandNode(blockNode[0])">
+      <p-tree [value]="blockNode" selectionMode="single" (onNodeSelect)="onNodeSelect($event)">
+        <ng-template pTemplate="togglericon" let-open>
+          <span *ngIf="open">
+            <img src="assets/icons/block.png" height="30" />
+          </span>
+          <span *ngIf="!open">
+            <img src="assets/icons/block.png" height="30" />
+          </span>
+        </ng-template>
+      </p-tree>
+    </li>
+    <li (onNodeExpand)="expandNode(assignNode[0])">
+      <p-tree [value]="assignNode" selectionMode="single" (onNodeSelect)="onNodeSelect($event)">
+        <ng-template pTemplate="togglericon" let-open>
+          <span *ngIf="open">
+            <img src="assets/icons/paper.png" height="30" />
+          </span>
+          <span *ngIf="!open">
+            <img src="assets/icons/paper.png" height="30" />
+          </span>
+        </ng-template>
+      </p-tree>
+    </li>
+    <li (onNodeExpand)="expandNode(reportNode[0])">
+      <p-tree [value]="reportNode" selectionMode="single" (onNodeSelect)="onNodeSelect($event)">
+        <ng-template pTemplate="togglericon" let-open>
+          <span *ngIf="open">
+            <img src="assets/icons/growth.png" height="30" />
+          </span>
+          <span *ngIf="!open">
+            <img src="assets/icons/growth.png" height="30" />
+          </span>
+        </ng-template>
+      </p-tree>
+    </li>
+    <li>
+      <div class="tab-info">
+        <span class="tab-icon">
+          <img src="assets/icons/booking.png" height="30" />
+        </span>
+        <span class="tab-name">Reserve</span>
+      </div>
+    </li>
+    <li [routerLink]="['/admin/news']">
+      <div class="tab-info">
+        <span class="tab-icon">
+          <img src="assets/icons/setting.png" height="30" />
+        </span>
+        <span class="tab-name">Admin</span>
+      </div>
+    </li>
+  </ul>
+</div>

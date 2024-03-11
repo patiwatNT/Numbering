@@ -1,0 +1,62 @@
+<div class="container" *ngIf="editLoading; else container">
+  <div class="title">ข่าวประชาสัมพันธ์</div>
+  <div class="line"></div>
+  <div>
+    <div class="news-blog">
+      <div class="news-title">
+        <div class="news-title-text">
+          <div class="skeleton">
+            <p-skeleton width="1210px" height="22px"></p-skeleton>
+          </div>
+        </div>
+      </div>
+      <div class="news-detail-text">
+        <div class="skeleton-detail">
+          <p-skeleton width="1210px" height="110px"></p-skeleton>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="news-blog">
+      <div class="news-title">
+        <div class="news-title-text">
+          <div class="skeleton">
+            <p-skeleton width="1210px" height="22px"></p-skeleton>
+          </div>
+        </div>
+      </div>
+      <div class="news-detail-text">
+        <div class="skeleton-detail">
+          <p-skeleton width="1210px" height="110px"></p-skeleton>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #container>
+  <div class="container">
+    <div class="title">ข่าวประชาสัมพันธ์</div>
+    <div class="line"></div>
+    <div *ngFor="let i of newsList">
+      <div class="news-blog">
+        <div class="news-title">
+          <div class="news-title-text">
+            <div [innerHTML]="i.newsTitle"></div>
+          </div>
+          <div class="edit-news-group">
+            <img
+              src="assets/icons/pen.png"
+              height="20"
+              class="edit-news-logo"
+            />
+            <div class="edit-news-text" (click)="editNews(i.id)">แก้ไขข่าว</div>
+          </div>
+        </div>
+        <div class="news-detail-text">
+          <div [innerHTML]="i.newsDetail"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

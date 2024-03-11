@@ -1,0 +1,29 @@
+.container{
+    height: calc(100vh - 66px - 74px);
+    overflow: auto;
+    margin-left: 200px;
+    padding: 25px;
+}
+
+.content{
+
+}
+
+.header{
+    height: 66px;
+    width: 100%;
+}
+
+.sidebar{
+    height:  calc(100vh - 66px - 74px);
+    width: 200px;
+    position: fixed;
+    top : 66px;
+}
+
+.footer{
+    height: 74px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+}

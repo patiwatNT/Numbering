@@ -1,0 +1,49 @@
+<form [formGroup]="blockForm" (ngSubmit)="Search(blockForm)">
+  <div class="container">
+    <div class="block-search-header">ค้นหา Block</div>
+    <div class="line"></div>
+    <div class="block-search-detail">
+      <div class="block-search">
+        <div class="block-search-text">หมายเลขโทรศัพท์</div>
+        <input
+          type="text"
+          pInputText
+          placeholder="หมายเลขโทรศัพท์"
+          formControlName="phoneInfo"
+          style="width: 100%"
+        />
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">Provider</div>
+        <p-dropdown
+          formControlName="provider"
+          [options]="provider"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">สถานะ</div>
+        <p-dropdown
+          formControlName="blockStatus"
+          [options]="blockStatus"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">พื้นที่/สำนัก</div>
+        <p-dropdown
+          formControlName="location"
+          [options]="location"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="block-search-button">
+      <p-button type="submit" label="ค้นหา" [loading]="loading"></p-button>
+    </div>
+    <div class="line"></div>
+  </div>
+</form>

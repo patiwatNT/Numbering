@@ -1,0 +1,80 @@
+@font-face {
+    font-family: 'NT';
+    font-weight: normal;
+    font-style: normal;
+    src: url('./assets/NT\ Font/NT\ Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NT';
+    font-weight: bold;
+    font-style: bold;
+    src: url('./assets/NT\ Font/NT\ Bold.otf') format('opentype');
+}
+
+body{
+    font-family: 'NT';
+    margin: 0;
+}
+
+
+.p-component{
+    font-family: 'NT' !important;
+}
+
+.p-tree-container{
+    font-weight: bold;
+    user-select: none; /* Disable User Copy */
+}
+
+.p-tree{
+    border: none;
+    background: #ffd100;
+    padding: 0%;
+}
+
+.p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler:enabled:hover{
+    background: transparent;
+}
+
+.p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler{
+    height: 34px;
+    border-radius: 25%;
+    margin-right: 0.3rem;
+}
+
+.p-tree .p-treenode-children{
+    padding: 0;
+}
+
+.p-tree .p-tree-container .p-treenode:focus > .p-treenode-content{
+    box-shadow: none;
+}
+
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+    height: 200px;
+}
+
+.p-button.p-button-danger, .p-buttonset.p-button-danger > .p-button, .p-splitbutton.p-button-danger > .p-button{
+    width: 120.42px;
+}
+
+.confirm-dialog-reject-style {
+    background-color: transparent;
+    color: #3B82F6;
+    border-color: transparent;
+}
+
+.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight {
+    background: none;
+    color: #4B5546;
+}
+
+
+.p-tree .p-tree-container .p-treenode .p-treenode-content.p-treenode-selectable:not(.p-highlight):hover {
+    background: none;
+    color: none;
+}
+
+
+

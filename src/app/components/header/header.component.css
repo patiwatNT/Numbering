@@ -1,0 +1,32 @@
+.header {
+    height: 100%; /* Set the height of the header */
+    width: 100%;
+}
+
+.logo-container {
+    background-color: #ffd100; /* Adjust background color as needed */
+    padding: 33px; /* Adjust padding as needed */
+}
+
+.logo {
+    position: absolute;
+    top: 5px; /* Adjust top position */
+    left: 20px; /* Adjust left position */
+    color: red;
+    cursor: pointer;
+}
+
+.user-info {
+    position: absolute;
+    top: 12px; /* Adjust top position */
+    right: 70px; /* Adjust right position */
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+}
+
+.user-icon {
+    margin-top: 8px;
+    margin-right: 25px; /* Adjust margin as needed */
+}
+

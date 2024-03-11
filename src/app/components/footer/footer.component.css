@@ -1,0 +1,17 @@
+.footer {
+    background-color:  #ffd100;
+    padding: 10px;
+    width: 100%;
+}
+
+.text{
+    font-family: NT; /* Specify the font family */
+    font-weight: bold;
+    font-size: 18px; /* Specify the font size */
+    color: black; /* Specify the text color */
+    line-height: 1.5; /* Specify the line height */
+    position: relative; /* or absolute, fixed, etc. */
+    top: 0px; /* Adjust the top position */
+    text-align: center
+    /* You can add more styles as needed */
+}
