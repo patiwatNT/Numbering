@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PhoneInfo } from '../models/phoneInfo';
 import { BlockDetailDtoC } from '../models/blockDetailDtoC';
+import { Provider } from '../models/provider';
+import { Location } from '../models/location';
+import { BlockStatus } from '../models/blockStatus';
 
 @Injectable({
     providedIn: 'root'
@@ -31,10 +34,18 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     }
 
     findAllBlock(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/block/findAll`);
+      return this.http.get<Provider>(`${this.apiUrl}/block/findAll`);
     }
 
     findBlockDetail(data: BlockDetailDtoC): Observable<any>{
       return this.http.post(`${this.apiUrl}/block-detail/findBlockDetail`,data);
+    }
+
+    findByStatusGroup(statusGroup: String): Observable<any>{
+      return this.http.get<BlockStatus>(`${this.apiUrl}/config-code/findByStatusGroup/${statusGroup}`);
+    }
+
+    findNumberingLocation(): Observable<any>{
+      return this.http.get<Location>(`${this.apiUrl}/numbering-location/findAll`);
     }
   }

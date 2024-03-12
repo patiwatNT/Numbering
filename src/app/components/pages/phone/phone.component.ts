@@ -50,8 +50,7 @@ export class PhoneComponent {
     });
   }
   Search(form: FormGroup) {
-    console.log(form.value.phoneInfo);
-    if (form.value.phoneInfo != '') {
+    if (!form.invalid) {
       this.sendDataToBackend(form);
     } else {
       this.checkEmpty = true;
