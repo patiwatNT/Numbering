@@ -1,1 +1,81 @@
-<p>assign-search works!</p>
+<form [formGroup]="assignedForm" (ngSubmit)="search(assignedForm)">
+<div class="container">
+    <div class="block-search-header">ค้นหา Assigned Range</div>
+    <div class="line"></div>
+    <div class="block-search-detail">
+      <div class="block-search">
+        <div class="block-search-text">หมายเลขโทรศัพท์</div>
+        <input
+          type="text"
+          pInputText
+          placeholder="หมายเลขโทรศัพท์"
+          formControlName="phoneInfo"
+          style="width: 100%"
+        />
+        <div
+        *ngIf="
+          assignedForm.get('phoneInfo')!.invalid &&
+          (assignedForm.get('phoneInfo')!.dirty ||
+          assignedForm.get('phoneInfo')!.touched) &&
+          valid('phoneInfo')
+        "
+        class="error-message-title"
+      >
+        กรุณากรอกเฉพาะตัวเลข
+      </div>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">Provider</div>
+        <p-dropdown
+          formControlName="provider"
+          [options]="provider"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">ส่วนงาน</div>
+        <p-dropdown
+          formControlName="division"
+          [options]="division"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">พื้นที่/สำนัก</div>
+        <p-dropdown
+          formControlName="location"
+          [options]="location"
+          optionLabel="name"
+          value="all"
+        ></p-dropdown>
+      </div>
+      <div class="block-search">
+        <div class="block-search-text">Block Id</div>
+        <input
+          type="text"
+          pInputText
+          placeholder="Block Id"
+          formControlName="blockId"
+          style="width: 100%"
+        />
+        <div
+        *ngIf="
+          assignedForm.get('blockId')!.invalid &&
+          (assignedForm.get('blockId')!.dirty ||
+          assignedForm.get('blockId')!.touched) &&
+          valid('blockId')
+        "
+        class="error-message-title"
+      >
+        กรุณากรอกเฉพาะตัวเลข
+      </div>
+      </div>
+    </div>
+    <div class="block-search-button">
+      <p-button type="submit" label="ค้นหา" [loading]="loading" class="btn1"></p-button>
+    </div>
+    <div class="line"></div>
+</div>
+</form>

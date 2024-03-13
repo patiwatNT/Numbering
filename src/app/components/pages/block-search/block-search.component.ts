@@ -5,17 +5,15 @@ import {
   FormControl,
   FormGroup,
   Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { BackendService } from '../../../services/BackendService';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { BlockDetailDtoC } from '../../../models/blockDetailDtoC';
-import { Provider } from '../../../models/provider';
-import { BlockStatus } from '../../../models/blockStatus';
-import { Location } from '../../../models/location';
+import { DropDownData } from '../../../models/dropdownData';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PaginatorModule } from 'primeng/paginator';
 
@@ -39,19 +37,19 @@ export class BlockSearchComponent implements OnInit {
   blockForm!: FormGroup;
   phoneInfo: string = "";
   haveData:boolean = false;
-  provider: Provider[] = [
+  provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
       value: '',
     },
   ];
-  blockStatus: BlockStatus[] = [
+  blockStatus: DropDownData[] = [
     {
       name: 'ทั้งหมด',
       value: '',
     },
   ];
-  location: Location[] = [
+  location: DropDownData[] = [
     {
       name: 'ทั้งหมด',
       value: '',
@@ -66,15 +64,15 @@ export class BlockSearchComponent implements OnInit {
   ) {
     this.blockForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
-      provider: new FormControl<Provider | null>({
+      provider: new FormControl<DropDownData | null>({
         name: 'ทั้งหมด',
         value: '',
       }),
-      blockStatus: new FormControl<BlockStatus | null>({
+      blockStatus: new FormControl<DropDownData | null>({
         name: 'ทั้งหมด',
         value: '',
       }),
-      location: new FormControl<BlockStatus | null>({
+      location: new FormControl<DropDownData | null>({
         name: 'ทั้งหมด',
         value: '',
       }),

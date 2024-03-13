@@ -1,1 +1,56 @@
-<p>assign works!</p>
+<div class="container">
+  <div class="assign-header">จำนวนเลขหมาย ที่ Assigned ให้พื้นที่</div>
+  <div class="line"></div>
+  <div class="assigned-blog" *ngIf="loading else assignBlog">
+    <div class="data-rows">
+      <div class="data-header">ที่</div>
+      <div class="data-detail" style="width: 30%">Provider</div>
+      <div class="data-detail" style="width: 170%">Provider Description</div>
+      <div class="data-detail" style="width: 70%">จำนวนช่วง</div>
+      <div class="data-footer" style="width: 70%">จำนวนเลขหมาย</div>
+    </div>
+    <div *ngFor="let i of [1,2,3,4]">
+      <div class="data-rows">
+        <div class="data-header"><p-skeleton width="100%"></p-skeleton></div>
+        <div class="data-detail" style="width: 30%"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+        <div class="data-detail" style="width: 170%">
+            <p-skeleton width="100%" height="100%"></p-skeleton>
+        </div>
+        <div class="data-detail" style="width: 70%"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+        <div class="data-footer" style="width: 70%"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+      </div>
+    </div>
+    <div class="data-rows-result">
+      <div class="data-header-result" style="width: 375%">รวม</div>
+      <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+      <div class="data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+    </div>
+  </div>
+  <ng-template #assignBlog>
+    <div class="assigned-blog">
+    <div class="data-rows">
+        <div class="data-header">ที่</div>
+        <div class="data-detail" style="width: 30%">Provider</div>
+        <div class="data-detail" style="width: 170%">Provider Description</div>
+        <div class="data-detail" style="width: 70%">จำนวนช่วง</div>
+        <div class="data-footer" style="width: 70%">จำนวนเลขหมาย</div>
+      </div>
+      <div *ngFor="let i of assignList">
+        <div class="data-rows">
+          <div class="data-header">{{ i.no }}</div>
+          <div class="data-detail" style="width: 30%">{{ i.provider }}</div>
+          <div class="data-detail" style="width: 170%">
+            {{ i.providerDescription }}
+          </div>
+          <div class="data-detail" style="width: 70%">{{ i.rangeAmount }}</div>
+          <div class="data-footer" style="width: 70%">{{ i.telAmount }}</div>
+        </div>
+      </div>
+      <div class="data-rows-result">
+        <div class="data-header-result" style="width: 375%">รวม</div>
+        <div class="data-detail">{{ sumRangedAmount }}</div>
+        <div class="data-footer">{{ sumTelAmount }}</div>
+      </div>
+    </div>
+  </ng-template>
+</div>
