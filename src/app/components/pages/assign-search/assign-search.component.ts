@@ -14,6 +14,8 @@ import { BackendService } from '../../../services/BackendService';
 import { DropDownData } from '../../../models/dropdownData';
 import { CommonModule } from '@angular/common';
 import { AssignedRangeDtoC } from './../../../models/assignedRangeDtoC';
+import { PaginatorModule } from 'primeng/paginator';
+
 @Component({
   selector: 'app-assign-search',
   standalone: true,
@@ -24,6 +26,7 @@ import { AssignedRangeDtoC } from './../../../models/assignedRangeDtoC';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    PaginatorModule
   ],
   templateUrl: './assign-search.component.html',
   styleUrl: './assign-search.component.scss',

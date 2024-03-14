@@ -1,10 +1,10 @@
 <form [formGroup]="assignedForm" (ngSubmit)="search(assignedForm)">
 <div class="container">
-    <div class="block-search-header">ค้นหา Assigned Range</div>
+    <div class="assigned-search-header">ค้นหา Assigned Range</div>
     <div class="line"></div>
-    <div class="block-search-detail">
-      <div class="block-search">
-        <div class="block-search-text">หมายเลขโทรศัพท์</div>
+    <div class="assigned-search-detail">
+      <div class="assigned-search">
+        <div class="assigned-search-text">หมายเลขโทรศัพท์</div>
         <input
           type="text"
           pInputText
@@ -24,8 +24,8 @@
         กรุณากรอกเฉพาะตัวเลข
       </div>
       </div>
-      <div class="block-search">
-        <div class="block-search-text">Provider</div>
+      <div class="assigned-search">
+        <div class="assigned-search-text">Provider</div>
         <p-dropdown
           formControlName="provider"
           [options]="provider"
@@ -33,8 +33,8 @@
           value="all"
         ></p-dropdown>
       </div>
-      <div class="block-search">
-        <div class="block-search-text">ส่วนงาน</div>
+      <div class="assigned-search">
+        <div class="assigned-search-text">ส่วนงาน</div>
         <p-dropdown
           formControlName="division"
           [options]="division"
@@ -42,8 +42,8 @@
           value="all"
         ></p-dropdown>
       </div>
-      <div class="block-search">
-        <div class="block-search-text">พื้นที่/สำนัก</div>
+      <div class="assigned-search">
+        <div class="assigned-search-text">พื้นที่/สำนัก</div>
         <p-dropdown
           formControlName="location"
           [options]="location"
@@ -51,8 +51,8 @@
           value="all"
         ></p-dropdown>
       </div>
-      <div class="block-search">
-        <div class="block-search-text">Block Id</div>
+      <div class="assigned-search">
+        <div class="assigned-search-text">Block Id</div>
         <input
           type="text"
           pInputText
@@ -73,9 +73,42 @@
       </div>
       </div>
     </div>
-    <div class="block-search-button">
+    <div class="assigned-search-button">
       <p-button type="submit" label="ค้นหา" [loading]="loading" class="btn1"></p-button>
     </div>
     <div class="line"></div>
+    <div class="assigned-search-detail-container">
+      <div class="data-rows">
+        <div class="data-header" style="width: 5%;">ที่</div>
+        <div class="data-detail">Station Code</div>
+        <div class="data-detail">Station Name</div>
+        <div class="data-detail">หมายเลขเริ่มต้น</div>
+        <div class="data-detail">หมายเลขสิ้นสุด</div>
+        <div class="data-detail">จำนวนเลขหมาย</div>
+        <div class="data-detail">ระบุ Location</div>
+        <div class="data-detail">Provider</div>
+        <div class="data-detail">พื้นที่</div>
+        <div class="data-footer" style="width: 40%;">Action</div>
+      </div>
+      <!-- <div *ngFor="let i of pagedData;let index = index">
+        <div class="data-rows">
+          <div class="data-header">{{ index+first+1 }}</div>
+          <div class="data-detail">{{ i.blockStart }}</div>
+          <div class="data-detail">{{ i.blockEnd }}</div>
+          <div class="data-detail">{{ i.amount }}</div>
+          <div class="data-detail">{{ i.provider }}</div>
+          <div class="data-detail">{{ i.location }}</div>
+          <div class="data-detail" [ngClass]="{'success-text': i.blockStatus=='ยังใช้งาน', 'false-text': i.blockStatus=='คืน กสทช. แล้ว' , 'inprogress-text': i.blockStatus=='อยู่ระหว่างดำเนินการคืน กสทช.'}">{{ i.blockStatus }}</div>
+          <div class="data-footer" *ngIf="i.actionStatus==='F'; else assignButton">
+          </div>
+          <ng-template #assignButton>
+            <div class="data-footer-assign">
+              <p-button icon="pi pi-at" class="btn2" (onClick)="assign()"></p-button>
+            </div>
+          </ng-template>
+        </div>
+      </div> -->
+      <!-- <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="blockDetailList.length" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator> -->
+    </div>
 </div>
 </form>
