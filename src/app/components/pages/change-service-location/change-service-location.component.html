@@ -1,0 +1,204 @@
+<div class="container">
+  <div class="change-service-location-header">
+    <div>
+      <b>หมายเลข</b> {{ phoneInfo.startTel }}-{{ phoneInfo.endTel }}
+      <b>จำนวน</b> {{ phoneInfo.amount }} เลขหมาย<br />
+      <b>ผลการค้นหา</b> {{ phoneDetailList.length }} รายการ <br />
+      <b>Station Code</b> : {{ phoneInfo.stationCode }} <b>ชื่อย่อ Station:</b>
+      {{ phoneInfo.stationNameShort }} <b>ชื่อ Station (ไทย):</b>
+      {{ phoneInfo.stationNameTh }} <b>ชื่อ Station (อังกฤษ):</b>
+      {{ phoneInfo.stationNameEn }}
+    </div>
+    <p-button label="excel" class="excel-btn"></p-button>
+  </div>
+  <div class="line"></div>
+  <div class="change-service-location-container">
+    <div class="data-rows">
+      <div class="data" style="width: 30%; margin-left: 30px">
+        <div class="data-text">ที่</div>
+      </div>
+      <div class="data"><div class="data-text">หมายเลข</div></div>
+      <div class="data">
+        <div class="data-text">ศูนย์บริการฯ <br />(Service Location)</div>
+      </div>
+      <div class="data"><div class="data-text">สถานะใน CRM</div></div>
+      <div class="data"><div class="data-text">ข้อมูลล่าสุดโดย</div></div>
+      <div class="data"><div class="data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+      <div class="data" style="width: 50%; margin-right: 30px">
+        <div class="data-text">Action</div>
+      </div>
+    </div>
+    <div class="data-rows" *ngFor="let i of pagedData; let index = index">
+      <div class="data" style="width: 30%; margin-left: 30px">
+        <div class="data-text">{{ index + first + 1 }}</div>
+      </div>
+      <div class="data">
+        <div class="data-text">{{ i.phoneNumber }}</div>
+      </div>
+      <div class="data">
+        <div class="data-text">{{ i.serviceLocation }}</div>
+      </div>
+      <div class="data">
+        <div
+          class="data-text"
+          [ngClass]="{
+            'success-text': i.crmStatus == 'Active',
+            'false-text': i.crmStatus == 'Inactive'
+          }"
+        >
+          {{ i.crmStatus }}
+        </div>
+      </div>
+      <div class="data">
+        <div class="data-text">{{ i.updateBy }}</div>
+      </div>
+      <div class="data">
+        <div class="data-text">{{ i.updateDate }}</div>
+      </div>
+      <div class="data" style="width: 50%; margin-right: 30px">
+        <div
+          class="data-text"
+          *ngIf="i.crmStatus == 'Inactive'; else showButton"
+        >
+          <p-button
+            icon="pi pi-search"
+            title="ดูแลรายละเอียดเลขหมาย"
+            class="btn2"
+            (onClick)="showPhoneInfo(i.phoneNumber)"
+          ></p-button>
+          <div style="padding: 6px"></div>
+          <p-button
+            icon="pi pi-pencil"
+            title="แก้ไขศูนย์บริการ"
+            class="btn2"
+            (onClick)="changeServiceLocation()"
+          ></p-button>
+        </div>
+        <ng-template #showButton>
+          <div class="data-text">
+            <p-button
+              icon="pi pi-search"
+              title="ดูแลรายละเอียดเลขหมาย"
+              class="btn2"
+              (onClick)="showPhoneInfo(i.phoneNumber)"
+            ></p-button>
+          </div>
+        </ng-template>
+        <div *ngIf="detailLoading; else detailBlog">
+          <p-dialog
+            header="Header"
+            [(visible)]="visible"
+            [modal]="true"
+            [style]="{ width: '50vw' }"
+            [draggable]="false"
+            [resizable]="false"
+          >
+            <ng-template pTemplate="header">
+              <div class="dialog-detail-assigned">
+                หมายเลข :
+                <div style="margin-top: 5px; margin-left: 10px">
+                  <p-skeleton width="630px" height="18px"></p-skeleton>
+                </div>
+              </div>
+            </ng-template>
+            <div class="dialog-data-container">
+              <div class="dialog-data-rows">
+                <div class="dialog-data">ศูนย์บริการ (Service Location)</div>
+                <div class="dialog-data">
+                  <p-skeleton width="100%" height="100%"></p-skeleton>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">สถานะใน CRM</div>
+                <div class="dialog-data">
+                  <p-skeleton width="100%" height="100%"></p-skeleton>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">ข้อมูลล่าสุดเมื่อ</div>
+                <div class="dialog-data">
+                  <p-skeleton width="100%" height="100%"></p-skeleton>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">ข้อมูลล่าสุดโดย</div>
+                <div class="dialog-data">
+                  <p-skeleton width="100%" height="100%"></p-skeleton>
+                </div>
+              </div>
+            </div>
+          </p-dialog>
+        </div>
+        <ng-template #detailBlog>
+          <p-dialog
+            header="Header"
+            [(visible)]="visible"
+            [modal]="true"
+            [style]="{ width: '50vw' }"
+            [draggable]="false"
+            [resizable]="false"
+          >
+            <ng-template pTemplate="header">
+              <div class="dialog-detail-assigned">หมายเลข : xxxxx</div>
+            </ng-template>
+            <div class="dialog-data-container">
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    ศูนย์บริการ (Service Location)
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown [options]="serviceLocation" [(ngModel)]="selectedLocation" [group]="true">
+                    <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center">
+                        <span>{{ group.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text">สถานะใน CRM</div></div>
+                <div class="dialog-data"><div class="dialog-data-text">xxxxx</div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+                <div class="dialog-data"><div class="dialog-data-text">xxxxx</div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดโดย</div></div>
+                <div class="dialog-data"><div class="dialog-data-text">xxxxx</div></div>
+              </div>
+            </div>
+            <ng-template pTemplate="footer">
+              <p-button
+                icon="pi pi-check"
+                (click)="visible = false"
+                label="บันทึกการแก้ไข"
+                pAutoFocus
+                [autofocus]="true"
+                severity="success"
+              ></p-button>
+              <p-button
+                icon="pi pi-check"
+                (click)="visible = false"
+                label="ยกเลิก"
+                pAutoFocus
+                [autofocus]="true"
+                severity="danger"
+              ></p-button>
+            </ng-template>
+          </p-dialog>
+        </ng-template>
+      </div>
+    </div>
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="rows"
+      [totalRecords]="phoneDetailList.length"
+      [rowsPerPageOptions]="[5, 10, 15]"
+    ></p-paginator>
+  </div>
+</div>

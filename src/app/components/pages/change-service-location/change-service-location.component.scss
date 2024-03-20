@@ -1,0 +1,175 @@
+.container {
+    background-color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-radius: 30px;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+
+  .change-service-location-header {
+    font-size: 22px;
+    margin-top: 20px;
+    padding-left: 65px;
+    padding-right: 85px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .line {
+    background-color: white;
+    width: 100%;
+    min-height: 10px;
+    max-height: 10px;
+    margin-top: 15px;
+    position: relative;
+  }
+
+  .change-service-location-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 95%;
+    border-radius: 30px;
+    margin-top: 20px;
+    overflow: auto;
+  }
+
+  .data-rows {
+    display: flex;
+    flex-direction: rows;
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+  
+  // .data-header {
+  //   background-color: #d9d9d9;
+  //   margin-top: 10px;
+  //   margin-left: 30px;
+  //   margin-right: 10px;
+  //   padding: 20px;
+  //   min-width: 50px;
+  //   text-align: center;
+  //   font-weight: bold;
+  //   display: flex;
+  // }
+  
+  .data {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+  }
+
+  .data-text{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+  }
+  .success-text {
+    color: green;
+  }
+  
+  .false-text {
+    color: red;
+  }
+
+  .dialog-detail-assigned{
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .dialog-data-container{
+    display: flex;
+    flex-direction: column;
+  }
+  .dialog-data-rows{
+    display: flex;
+    flex-direction: rows;
+    font-size: 16px;
+    text-align: left;
+  }
+  .dialog-data{
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10PX;
+    padding: 20px;
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+  }
+
+  .dropdown-data {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .dialog-data-text{
+    display: flex;
+    align-self: center;
+    width: 100%;
+  }
+:host ::ng-deep .p-dropdown {
+    text-align: left;
+    width: 100%;
+    height: 44px;
+    .p-dropdown-label {
+      font-size: 16px;
+      font-family: "NT";
+    }
+  }
+
+  :host ::ng-deep {
+    .btn1 {
+      .p-button {
+        background-color: #ffd100;
+        border: 1px solid #ffd100;
+        width: 100px;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  
+    .excel-btn {
+      .p-button {
+        background-color: green;
+        border: 1px solid green;
+        width: 100%;
+        justify-content: flex-end;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .btn2 {
+      .p-button {
+        background-color: #545859;
+        border: 1px solid #545859;
+        width: 30px;
+        height: 30px;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }

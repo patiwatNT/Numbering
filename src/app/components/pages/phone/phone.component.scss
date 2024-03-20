@@ -101,11 +101,50 @@
   margin-left: 10px;
 }
 
-:host ::ng-deep .p-button {
-  background-color: #ffd100;
-  border: 1px solid #ffd100;
-  width: 100px;
-  &:focus {
-    box-shadow: none;
+.active-text {
+  color: green;
+}
+
+.inactive-text {
+  color: red;
+}
+
+.inprogress-text {
+  color: orange;
+}
+
+:host ::ng-deep {
+  .btn1 {
+    .p-button {
+      background-color: #ffd100;
+      border: 1px solid #ffd100;
+      width: 100px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .btn2 {
+    .p-button {
+      background-color: #545859;
+      border: 1px solid #545859;
+      width: 30px;
+      height: 30px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .btn3{
+    .p-button {
+      color: black;
+      text-decoration: underline;
+      padding: 0px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
   }
 }

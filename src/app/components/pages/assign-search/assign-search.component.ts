@@ -15,6 +15,9 @@ import { DropDownData } from '../../../models/dropdownData';
 import { CommonModule } from '@angular/common';
 import { AssignedRangeDtoC } from './../../../models/assignedRangeDtoC';
 import { PaginatorModule } from 'primeng/paginator';
+import { SkeletonModule } from 'primeng/skeleton';
+import { DialogModule } from 'primeng/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assign-search',
@@ -26,7 +29,9 @@ import { PaginatorModule } from 'primeng/paginator';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    PaginatorModule
+    PaginatorModule,
+    SkeletonModule,
+    DialogModule
   ],
   templateUrl: './assign-search.component.html',
   styleUrl: './assign-search.component.scss',
@@ -34,6 +39,15 @@ import { PaginatorModule } from 'primeng/paginator';
 export class AssignSearchComponent implements OnInit {
   assignedForm!: FormGroup;
   loading: boolean = false;
+  first: number = 0;
+  rows: number = 5;
+  pagedData: any[] = [];
+  assignedRangeList: any[] = [];
+  assignedRangeDetail: any = {};
+  visible:boolean = false;
+  detailLoading:boolean = false;
+  responseLoading:boolean = false;
+  init:boolean = false;
   provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
@@ -54,7 +68,8 @@ export class AssignSearchComponent implements OnInit {
   ];
   constructor(
     private backendService: BackendService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router:Router
   ) {
     this.assignedForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
@@ -75,6 +90,10 @@ export class AssignSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.router.url.includes('/assignData')||this.router.url.includes('/info')) {
+      this.init = true;
+      this.getData();
+    }
     // console.log("Block Detail list : ",this.blockDetailList);
     this.backendService.findAllBlock().subscribe(
       (response) => {
@@ -120,6 +139,26 @@ export class AssignSearchComponent implements OnInit {
     );
   }
 
+  getData(){
+    this.loading = true;
+    const currentUrl = window.location.href;
+    const phoneInfo = currentUrl.slice(currentUrl.indexOf('=')+1);
+    let data = {"phoneInfo":phoneInfo}
+    this.backendService.findAssignedRange(data).subscribe(
+      (response)=>{
+        console.log("Success",response);
+        this.assignedRangeList = response;
+        this.updatePagedData(0);
+        this.loading = false;
+        this.responseLoading = true;
+        console.log(this.assignedRangeList.length);
+      },
+      (error)=> {
+        console.log("Error",error);
+      }
+    )
+  }
+
   search(form: any) {
     console.log(form.value);
     if (!form.invalid) {
@@ -128,6 +167,7 @@ export class AssignSearchComponent implements OnInit {
   }
 
   sendDataToBackend(form: FormGroup) {
+    this.loading = true;
     let assignedRangeDtoC: AssignedRangeDtoC = {
       phoneInfo: form.value.phoneInfo,
       provider: form.value.provider.value,
@@ -136,11 +176,15 @@ export class AssignSearchComponent implements OnInit {
       blockId: form.value.blockId,
     };
     this.backendService.findAssignedRange(assignedRangeDtoC).subscribe(
-      (response)=>{
-        console.log("Get Response Success",response);
+      (response) => {
+        console.log('Get Response Success', response);
+        this.assignedRangeList = response;
+        this.updatePagedData(0);
+        this.loading = false;
+        this.responseLoading = true;
       },
-      (error)=>{
-        console.log("Error Response",error);
+      (error) => {
+        console.log('Error Response', error);
       }
     );
   }
@@ -149,5 +193,43 @@ export class AssignSearchComponent implements OnInit {
     let error: any = this.assignedForm.get(formControlName)?.errors;
     console.log(error.pattern);
     return error.pattern;
+  }
+
+  onPageChange(event: any) {
+    console.log(event);
+    this.first = event.first;
+    this.rows = event.rows;
+    this.updatePagedData(event.page);
+  }
+
+  updatePagedData(pageIndex: number) {
+    const startIndex = pageIndex * this.rows;
+    console.log(startIndex);
+    const endIndex = startIndex + this.rows;
+    console.log(endIndex);
+    this.pagedData = this.assignedRangeList.slice(startIndex, endIndex);
+    console.log(this.pagedData);
+  }
+
+  showDialog(id:string) {
+    console.log("show Dialog");
+    this.visible = true;
+    this.detailLoading = true;
+    this.backendService.findAssignedRangeDetail(id).subscribe(
+      (reponse)=>{
+        console.log("Success : ",reponse);
+        this.assignedRangeDetail = reponse;
+        this.detailLoading = false;
+      },
+      (error)=>{
+        console.log("Failed : ",error);
+      }
+    )
+  }
+
+  changeServiceLocation(phoneInfo:string,assignRangeId:string){
+    console.log("change Service Location");
+    console.log(phoneInfo,assignRangeId);
+    this.router.navigateByUrl('/changeServiceLocation?assignRangeId='+assignRangeId);
   }
 }

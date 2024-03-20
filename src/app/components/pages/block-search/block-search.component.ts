@@ -16,6 +16,8 @@ import { BlockDetailDtoC } from '../../../models/blockDetailDtoC';
 import { DropDownData } from '../../../models/dropdownData';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PaginatorModule } from 'primeng/paginator';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-block-search',
@@ -60,7 +62,8 @@ export class BlockSearchComponent implements OnInit {
   blockDetailList:any[] = [];
   constructor(
     private backendService: BackendService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.blockForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
@@ -80,6 +83,31 @@ export class BlockSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.router.url.includes('/info')) {
+      const currentUrl = window.location.href;
+      const phoneInfo = currentUrl.slice(currentUrl.indexOf('=')+1);
+      let blockDetailDtoC = {
+        phoneNumber: phoneInfo,
+      provider: '',
+      blockStatus: '',
+      location: '',
+      }
+      this.backendService.findBlockDetail(blockDetailDtoC).subscribe(
+        (response) => {
+          console.log('Data sent successfully:', response);
+         this.blockDetailList = response;
+         console.log(this.haveData);
+          this.loading = false;
+          this.responseLoading = true;
+          this.updatePagedData(0);
+        },
+        (error) => {
+          console.error('Error sending data:', error);
+          // Handle error if needed
+          this.loading = false;
+        }
+      );
+    }
     console.log("Block Detail list : ",this.blockDetailList);
     this.backendService.findAllBlock().subscribe(
       (response) => {
@@ -177,8 +205,9 @@ export class BlockSearchComponent implements OnInit {
     console.log(this.pagedData);
   }
 
-  assign(){
-    console.log("click");
+  assign(data:any){
+    console.log(data);
+    this.router.navigateByUrl('/block/assignData?id='+data);
   }
 
   valid() {

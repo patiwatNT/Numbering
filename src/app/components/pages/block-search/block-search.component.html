@@ -58,25 +58,25 @@
     <div class="line"></div>
     <div class="block-search-detail-container" *ngIf="loading; else blockSearchDetail">
       <div class="data-rows">
-        <div class="data-header">ที่</div>
-        <div class="data-detail">Block Start</div>
-        <div class="data-detail">Block End</div>
-        <div class="data-detail">จำนวน</div>
-        <div class="data-detail">Provider</div>
-        <div class="data-detail">พื้นที่/สำนัก</div>
-        <div class="data-detail">สถานะ</div>
-        <div class="data-footer">Action</div>
+        <div class="data-header"><div class="data-detail-text">ที่</div></div>
+        <div class="data-detail"><div class="data-detail-text">Block Start</div></div>
+        <div class="data-detail"><div class="data-detail-text">Block End</div></div>
+        <div class="data-detail"><div class="data-detail-text">จำนวน</div></div>
+        <div class="data-detail"><div class="data-detail-text">Provider</div></div>
+        <div class="data-detail"><div class="data-detail-text">พื้นที่/สำนัก</div></div>
+        <div class="data-detail"><div class="data-detail-text">สถานะ</div></div>
+        <div class="data-footer"><div class="data-detail-text">Action</div></div>
       </div>
       <div *ngFor="let i of[1,2,3]">
         <div class="data-rows">
-          <div class="data-header"><p-skeleton width="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-          <div class="data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-header-skeleton"><p-skeleton width="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-detail-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+          <div class="data-footer-skeleton"><p-skeleton width="100%" height="100%"></p-skeleton></div>
         </div>
       </div>
       <div class="empty-space"></div>
@@ -84,29 +84,31 @@
     <ng-template #blockSearchDetail>
     <div class="block-search-detail-container" *ngIf="responseLoading&&blockDetailList.length!=0">
       <div class="data-rows">
-        <div class="data-header">ที่</div>
-        <div class="data-detail">Block Start</div>
-        <div class="data-detail">Block End</div>
-        <div class="data-detail">จำนวน</div>
-        <div class="data-detail">Provider</div>
-        <div class="data-detail">พื้นที่/สำนัก</div>
-        <div class="data-detail">สถานะ</div>
-        <div class="data-footer">Action</div>
+        <div class="data-header"><div class="data-detail-text">ที่</div></div>
+        <div class="data-detail"><div class="data-detail-text">Block Start</div></div>
+        <div class="data-detail"><div class="data-detail-text">Block End</div></div>
+        <div class="data-detail"><div class="data-detail-text">จำนวน</div></div>
+        <div class="data-detail"><div class="data-detail-text">Provider</div></div>
+        <div class="data-detail"><div class="data-detail-text">พื้นที่/สำนัก</div></div>
+        <div class="data-detail"><div class="data-detail-text">สถานะ</div></div>
+        <div class="data-footer"><div class="data-detail-text">Action</div></div>
       </div>
       <div *ngFor="let i of pagedData;let index = index">
         <div class="data-rows">
-          <div class="data-header">{{ index+first+1 }}</div>
-          <div class="data-detail">{{ i.blockStart }}</div>
-          <div class="data-detail">{{ i.blockEnd }}</div>
-          <div class="data-detail">{{ i.amount }}</div>
-          <div class="data-detail">{{ i.provider }}</div>
-          <div class="data-detail">{{ i.location }}</div>
-          <div class="data-detail" [ngClass]="{'success-text': i.blockStatus=='ยังใช้งาน', 'false-text': i.blockStatus=='คืน กสทช. แล้ว' , 'inprogress-text': i.blockStatus=='อยู่ระหว่างดำเนินการคืน กสทช.'}">{{ i.blockStatus }}</div>
+          <div class="data-header"><div class="data-detail-text">{{ index+first+1 }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.blockStart }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.blockEnd }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.amount }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.provider }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.location }}</div></div>
+          <div class="data-detail" [ngClass]="{'success-text': i.blockStatus=='ยังใช้งาน', 'false-text': i.blockStatus=='คืน กสทช. แล้ว' , 'inprogress-text': i.blockStatus=='อยู่ระหว่างดำเนินการคืน กสทช.'}"><div class="data-detail-text">{{ i.blockStatus }}</div></div>
           <div class="data-footer" *ngIf="i.actionStatus==='F'; else assignButton">
           </div>
           <ng-template #assignButton>
             <div class="data-footer-assign">
-              <p-button icon="pi pi-at" class="btn2" (onClick)="assign()"></p-button>
+              <div class="data-detail-text">
+              <p-button icon="pi pi-at" class="btn2" (onClick)="assign(i.blockStart)"></p-button>
+              </div>
             </div>
           </ng-template>
         </div>

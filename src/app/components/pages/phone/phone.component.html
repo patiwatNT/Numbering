@@ -12,7 +12,7 @@
           />
         </div>
         <div class="search-button">
-          <p-button type="submit" label="ค้นหา" [loading]="loading"></p-button>
+          <p-button class="btn1" type="submit" label="ค้นหา" [loading]="loading"></p-button>
         </div>
       </div>
       <div
@@ -90,11 +90,27 @@
           </div>
           <div class="data-rows">
             <div class="data-header">Block</div>
-            <div class="data-footer">{{ phoneInfo.block }}</div>
+            <div class="data-footer">
+              <!-- <span [ngClass]="{'active-text': isActive(phoneInfo.block), 'inactive-text': isInactive(phoneInfo.block) , 'inprogress-text': isInprogress(phoneInfo.block)}"></span> -->
+                <p-button class="btn3" [link]="true" title="ดูรายละเอียด Block" (onClick)="showBlockDetail(phoneInfo.phone)" *ngIf="splitPhoneBlock(phoneInfo.block)!='-';else notFoundText">
+                  <div *ngFor="let data of splitPhoneBlock(phoneInfo.block)" [ngClass]="{'active-text': isActive(data),'inactive-text': isInactive(data),'inprogress-text':isInprogress(data)}">{{data}}</div>
+                </p-button>
+                <ng-template #notFoundText>
+                  <div>-</div>
+                </ng-template>
+                
+            </div>
           </div>
           <div class="data-rows">
             <div class="data-header">Assigned</div>
-            <div class="data-footer">{{ phoneInfo.assigned }}</div>
+            <div class="data-footer">
+              <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showAssignedDetail(phoneInfo.phone)" *ngIf="splitPhoneBlock(phoneInfo.block)!='-';else notFoundText">
+                {{ phoneInfo.assigned }}
+              </p-button>
+              <ng-template #notFoundText>
+                <div>-</div>
+              </ng-template>
+              </div>
           </div>
           <div class="data-rows">
             <div class="data-header">ข้อมูลล่าสุด</div>

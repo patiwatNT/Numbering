@@ -70,9 +70,10 @@
     margin-left: 30px;
     margin-right: 10px;
     padding: 20px;
-    width: 30%;
+    min-width: 50px;
     text-align: center;
     font-weight: bold;
+    display: flex;
   }
   
   .data-detail {
@@ -83,16 +84,114 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
+    display: flex;
   }
-  
+
+.data-detail-text{
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+}
   .data-footer {
     background-color: #d9d9d9;
     margin-top: 10px;
     margin-right: 30px;
     padding: 20px;
+    min-width: 100px;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+  }
+
+  .data-header-skeleton {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-left: 30px;
+    margin-right: 10px;
+    padding: 20px;
+    min-width: 50px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .data-detail-skeleton {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 20px;
     width: 100%;
     text-align: center;
     font-weight: bold;
+  }
+  .data-footer-skeleton {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 30px;
+    padding: 20px;
+    min-width: 100px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .data-footer-assign {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 30px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 100px;
+    display: flex;
+  }
+
+  .success-text {
+    color: green;
+  }
+  
+  .false-text {
+    color: red;
+  }
+
+  .dialog-detail-assigned{
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .dialog-data-container{
+    display: flex;
+    flex-direction: column;
+  }
+  .dialog-data-rows{
+    display: flex;
+    flex-direction: rows;
+    font-size: 16px;
+  }
+  .dialog-data-header{
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10PX;
+    padding: 20px;
+    width: 100%;
+    font-weight: bold;
+  }
+  .dialog-data-footer{
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    padding: 20px;
+    width: 100%;
+  }
+  .result-not-found{
+    font-weight: bold;
+    font-size: 20px;
+    color: red;
+    margin-top: 20px;
+  }
+  .error-message-title{
+    font-weight: bold;
+    color: red;
+    justify-self: center;
+    margin-top: 10px;
   }
 
   :host ::ng-deep .p-dropdown {
@@ -121,7 +220,18 @@
       .p-button {
         background-color: #545859;
         border: 1px solid #545859;
-        width: 50px;
+        width: 30px;
+        height: 30px;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .btn3{
+      .p-button {
+        background-color: #545859;
+        border: 1px solid #545859;
         &:focus {
           box-shadow: none;
         }

@@ -27,7 +27,7 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
       return this.http.get(`${this.apiUrl}/news/findById/${id}`);
     }
 
-    findPhoneInfoById(data: undefined): Observable<any>{
+    findPhoneInfoById(data: any): Observable<any>{
       return this.http.get<PhoneInfo>(`${this.apiUrl}/phone-info/findById/${data}`);
     }
 
@@ -57,5 +57,13 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
 
     findAssignedRange(data:any): Observable<any>{
       return this.http.post(`${this.apiUrl}/assigned-range/findByCriteria`,data)
+    }
+
+    findAssignedRangeDetail(id:any): Observable<any>{
+      return this.http.get(`${this.apiUrl}/assigned-range-detail/findByMainId/${id}`)
+    }
+
+    findPhoneDetail(assignRangeId:string): Observable<any>{
+      return this.http.get(`${this.apiUrl}/phone-detail/findPhoneDetail/${assignRangeId}`)
     }
   }
