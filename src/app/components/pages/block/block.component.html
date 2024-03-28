@@ -30,26 +30,30 @@
     <div class="block-blog">
       <div class="empty-space"></div>
       <div class="data-rows">
-        <div class="data-header">ที่</div>
-        <div class="data-detail">Provider</div>
-        <div class="data-detail">จำนวน Block</div>
-        <div class="data-detail">จำนวนหมายเลข</div>
-        <div class="data-footer">ค่าธรรมเนียมรายเดือน (บาท)</div>
+        <div class="data-header"><div class="data-text">ที่</div></div>
+        <div class="data-detail"><div class="data-text">Provider</div></div>
+        <div class="data-detail"><div class="data-text">จำนวน Block</div></div>
+        <div class="data-detail"><div class="data-text">จำนวนหมายเลข</div></div>
+        <div class="data-footer"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
       </div>
       <div *ngFor="let i of blockList">
         <div class="data-rows">
-          <div class="data-header">{{ i.blockId }}</div>
-          <div class="data-detail">{{ i.provide }}</div>
-          <div class="data-detail">{{ i.blockAmount }}</div>
-          <div class="data-detail">{{ i.numberAmount }}</div>
-          <div class="data-footer">{{ i.feeAmount }}</div>
+          <div class="data-header"><div class="data-text">{{ i.blockId }}</div></div>
+          <div class="data-detail">
+            <div class="data-text">
+            <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showProviderDetail(i.provide)">
+              {{ i.provide }}
+          </p-button></div></div>
+          <div class="data-detail"><div class="data-text">{{ i.blockAmount }}</div></div>
+          <div class="data-detail"><div class="data-text">{{ i.numberAmount }}</div></div>
+          <div class="data-footer"><div class="data-text">{{ i.feeAmount }}</div></div>
         </div>
       </div>
       <div class="data-rows-result">
         <div class="data-header-result">รวม</div>
-        <div class="data-detail">{{ sumBlockAmount }}</div>
-        <div class="data-detail">{{ sumNumberAmount }}</div>
-        <div class="data-footer">{{ sumFeeAmount }}</div>
+        <div class="data-detail"><div class="data-text">{{ sumBlockAmount }}</div></div>
+        <div class="data-detail"><div class="data-text">{{ sumNumberAmount }}</div></div>
+        <div class="data-footer"><div class="data-text">{{ sumFeeAmount }}</div></div>
       </div>
     </div>
   </ng-template>

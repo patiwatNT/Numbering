@@ -1,0 +1,92 @@
+.container {
+    background-color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-radius: 30px;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .report-n15-header {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    white-space: pre;
+  }
+
+  .line {
+    background-color: white;
+    width: 100%;
+    min-height: 10px;
+    max-height: 10px;
+    margin-top: 15px;
+    position: relative;
+  }
+
+  .report-n15-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 95%;
+    border-radius: 30px;
+    margin-top: 20px;
+    overflow: auto;
+  }
+  .data-rows {
+    display: flex;
+    flex-direction: rows;
+    font-size: 16px;
+  }
+  .data {
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 18px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+  }
+
+  .data-text{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+  }
+
+  .number-amount-group{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .number-amount-subgroup{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .greater-than-fifty{
+    color: green;
+  }
+
+  .less-than-fifty {
+    color: orange;
+  }
+
+  .no-location_text{
+    color: red;
+  }
+
+  :host ::ng-deep {
+    .p-button {
+      padding: 0px;
+    }
+  }

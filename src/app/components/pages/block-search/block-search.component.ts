@@ -17,6 +17,7 @@ import { DropDownData } from '../../../models/dropdownData';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PaginatorModule } from 'primeng/paginator';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class BlockSearchComponent implements OnInit {
   blockForm!: FormGroup;
   phoneInfo: string = "";
   haveData:boolean = false;
+  blockSearch:string = "";
   provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
@@ -60,10 +62,14 @@ export class BlockSearchComponent implements OnInit {
   loading: boolean = false;
   responseLoading:boolean = false;
   blockDetailList:any[] = [];
+  info:string = "";
+  providerSearch:string = '';
+  blockStatusParam:string = '';
   constructor(
     private backendService: BackendService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activeRoute: ActivatedRoute
   ) {
     this.blockForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
@@ -83,19 +89,27 @@ export class BlockSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.changeProviderValue({
+      name: 'ทั้งหมด',
+      value: '',
+    })
     if (this.router.url.includes('/info')) {
-      const currentUrl = window.location.href;
-      const phoneInfo = currentUrl.slice(currentUrl.indexOf('=')+1);
+      this.activeRoute.queryParams.subscribe(params=>{
+      this.info = params['info'];
+      this.providerSearch  = params['provider'];
+      this.blockStatusParam = params['blockStatus']
+    })
       let blockDetailDtoC = {
-        phoneNumber: phoneInfo,
-      provider: '',
-      blockStatus: '',
+      phoneNumber: this.info,
+      provider: this.providerSearch,
+      blockStatus: this.blockStatusParam,
       location: '',
       }
       this.backendService.findBlockDetail(blockDetailDtoC).subscribe(
         (response) => {
           console.log('Data sent successfully:', response);
          this.blockDetailList = response;
+         this.blockSearch = blockDetailDtoC.phoneNumber
          console.log(this.haveData);
           this.loading = false;
           this.responseLoading = true;
@@ -151,6 +165,11 @@ export class BlockSearchComponent implements OnInit {
         console.log('Reposnse Error ', error);
       }
     );
+  }
+
+  changeProviderValue(newValue: DropDownData) {
+    // Assuming providerControl is the FormControl for the provider dropdown
+    this.blockForm.get('provider')?.patchValue(newValue);
   }
 
   search(form: FormGroup) {

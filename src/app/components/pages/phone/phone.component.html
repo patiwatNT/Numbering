@@ -9,6 +9,7 @@
             placeholder="ค้นหาเลขหมาย"
             formControlName="phoneInfo"
             style="width: 100%"
+            [(ngModel)]="phoneSearch"
           />
         </div>
         <div class="search-button">
@@ -82,7 +83,9 @@
           </div>
           <div class="data-rows">
             <div class="data-header">สถานะใน CRM</div>
-            <div class="data-footer">{{ phoneInfo.crmStatus }}</div>
+            <div class="data-footer" style="display: flex;">
+              <div *ngFor="let data of splitCrmStatus(phoneInfo.crmStatus)" [ngClass]="{'active-text': isActive(data),'inactive-text': isInactive(data),'inprogress-text':isInprogress(data)}">{{data}}</div>
+            </div>
           </div>
           <div class="data-rows">
             <div class="data-header">Provider</div>

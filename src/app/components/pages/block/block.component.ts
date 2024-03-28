@@ -3,13 +3,15 @@ import { BackendService } from '../../../services/BackendService';
 import { CommonModule } from '@angular/common';
 import { Block } from '../../../models/block';
 import { SkeletonModule } from 'primeng/skeleton';
+import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-block',
   standalone: true,
-  imports: [CommonModule,SkeletonModule],
+  imports: [CommonModule,SkeletonModule,ButtonModule],
   templateUrl: './block.component.html',
-  styleUrl: './block.component.css',
+  styleUrl: './block.component.scss',
 })
 export class BlockComponent implements OnInit {
   blockList: any[] = [];
@@ -18,7 +20,7 @@ export class BlockComponent implements OnInit {
   sumFeeAmount: string = '';
   loading:boolean = false;
 
-  constructor(private backendService: BackendService) {}
+  constructor(private backendService: BackendService,private router: Router) {}
   ngOnInit() {
     this.loading = true;
     this.backendService.findAllBlock().subscribe(
@@ -55,5 +57,12 @@ export class BlockComponent implements OnInit {
     
     temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return temp;
+  }
+
+  showProviderDetail(data:any){
+    if(data==='TT&T'){
+      data = 'TT%26T'
+    }
+    this.router.navigateByUrl("/block/search/info?provider="+data)
   }
 }

@@ -73,27 +73,27 @@ export const routes: Routes = [
     component : ChangeServiceLocationComponent
   },
   {
-    path: 'reportn11',
+    path: 'report/N-11',
     component : ReportN11Component
   },
   {
-    path: 'reportn12',
+    path: 'report/N-12',
     component : ReportN12Component
   },
   {
-    path: 'reportn13',
+    path: 'report/N-13',
     component : ReportN13Component
   },
   {
-    path: 'reportn14',
+    path: 'report/N-14',
     component : ReportN14Component
   },
   {
-    path: 'reportn15',
+    path: 'report/N-15',
     component : ReportN15Component
   },
   {
-    path: 'reportn16',
+    path: 'report/N-16',
     component : ReportN16Component
   },
   {

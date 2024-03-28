@@ -1,12 +1,97 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import { BackendService } from '../../../services/BackendService';
+import { CommonModule } from '@angular/common';
+import { PaginatorModule } from 'primeng/paginator';
+import { ReportN12 } from '../../../models/reportN12';
 
 @Component({
   selector: 'app-report-n12',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,PaginatorModule],
   templateUrl: './report-n12.component.html',
   styleUrl: './report-n12.component.scss'
 })
-export class ReportN12Component {
+export class ReportN12Component implements OnInit{
+  reportN12List:any[] = [];
+  first: number = 0;
+  rows: number = 5;
+  totalPage: number = 0;
+  pagedData: any[] = [];
+  sumNumberAmountAll:string = '';
+  sumNumberAmountAssigned:string = '';
+  sumNumberAmountActive:string = '';
+  loading:boolean = false;
+  constructor(private backendService:BackendService) {
+  }
 
+  ngOnInit(): void {
+    this.sendData();
+  }
+
+  sendData(){
+    this.backendService.findAllReportN12().subscribe(
+      (response)=>{
+        console.log("Get Response Succes :",response);
+        this.reportN12List = response;
+        //this.updatePagedData(0);
+
+        // Add Comma in Sum Section
+        const sumNumberAmountAll = this.reportN12List.reduce((acc, curr) => acc + curr.numberAmountAll,0);
+        const sumNumberAmountAssigned = this.reportN12List.reduce((acc, curr) => acc + curr.numberAmountAssigned,0);
+        const sumNumberAmountActive = this.reportN12List.reduce((acc, curr) => acc + curr.numberAmountActive,0);
+        this.sumNumberAmountAll = this.addComma(sumNumberAmountAll);
+        this.sumNumberAmountAssigned = this.addComma(sumNumberAmountAssigned);
+        this.sumNumberAmountActive = this.addComma(sumNumberAmountActive);
+
+        // Add Comma to Value in BlockList
+        this.reportN12List = response.map((item:ReportN12) => ({
+          ...item,
+          numberAmountAll: this.addComma(item.numberAmountAll),
+          numberAmountAssigned: this.addComma(item.numberAmountAssigned),
+          sumNumberAmountActive: this.addComma(item.numberAmountActive),
+          }));
+          this.loading = false;
+        
+      },
+      (error)=>{
+        console.log("Error : ",error);
+      }
+    )
+  }
+
+  replaceStatus(data:any):string{
+    if(data==='ST001'){
+      return 'ยังใช้งาน'
+    }else if(data==='ST002'){
+      return 'คืน กสทช. แล้ว'
+    }else if(data==='ST003'){
+      return 'อยู่ระหว่างดำเนินการคืน กสทช'
+    }else{
+      return data;
+    }
+  }
+
+  // Function Paginator
+  onPageChange(event: any) {
+    console.log(event);
+    this.first = event.first;
+    this.rows = event.rows;
+    this.updatePagedData(event.page);
+  }
+  updatePagedData(pageIndex: number) {
+    const startIndex = pageIndex * this.rows;
+    console.log(startIndex);
+    const endIndex = startIndex + this.rows;
+    console.log(endIndex);
+    this.pagedData = this.reportN12List.slice(startIndex, endIndex);
+    console.log(this.pagedData);
+  }
+
+  // Add , in Number
+  addComma(data: any) {
+    let temp = Number(data).toFixed(0);
+    
+    temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return temp;
+  }
 }

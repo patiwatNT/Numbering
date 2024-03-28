@@ -48,6 +48,7 @@ export class AssignSearchComponent implements OnInit {
   detailLoading:boolean = false;
   responseLoading:boolean = false;
   init:boolean = false;
+  assignSearch:string = "";
   provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
@@ -148,6 +149,7 @@ export class AssignSearchComponent implements OnInit {
       (response)=>{
         console.log("Success",response);
         this.assignedRangeList = response;
+        this.assignSearch = data.phoneInfo
         this.updatePagedData(0);
         this.loading = false;
         this.responseLoading = true;
@@ -178,6 +180,7 @@ export class AssignSearchComponent implements OnInit {
     this.backendService.findAssignedRange(assignedRangeDtoC).subscribe(
       (response) => {
         console.log('Get Response Success', response);
+        this.assignSearch = assignedRangeDtoC.phoneInfo;
         this.assignedRangeList = response;
         this.updatePagedData(0);
         this.loading = false;

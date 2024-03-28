@@ -1,1 +1,59 @@
-<p>report-n13 works!</p>
+<div class="container">
+    <div class="report-n13-header">
+        N-13 : รายงาน Block คืน กสทช. ที่มีเลขหมาย Active
+    </div>
+    <div class="line"></div>
+    <div class="report-n13-container">
+        <div class="data-rows">
+            <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">Block ID</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">หมายเลขเริ่มต้น</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">หมายเลขสิ้นสุด</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">สถานะ Block</div></div>
+            <div class="data"><div class="data-text">เอกสารอ้างอิง</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                <div class="data" style="width: 96%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">ทั้งหมด</div></div>
+                        <div class="data"><div class="data-text">Assigned</div></div>
+                        <div class="data"><div class="data-text">Active</div></div>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let item of reportN13List;let index = index">
+            <div class="data-rows">
+                <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text">{{item.blockId}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text">{{item.startTel}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text">{{item.endTel}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text" style="color: red;">{{replaceStatus(item.blockStatus)}}</div></div>
+                <div class="data"><div class="data-text" style="color: red;">{{item.reference}}</div></div>
+                <div class="number-amount-group" style="margin-right: 10px;">
+                        <div class="number-amount-subgroup">
+                            <div class="data"><div class="data-text">{{item.numberAmountAll}}</div></div>
+                            <div class="data"><div class="data-text">{{item.numberAmountAssigned}}</div></div>
+                            <div class="data"><div class="data-text">{{item.numberAmountActive}}</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-rows">
+            <div class="data" style="width: 316%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">{{sumNumberAmountAll}}</div></div>
+                        <div class="data"><div class="data-text">{{sumNumberAmountAssigned}}</div></div>
+                        <div class="data"><div class="data-text">{{sumNumberAmountActive}}</div></div>
+                </div>
+            </div>
+        </div>
+        <!-- <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN12List.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+    ></p-paginator> -->
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+</div>

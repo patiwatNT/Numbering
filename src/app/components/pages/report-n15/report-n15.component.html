@@ -1,1 +1,61 @@
-<p>report-n15 works!</p>
+<div class="container">
+    <div class="report-n15-header">
+        N-15 : รายงาน เลขหมาย จำแนกตามส่วนงาน
+    </div>
+    <div class="line"></div>
+    <div class="report-n15-container">
+        <div class="data-rows">
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">สำนัก</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">ฝ่าย</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">ส่วน</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">ศูนย์บริการฯ<br>(Service Location)</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">Assigned</div></div>
+                        <div class="data"><div class="data-text">Active</div></div>
+                        <div class="data"><div class="data-text">Available</div></div>
+                        <div class="data"><div class="data-text">% Utilization (Assigned)</div></div>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let item of reportN15List;let index = index">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
+                <div class="data" style="width: 10%"><div class="data-text">{{item.department}}</div></div>
+                <div class="data" style="width: 10%"><div class="data-text">{{item.division}}</div></div>
+                <div class="data" style="width: 10%"><div class="data-text">{{item.segment}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text" [ngClass]="{'no-location-text':item.serviceLocation==='No Location : No Location'}">{{item.serviceLocation}}</div></div>
+                <div class="number-amount-group" style="margin-right: 10px;">
+                        <div class="number-amount-subgroup">
+                            <div class="data"><div class="data-text">{{item.numberAmountAssigned}}</div></div>
+                            <div class="data"><div class="data-text">{{item.numberAmountActive}}</div></div>
+                            <div class="data"><div class="data-text">{{item.numberAmountAvailable}}</div></div>
+                            <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': utilization(item.numberAmountAssigned,item.numberAmountActive) >= 50,'less-than-fifty': utilization(item.numberAmountAssigned,item.numberAmountActive) < 50
+                              }">{{utilization(item.numberAmountAssigned,item.numberAmountActive)}}.00%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-rows">
+            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">{{sumNumberAmountAssigned}}</div></div>
+                        <div class="data"><div class="data-text">{{sumNumberAmountActive}}</div></div>
+                        <div class="data"><div class="data-text">{{sumNumberAmountAvailable}}</div></div>
+                        <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) >= 50,'less-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) < 50}">{{utilization(sumNumberAmountAssigned,sumNumberAmountActive)}}.00%</div></div>
+                </div>
+            </div>
+        </div>
+        <!-- <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN12List.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+    ></p-paginator> -->
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+</div>

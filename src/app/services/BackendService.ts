@@ -66,4 +66,36 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     findPhoneDetail(assignRangeId:string): Observable<any>{
       return this.http.get(`${this.apiUrl}/phone-detail/findPhoneDetail/${assignRangeId}`)
     }
+
+    findServiceLocation(): Observable<any>{
+      return this.http.get(`${this.apiUrl}/service-location/findAllServiceLocation`)
+    }
+
+    updateServiceLocation(data:any): Observable<any>{
+      return this.http.post(`${this.apiUrl}/phone-detail/updateServiceLocation`,data)
+    }
+ 
+    findAllNumberingReport():Observable<any>{
+      return this.http.get(`${this.apiUrl}/numbering-report/findAll`)
+    }
+
+    findAllReportN11():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-11/findAll`)
+    }
+
+    findAllReportN12():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-12/findAll`)
+    }
+
+    findAllReportN13():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-13/findAll`)
+    }
+
+    findAllReportN15():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-15/findAll`)
+    }
+
+    findAllReportN16():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16/findAll`)
+    }
   }

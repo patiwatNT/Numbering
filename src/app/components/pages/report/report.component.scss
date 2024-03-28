@@ -9,7 +9,7 @@
     padding-bottom: 20px;
   }
 
-  .report-n16-header {
+  .report-header {
     font-size: 22px;
     font-weight: bold;
     margin-top: 20px;
@@ -17,7 +17,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    white-space: pre;
   }
 
   .line {
@@ -29,7 +28,7 @@
     position: relative;
   }
 
-  .report-n16-container {
+  .report-container {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -60,29 +59,6 @@
     justify-content: center;
     align-self: center;
     width: 100%;
-  }
-
-  .number-amount-group{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  .number-amount-subgroup{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-
-  .greater-than-fifty{
-    color: green;
-  }
-
-  .less-than-fifty {
-    color: orange;
-  }
-
-  .no-location_text{
-    color: red;
   }
 
   :host ::ng-deep {

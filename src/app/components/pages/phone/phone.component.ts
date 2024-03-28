@@ -15,6 +15,7 @@ import { BackendService } from '../../../services/BackendService';
 import { PhoneInfo } from '../../../models/phoneInfo';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Router } from '@angular/router';
+import { stat } from 'fs';
 
 @Component({
   selector: 'app-phone',
@@ -40,6 +41,7 @@ export class PhoneComponent implements OnInit{
   showInfo: boolean = false;
   checkEmpty: boolean = false;
   responeLoading: boolean = false;
+  phoneSearch: string = ""
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,6 +63,7 @@ export class PhoneComponent implements OnInit{
           console.log('Data sent successfully:', response);
           if (response != null) {
             this.phoneInfo = response;
+            this.phoneSearch = response.phone
           } else {
             let phoneInfo: PhoneInfo = {
               phone: 'ไม่พบเลขหมายที่ค้นหา',
@@ -94,18 +97,27 @@ export class PhoneComponent implements OnInit{
   }
 
   isActive(data:any){
-    console.log(data.includes('ใช้งาน'));
-    return data.includes('ใช้งาน');
+    if(data.includes('ใช้งาน')){
+      return data.includes('ใช้งาน');
+    }else if(data.includes('Active')){
+      return data.includes('Active');
+    } 
   }
 
   isInactive(data:any){
-    console.log(data.includes('คืน กสทช. แล้ว'));
-    return data.includes('คืน กสทช. แล้ว');
+    if(data.includes('คืน กสทช. แล้ว')){
+      return data.includes('คืน กสทช. แล้ว');
+    }else if(data.includes('Inactive')){
+      return data.includes('Inactive');
+    } 
   }
 
   isInprogress(data:any){
-    console.log(data.includes('อยู่ระหว่างดำเนินการคืน กสทช.'));
-    return data.includes('อยู่ระหว่างดำเนินการคืน กสทช.');
+    if(data.includes('อยู่ระหว่างดำเนินการคืน กสทช.')){
+      return data.includes('อยู่ระหว่างดำเนินการคืน กสทช.');
+    }else if(data.includes('Inprogress')){
+      return data.includes('Inprogress');
+    } 
   }
 
   splitPhoneBlock(data:any): any{
@@ -114,6 +126,20 @@ export class PhoneComponent implements OnInit{
       let info = data.slice(0,data.lastIndexOf(' '));
       let status = data.slice(data.lastIndexOf(' '));
       return [info,status];
+    }else{
+      return data;
+    }
+  }
+
+  splitCrmStatus(data:any):any{
+    console.log(data);
+    if(data!='-'){
+      let status = data.slice(0,data.indexOf(' ')+1);
+      let updateBy = data.slice(data.indexOf(' '));
+      console.log("status : ",status);
+      console.log("update by : ",updateBy);
+      console.log(status,updateBy);
+      return[status,updateBy];
     }else{
       return data;
     }

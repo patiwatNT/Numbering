@@ -54,6 +54,7 @@
     width: 30%;
     text-align: center;
     font-weight: bold;
+    display: flex;
   }
 
   .text-align-left{
@@ -68,6 +69,7 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
+    display: flex;
   }
 
   .data-footer{
@@ -78,6 +80,7 @@
     width: 100%;
     text-align: center;
     font-weight: bold;
+    display: flex;
   }
 
   .data-header-result{
@@ -94,3 +97,27 @@
   .empty-space{
     margin-top: 10px;
   }
+
+  .data-text{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+  }
+
+  :host ::ng-deep .p-dropdown {
+    text-align: left;
+    width: 100%;
+    height: 44px;
+    .p-dropdown-label {
+      font-size: 16px;
+      font-family: "NT";
+    }
+  }
+  
+  :host ::ng-deep {
+      .p-button {
+        padding: 0px;
+      }
+    }
+  

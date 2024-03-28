@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { DropDownData } from '../../../models/dropdownData';
-import { SelectItemGroup } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SelectItemGroup,ConfirmationService } from 'primeng/api';
 import {
   FormsModule,
   FormBuilder,
@@ -17,79 +17,67 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+import { ExcelService } from '../../../services/excel.service';
+import { ExcelObj } from '../../../models/excelObj';
 
 @Component({
   selector: 'app-change-service-location',
   standalone: true,
-  imports: [ButtonModule,CommonModule,PaginatorModule,DialogModule,SkeletonModule,DropdownModule,ReactiveFormsModule,FormsModule],
+  imports: [ButtonModule,CommonModule,PaginatorModule,DialogModule,SkeletonModule,DropdownModule,ReactiveFormsModule,FormsModule,ConfirmDialogModule],
   templateUrl: './change-service-location.component.html',
   styleUrl: './change-service-location.component.scss',
+  providers: [ConfirmationService,ExcelService],
 })
+
+
 export class ChangeServiceLocationComponent implements OnInit{
   phoneInfo:any = {}
   phoneDetailList:any[] = []
   first: number = 0;
   rows: number = 5;
+  totalPage: number = 0;
   pagedData: any[] = [];
   visible:boolean = false;
   detailLoading:boolean = false;
   changeSeviceLocationForm! : FormGroup 
-  selectedLocation: string = 'First';
-  serviceLocation: SelectItemGroup[] = [
-    {
-      label: 'ทั้งหมด',
-      value: '',
-      items: [
-        { label: 'Berlin', value: 'Berlin' },
-        { label: 'Frankfurt', value: 'Frankfurt' },
-        { label: 'Hamburg', value: 'Hamburg' },
-        { label: 'Munich', value: 'Munich' }
-    ]
-    },
-    {
-      label: 'Active',
-      value: 'ST001',
-      items: [
-        { label: 'First', value: 'First' },
-        { label: 'Frankfurt', value: 'Frankfurt' },
-        { label: 'Hamburg', value: 'Hamburg' },
-        { label: 'Munich', value: 'Munich' }
-    ]
-    },
-    {
-      label: 'Inactive',
-      value: 'ST002',
-      items: [
-        { label: 'Second', value: 'Second' },
-        { label: 'Frankfurt', value: 'Frankfurt' },
-        { label: 'Hamburg', value: 'Hamburg' },
-        { label: 'Munich', value: 'Munich' }
-    ]
-    },
-  ];
+  selectedLocation: string | undefined;
+  serviceLocation: SelectItemGroup[] = [];
+  temp: any = {};
+  assignRangeId:string = "";
+  excelObj:ExcelObj = {assignObj:{},listPhoneDetail:[]}
   constructor(
     private backendService: BackendService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private confirmationService : ConfirmationService,
+    private activeRoute : ActivatedRoute,
+    private excelService: ExcelService
   ){
   }
+  
 
   ngOnInit(): void {
-    const currentUrl = window.location.href;
-    const assignRangeId = currentUrl.slice(currentUrl.indexOf('=')+1);
-    this.backendService.findAssignedRangeDetail(assignRangeId).subscribe(
+    this.activeRoute.queryParams.subscribe(params=>{
+      this.assignRangeId  = params['assignRangeId'];
+    })
+    this.backendService.findAssignedRangeDetail(this.assignRangeId).subscribe(
       (response)=>{
         console.log('Get Response Success',response);
         this.phoneInfo = response
+        this.excelObj.assignObj = response;
+        console.log(this.excelObj.assignObj.assignedRangeDetailPK.id);
       },
       (error)=>{
         console.log('Error',error);
       }
     )
-    this.backendService.findPhoneDetail(assignRangeId).subscribe(
+    this.backendService.findPhoneDetail(this.assignRangeId).subscribe(
       (reponse)=>{
         console.log('Get Response Success',reponse);
         this.phoneDetailList = reponse;
+        this.excelObj.listPhoneDetail = reponse;
+        this.totalPage = Math.ceil(this.phoneDetailList.length/this.rows);
         this.updatePagedData(0)
       },
       (error)=>{
@@ -119,10 +107,69 @@ export class ChangeServiceLocationComponent implements OnInit{
     this.router.navigateByUrl("/phone?search="+data)
   }
 
-  changeServiceLocation(){
+  convertDate(data:any){
+    return moment(data).format('DD/MM/YYYY');
+  }
+
+  changeServiceLocation(data:any){
     console.log('change service location');
+    this.temp = data;
     this.visible = true;
+    this.backendService.findServiceLocation().subscribe(
+      (response)=>{
+        console.log("Get Response Success",response);
+        this.serviceLocation = response;
+        this.selectedLocation = this.temp.serviceLocation.slice(0,this.temp.serviceLocation.lastIndexOf(':')-1);
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
     //this.detailLoading = true;
     this.detailLoading = false;
+  }
+  Confirm(data:string) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการแก้ไข Service Location',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'คุณยืนยันที่จะทำการแก้ไข Service Location ของ หมายเลข '+data,
+      acceptLabel: 'ยืนยัน',
+      rejectLabel: 'ยกเลิก',
+      rejectButtonStyleClass: 'confirm-dialog-reject-style',
+      accept: () => {
+        console.log('ยืนยันการเพิ่มข่าว');
+        console.log(this.selectedLocation);
+        let phoneDetailDto:any = {}
+        phoneDetailDto = {"phoneNumber":data,"serviceLocation":this.selectedLocation}
+        this.backendService.updateServiceLocation(phoneDetailDto).subscribe(
+          (response)=>{
+            console.log("Get Response Success",response);
+          },
+          (error)=>{
+            console.log("Error",error);
+          }
+        )
+        window.location.reload();
+      },
+    });
+  }
+
+  Close() {
+    this.confirmationService.confirm({
+      header: 'ยกเลิกการเพิ่มข่าวประชาสัมพันธ์',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'การยกเลิกจยุติขั้นตอนที่คุณกำลังดำเนินการอยู่',
+      acceptLabel: 'ยืนยัน',
+      rejectLabel: 'ยกเลิก',
+      rejectButtonStyleClass: 'confirm-dialog-reject-style',
+      accept: () => {
+        console.log('ยกเลิกการเพิ่มข่าว');
+        this.router.navigateByUrl('/main');
+      },
+    });
+  }
+
+  exportExcel(){
+    this.excelService.generateExcel('TestTemp',this.excelObj);
   }
 }
