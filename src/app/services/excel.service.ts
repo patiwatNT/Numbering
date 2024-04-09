@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import { ExcelObj } from '../models/excelObj';
+import { ExcelAssignedObj } from '../models/excelAssignedObj';
+import { ExcelBlockObj } from '../models/excelBlockObj';
 import moment from 'moment';
 
 @Injectable({
@@ -9,7 +10,7 @@ import moment from 'moment';
 })
 export class ExcelService {
   constructor() {}
-  generateExcel(fileName: string, excelObj: ExcelObj): void {
+  generateExcelAssignRange(fileName: string, excelAssignedObj: ExcelAssignedObj): void {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
     // Cell A1
@@ -18,7 +19,7 @@ export class ExcelService {
       bold: true,
       size: 18,
     };
-    let assignedId = excelObj.assignObj.assignedRangeDetailPK.id;
+    let assignedId = excelAssignedObj.assignObj.assignedRangeDetailPK.id;
     worksheet.getCell('A1').value =
       'Export ข้อมูลรายเลขหมาย assignedId: ' + assignedId;
     // Cell A2
@@ -29,11 +30,11 @@ export class ExcelService {
     };
     worksheet.getCell('A2').value =
       'หมายเลข ' +
-      excelObj.assignObj.startTel +
+      excelAssignedObj.assignObj.startTel +
       ' - ' +
-      excelObj.assignObj.endTel +
+      excelAssignedObj.assignObj.endTel +
       ' จำนวน ' +
-      excelObj.assignObj.amount +
+      excelAssignedObj.assignObj.amount +
       ' เลขหมาย ';
 
     // Cell A3
@@ -44,9 +45,9 @@ export class ExcelService {
     };
     worksheet.getCell('A3').value =
       'ชื่อ Station (ไทย): ' +
-      excelObj.assignObj.stationNameTh +
+      excelAssignedObj.assignObj.stationNameTh +
       ' ชื่อ Station (อังกฤษ): ' +
-      excelObj.assignObj.stationNameEn;
+      excelAssignedObj.assignObj.stationNameEn;
 
     // Custom Headers
     const customHeaders = [
@@ -63,7 +64,7 @@ export class ExcelService {
     const oldHeaders = ['phoneNumber', 'crmStatus', 'updateBy', 'updateDate'];
 
     // Add headers
-    const headers = Object.keys(excelObj.listPhoneDetail[0])
+    const headers = Object.keys(excelAssignedObj.listPhoneDetail[0])
       .filter((header) => oldHeaders.includes(header))
       .map((header) => {
         switch (header) {
@@ -93,7 +94,7 @@ export class ExcelService {
     });
 
     // Add data
-    excelObj.listPhoneDetail.forEach((item) => {
+    excelAssignedObj.listPhoneDetail.forEach((item) => {
       const row: any[] = customHeaders.map((header) => {
         // Modify data if needed
         switch (header) {
@@ -154,5 +155,126 @@ export class ExcelService {
       });
       saveAs(blob, `${fileName}.xlsx`);
     });
+  }
+
+  generateExcelBlock(fileName: string, excelBlockObj: ExcelBlockObj): void {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+    // Cell A1
+    worksheet.getCell('A1').font = {
+      name: 'TH SarabunPSK',
+      bold: true,
+      size: 18,
+    };
+    worksheet.getCell('A1').value =
+      'N-16 : รายงานหมายเลขว่าง '+excelBlockObj.block;
+    // Cell A2
+    worksheet.getCell('A2').font = {
+      name: 'TH SarabunPSK',
+      bold: true,
+      size: 14,
+    };
+
+    // Old Headers to keep
+    const oldHeaders = ['id','blockRange','startTel', 'endTel', 'location', 'numberAmount','annualFee'];
+
+    // Add headers
+    const headers = Object.keys(excelBlockObj.reportN16DetailList[0])
+      .filter((header) => oldHeaders.includes(header))
+      .map((header) => {
+        switch (header) {
+          case 'id':
+            return 'ที่';
+          case 'blockRange':
+            return 'Block Range';
+          case 'startTel':
+            return 'หมายเลขเริ่มต้น';
+          case 'endTel':
+            return 'หมายเลขสิ้นสุด';
+          case 'location':
+            return 'พื้นที่';
+          case 'numberAmount':
+            return 'จำนวนเลขหมาย';
+          case 'annualFee':
+            return 'ค่าธรรมเนียมรายเดือน (บาท)';
+          default:
+            return header;
+        }
+      });
+
+    worksheet.addRow(headers).eachCell((cell) => {
+      cell.font = { name: 'TH SarabunPSK', bold: true, size: 14 };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    // Add data
+    excelBlockObj.reportN16DetailList.forEach((item) => {
+      const row: any[] = headers.map((header) => {
+        // Modify data if needed
+        switch (header) {
+          case 'ที่':
+            return item['id'];
+          case 'Block Range':
+            return item['blockRange'];
+          case 'หมายเลขเริ่มต้น':
+            return item['startTel'];
+          case 'หมายเลขสิ้นสุด':
+            return item['endTel'];
+          case 'พื้นที่':
+            return item['location'];
+          case 'จำนวนเลขหมาย':
+            return this.addComma(item['numberAmount']);
+          case 'ค่าธรรมเนียมรายเดือน (บาท)':
+            return this.addCommaDecimal(item['annualFee']);
+          default:
+            return ''; // Default to empty string if the header doesn't match any property in 'item'
+        }
+      });
+      // worksheet.addRow(row).font={name:'TH SarabunPSK',size:14};
+      // worksheet.addRow(row).alignment={vertical:'middle',horizontal:'center'}
+      worksheet.addRow(row);
+
+      const lastRowNumber = worksheet.rowCount; // Get the row number of the last added row
+
+      // Apply font and alignment properties to each cell in the last added row
+      const lastRow = worksheet.getRow(lastRowNumber);
+      lastRow.eachCell({ includeEmpty: true }, (cell) => {
+        cell.font = { name: 'TH SarabunPSK', size: 14 };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+
+      // Apply border formatting to each cell
+      worksheet.eachRow((row, rowNumber) => {
+        row.eachCell((cell, colNumber) => {
+          // Apply border to all sides of each cell
+          cell.border = {
+            top: { style: "thin" },
+            bottom: { style: "thin" },
+            left: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+    });
+    // Save the workbook to a blob
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      saveAs(blob, `${fileName}.xlsx`);
+    });
+  }
+
+  addComma(data: any) {
+    let temp = Number(data).toFixed(0);
+    
+    temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return temp;
+  }
+  addCommaDecimal(data: any) {
+    let temp = Number(data).toFixed(2);
+    
+    temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return temp;
   }
 }

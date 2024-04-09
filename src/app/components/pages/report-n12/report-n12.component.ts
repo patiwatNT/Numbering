@@ -3,11 +3,12 @@ import { BackendService } from '../../../services/BackendService';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { ReportN12 } from '../../../models/reportN12';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-report-n12',
   standalone: true,
-  imports: [CommonModule,PaginatorModule],
+  imports: [CommonModule,PaginatorModule,SkeletonModule],
   templateUrl: './report-n12.component.html',
   styleUrl: './report-n12.component.scss'
 })
@@ -29,6 +30,7 @@ export class ReportN12Component implements OnInit{
   }
 
   sendData(){
+    this.loading = true;
     this.backendService.findAllReportN12().subscribe(
       (response)=>{
         console.log("Get Response Succes :",response);

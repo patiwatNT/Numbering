@@ -98,4 +98,33 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     findAllReportN16():Observable<any>{
       return this.http.get(`${this.apiUrl}/report-n-16/findAll`)
     }
+
+    findDataExport():Observable<any>{
+      return this.http.get(`${this.apiUrl}/numbering-data-export/findAll`)
+    }
+
+    findReportN16Block1000():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16-block-1000/findAll`)
+    }
+    findReportN16Block500Inc():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16-block-500-inc/findAll`)
+    }
+    findReportN16Block100Inc():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16-block-100-inc/findAll`)
+    }
+    findReportN16Block500Only():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16-block-500-only/findAll`)
+    }
+    findReportN16Block100Only():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-16-block-100-only/findAll`)
+    }
+    findUserDetail(username:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/numbering-users/findUserDetail/${username}`)
+    }
+    findAllPrivilegs():Observable<any>{
+      return this.http.get(`${this.apiUrl}/numbering-privileges/findAll`)
+    }
+    findByUsername(username:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/numbering-users/findByUsername/${username}`)
+    }
   }

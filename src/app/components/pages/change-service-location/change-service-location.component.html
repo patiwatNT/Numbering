@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="change-service-location-header">
+  <div class="change-service-location-header" *ngIf="!loading;else locationHeader">
     <div>
       <b>หมายเลข</b> {{ phoneInfo.startTel }}-{{ phoneInfo.endTel }}
       <b>จำนวน</b> {{ phoneInfo.amount }} เลขหมาย<br />
@@ -11,8 +11,23 @@
     </div>
     <p-button label="excel" class="excel-btn" (onClick)="exportExcel()"></p-button>
   </div>
+  <ng-template #locationHeader>
+    <div class="change-service-location-header">
+      <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: rows; white-space: pre;">
+          <b>หมายเลข </b><p-skeleton width="1135px"></p-skeleton>
+        </div>
+        <div style="display: flex; flex-direction: rows; white-space: pre;">
+          <b>ผลการค้นหา </b> <p-skeleton width="1110px"></p-skeleton>
+        </div>
+        <div style="display: flex; flex-direction: rows; white-space: pre;">
+          <b>Station Code : </b><p-skeleton width="1090px"></p-skeleton>
+        </div>
+      </div>
+    </div>
+  </ng-template>
   <div class="line"></div>
-  <div class="change-service-location-container">
+  <div class="change-service-location-container" *ngIf="!loading; else locationContainer">
     <div class="data-rows">
       <div class="data" style="width: 30%; margin-left: 30px">
         <div class="data-text">ที่</div>
@@ -202,4 +217,60 @@
       [rowsPerPageOptions]="[5, 10, 15]"
     ></p-paginator>
   </div>
+  <ng-template #locationContainer>
+    <div class="change-service-location-container">
+      <div class="data-rows">
+        <div class="data" style="width: 30%; margin-left: 30px">
+          <div class="data-text">ที่</div>
+        </div>
+        <div class="data"><div class="data-text">หมายเลข</div></div>
+        <div class="data">
+          <div class="data-text">ศูนย์บริการฯ <br />(Service Location)</div>
+        </div>
+        <div class="data"><div class="data-text">สถานะใน CRM</div></div>
+        <div class="data"><div class="data-text">ข้อมูลล่าสุดโดย</div></div>
+        <div class="data"><div class="data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+        <div class="data" style="width: 50%; margin-right: 30px">
+          <div class="data-text">Action</div>
+        </div>
+      </div>
+      <div *ngFor="let i of[1,2,3]">
+      <div class="data-rows">
+        <div class="data" style="width: 30%; margin-left: 30px">
+          <div class="data-text"><p-skeleton width="40px"></p-skeleton></div>
+        </div>
+        <div class="data">
+          <div class="data-text"><p-skeleton width="150px"></p-skeleton></div>
+        </div>
+        <div class="data">
+          <div class="data-text"><p-skeleton width="150px"></p-skeleton></div>
+        </div>
+        <div class="data">
+          <div class="data-text">
+            <p-skeleton width="150px"></p-skeleton>
+          </div>
+        </div>
+        <div class="data">
+          <div class="data-text"><p-skeleton width="150px"></p-skeleton></div>
+        </div>
+        <div class="data">
+          <div class="data-text"><p-skeleton width="150px"></p-skeleton></div>
+        </div>
+        <div class="data" style="width: 50%; margin-right: 30px">
+          <div class="data-text">
+          <p-skeleton width="70px"></p-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="phoneDetailList.length"
+        [rowsPerPageOptions]="[5, 10, 15]"
+      ></p-paginator>
+    </div>
+  </ng-template>
+  
 </div>

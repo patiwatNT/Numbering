@@ -23,10 +23,31 @@
     display: flex;
     align-items: center;
     font-size: 24px;
+    cursor: pointer;
+    
 }
 
 .user-icon {
     margin-top: 8px;
-    margin-right: 25px; /* Adjust margin as needed */
+    margin-right: 10px; /* Adjust margin as needed */
 }
 
+
+:host ::ng-deep {
+    .p-button {
+      color: black;
+      font-weight: bold;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: none;
+      border: 1px solid #ffd100;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    .pi{
+        font-size: 22px
+    }
+  }

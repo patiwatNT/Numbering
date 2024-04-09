@@ -1,11 +1,14 @@
 import { Component,OnInit } from '@angular/core';
 import { BackendService } from '../../../services/BackendService';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-report-n16',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,ButtonModule,SkeletonModule],
   templateUrl: './report-n16.component.html',
   styleUrl: './report-n16.component.scss'
 })
@@ -17,11 +20,12 @@ export class ReportN16Component implements OnInit{
   sumNumberAmount:string = '';
   sumMonthlyFee:string = '';
   sumAnnualFee:string = '';
-  constructor(private backendService:BackendService){}
+  constructor(private backendService:BackendService,private router:Router){}
   ngOnInit(): void {
     this.sendData();
   }
   sendData(){
+    this.loading = true;
     this.backendService.findAllReportN16().subscribe(
       (response)=>{
         console.log("Get Response Success : ",response);
@@ -42,20 +46,20 @@ export class ReportN16Component implements OnInit{
         const sumAnnualFee = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.annualFee,0);
         this.sumNumberAmount = this.addComma(sumNumberAmount);
         this.sumMonthlyFee = this.addComma(sumMonthlyFee);
-        this.sumAnnualFee = this.addComma(sumAnnualFee);
+        this.sumAnnualFee = this.addCommaDecimal(sumAnnualFee);
 
         // Add Comma to Value in BlockList
         this.reportN16OnlyList = this.reportN16OnlyList.map((item:any) => ({
           ...item,
           numberAmount: this.addComma(item.numberAmount),
           monthlyFee: this.addComma(item.monthlyFee),
-          annualFee: this.addComma(item.annualFee),
+          annualFee: this.addCommaDecimal(item.annualFee),
         }));
         this.reportN16IncList = this.reportN16IncList.map((item:any) => ({
           ...item,
           numberAmount: this.addComma(item.numberAmount),
           monthlyFee: this.addComma(item.monthlyFee),
-          annualFee: this.addComma(item.annualFee),
+          annualFee: this.addCommaDecimal(item.annualFee),
           }));
           this.loading = false;
       },
@@ -69,5 +73,15 @@ export class ReportN16Component implements OnInit{
     
     temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return temp;
+  }
+  addCommaDecimal(data: any) {
+    let temp = Number(data).toFixed(2);
+    
+    temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return temp;
+  }
+
+  showReportN16Detail(block:string,blockAmount:string){
+    this.router.navigateByUrl('report/N-16/detail?block='+block+'&blockAmount='+blockAmount);
   }
 }

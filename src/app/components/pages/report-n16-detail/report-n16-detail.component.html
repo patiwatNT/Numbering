@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="report-n16-detail-header">
+        N-16 : รายงานเลขหมายว่าง {{block}}
+    </div>
+    <div class="line"></div>
+    <div class="report-n16-detail-header" style="width: 92%; justify-content: space-between;" *ngIf="loading; else header">
+        <div class="data-text" style="justify-content: left;">
+            <p-skeleton width="1220px"></p-skeleton>
+        </div>
+    </div>
+    <ng-template #header>
+        <div class="report-n16-detail-header" style="width: 92%; justify-content: space-between;">
+            <div class="data-text" style="justify-content: left;">
+                เลขหมายว่าง {{blockAmount}} block : จำนวน {{totalPage}} หน้า
+            </div>
+            <div>
+                <p-button label="excel" class="excel-btn" (onClick)="exportExcel()"></p-button>
+                <span style="padding-left: 10px;"></span>
+                <p-button label="text" class="text-btn" (onClick)="exportText()"></p-button>
+            </div>
+        </div>
+    </ng-template>
+    
+    <div class="line"></div>
+    <div class="report-n16-detail-container" *ngIf="loading; else container">
+        <div class="data-rows">
+            <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data"><div class="data-text">Block Range</div></div>
+            <div class="data"><div class="data-text">หมายเลขเริ่มต้น</div></div>
+            <div class="data"><div class="data-text">หมายเลขสิ้นสุด</div></div>
+            <div class="data" style="width: 30%;"><div class="data-text">พื้นที่</div></div>
+            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+        </div>
+        <div *ngFor="let item of [1,2,3,4]">
+            <div class="data-rows">
+                <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text"><p-skeleton width="40px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+                <div class="data" style="width: 30%;"><div class="data-text"><p-skeleton width="40px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+            </div>
+        </div>
+        <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN16DetailList.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+        ></p-paginator>
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #container>
+        <div class="report-n16-detail-container">
+        <div class="data-rows">
+            <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data"><div class="data-text">Block Range</div></div>
+            <div class="data"><div class="data-text">หมายเลขเริ่มต้น</div></div>
+            <div class="data"><div class="data-text">หมายเลขสิ้นสุด</div></div>
+            <div class="data" style="width: 30%;"><div class="data-text">พื้นที่</div></div>
+            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+        </div>
+        <div *ngFor="let item of pagedData;let index = index">
+            <div class="data-rows">
+                <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">{{index+first+1}}</div></div>
+                <div class="data"><div class="data-text">{{item.blockRange}}</div></div>
+                <div class="data"><div class="data-text">{{item.startTel}}</div></div>
+                <div class="data"><div class="data-text">{{item.endTel}}</div></div>
+                <div class="data" style="width: 30%;"><div class="data-text">{{item.location}}</div></div>
+                <div class="data"><div class="data-text">{{item.numberAmount}}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text">{{item.annualFee}}</div></div>
+            </div>
+        </div>
+        <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN16DetailList.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+        ></p-paginator>
+        <div style="padding-bottom: 10px;"></div>
+        </div>
+    </ng-template>
+</div>

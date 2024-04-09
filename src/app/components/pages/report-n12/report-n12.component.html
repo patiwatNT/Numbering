@@ -3,7 +3,61 @@
         N-12 : รายงาน Block ที่ไม่มีเลขหมาย Active
     </div>
     <div class="line"></div>
-    <div class="report-n12-container">
+    <div class="report-n12-container" *ngIf="loading else container">
+        <div class="data-rows">
+            <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data"><div class="data-text">Block ID</div></div>
+            <div class="data"><div class="data-text">หมายเลขเริ่มต้น</div></div>
+            <div class="data"><div class="data-text">หมายเลขสิ้นสุด</div></div>
+            <div class="data"><div class="data-text">สถานะ Block</div></div>
+            <div class="data"><div class="data-text">สถานะ Reserve</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                <div class="data" style="width: 96%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">ทั้งหมด</div></div>
+                        <div class="data"><div class="data-text">Assigned</div></div>
+                        <div class="data"><div class="data-text">Active</div></div>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let item of [1,2,3,4]">
+            <div class="data-rows">
+                <div class="data" style="width: 30%; margin-left: 20px;"><p-skeleton width="30px"></p-skeleton></div>
+                <div class="data"><div class="data-text"><p-skeleton width="130px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="130px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="130px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text" style="color: green;"><p-skeleton width="130px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text" style="color: green;"><p-skeleton width="130px"></p-skeleton></div></div>
+                <div class="number-amount-group" style="margin-right: 10px;">
+                        <div class="number-amount-subgroup">
+                            <div class="data"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                            <div class="data" style="width: 130%;"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                            <div class="data"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-rows">
+            <div class="data" style="width: 690%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                        <div class="data"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                        <div class="data"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                </div>
+            </div>
+        </div>
+        <!-- <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN12List.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+    ></p-paginator> -->
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #container>
+        <div class="report-n12-container">
         <div class="data-rows">
             <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">ที่</div></div>
             <div class="data"><div class="data-text">Block ID</div></div>
@@ -31,7 +85,7 @@
                 <div class="number-amount-group" style="margin-right: 10px;">
                         <div class="number-amount-subgroup">
                             <div class="data"><div class="data-text">{{item.numberAmountAll}}</div></div>
-                            <div class="data"><div class="data-text">{{item.numberAmountAssigned}}</div></div>
+                            <div class="data" style="width: 130%;"><div class="data-text">{{item.numberAmountAssigned}}</div></div>
                             <div class="data"><div class="data-text">{{item.numberAmountActive}}</div></div>
                     </div>
                 </div>
@@ -55,5 +109,6 @@
             [rowsPerPageOptions]="[5, 10, 15]"
     ></p-paginator> -->
         <div style="padding-bottom: 10px;"></div>
-    </div>
+        </div>
+</ng-template>
 </div>

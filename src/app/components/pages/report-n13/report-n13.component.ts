@@ -2,11 +2,12 @@ import { Component,OnInit } from '@angular/core';
 import { BackendService } from '../../../services/BackendService';
 import { CommonModule } from '@angular/common';
 import { ReportN13 } from '../../../models/reportN13';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-report-n13',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,SkeletonModule],
   templateUrl: './report-n13.component.html',
   styleUrl: './report-n13.component.scss'
 })
@@ -22,6 +23,7 @@ export class ReportN13Component implements OnInit{
   constructor(private backendService:BackendService){}
 
   sendData(){
+    this.loading = true;
     this.backendService.findAllReportN13().subscribe(
       (response)=>{
         console.log("Get Response Succes :",response);

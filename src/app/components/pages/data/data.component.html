@@ -1,1 +1,57 @@
-<p>data works!</p>
+<div class="container">
+    <div class="data-export-header">
+        Data Export
+    </div>
+    <div class="line"></div>
+    <div class="data-export-container" *ngIf="loading; else dataExport">
+        <div class="data-rows">
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data" style="width: 50%"><div class="data-text">Data</div></div>
+            <div class="data"><div class="data-text">คำอธิบาย</div></div>
+            <div class="data" style="width: 50%"><div class="data-text">จำนวนข้อมูล</div></div>
+            <div class="data" style="width: 10%; margin-right: 20px;"><div class="data-text">Export</div></div>
+        </div>
+        <div *ngFor="let item of [1,2,3,4]">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                <div class="data" style="width: 50%"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+                <div class="data" style="text-align: left;">
+                    <div class="data-text" ><p-skeleton width="460px"></p-skeleton>
+                    </div>
+                </div>
+                <div class="data" style="width: 50%"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+                <div class="data" style="width: 10%; margin-right: 20px;"><div class="data-text"></div><p-skeleton width="30px"></p-skeleton></div>
+            </div>
+        </div>
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #dataExport>
+        <div class="data-export-container">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+                <div class="data" style="width: 50%"><div class="data-text">Data</div></div>
+                <div class="data"><div class="data-text">คำอธิบาย</div></div>
+                <div class="data" style="width: 50%"><div class="data-text">จำนวนข้อมูล</div></div>
+                <div class="data" style="width: 10%; margin-right: 20px;"><div class="data-text">Export</div></div>
+            </div>
+            <div *ngFor="let item of dataExportList; let index = index">
+                <div class="data-rows">
+                    <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
+                    <div class="data" style="width: 50%"><div class="data-text">{{item.data}}</div></div>
+                    <div class="data" style="text-align: left;">
+                        <div class="data-text" >
+                                File : {{item.fileName}}<br>
+                                Encode : {{item.encode}}<br>
+                                Column Delimiter : {{item.columnDelimiter}}<br>
+                                Field : {{item.fieldName}}
+                        </div>
+                    </div>
+                    <div class="data" style="width: 50%"><div class="data-text">{{item.dataAmount}}</div></div>
+                    <div class="data" style="width: 10%; margin-right: 20px;"><div class="data-text"></div></div>
+                </div>
+            </div>
+            <div style="padding-bottom: 10px;"></div>
+        </div>
+    </ng-template>
+    
+</div>

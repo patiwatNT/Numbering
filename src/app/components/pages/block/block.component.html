@@ -4,26 +4,26 @@
   <div class="block-blog" *ngIf="loading; else blockBlog">
     <div class="empty-space"></div>
     <div class="data-rows">
-      <div class="data-header">ที่</div>
-      <div class="data-detail">Provider</div>
-      <div class="data-detail">จำนวน Block</div>
-      <div class="data-detail">จำนวนหมายเลข</div>
-      <div class="data-footer">ค่าธรรมเนียมรายเดือน (บาท)</div>
+      <div class="data-header"><div class="data-text">ที่</div></div>
+      <div class="data-detail"><div class="data-text">Provider</div></div>
+      <div class="data-detail"><div class="data-text">จำนวน Block</div></div>
+      <div class="data-detail"><div class="data-text">จำนวนหมายเลข</div></div>
+      <div class="data-footer"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
     </div>
     <div *ngFor="let i of [1,2,3,4]">
       <div class="data-rows">
-        <div class="data-header"><p-skeleton width="100%"></p-skeleton></div>
-        <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-        <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-        <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-        <div class="data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+        <div class="data-header"><div class="data-text"><p-skeleton width="50px"></p-skeleton></div></div>
+        <div class="data-detail"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+        <div class="data-detail"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+        <div class="data-detail"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+        <div class="data-footer"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
       </div>
     </div>
     <div class="data-rows-result">
       <div class="data-header-result">รวม</div>
-      <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-      <div class="data-detail"><p-skeleton width="100%" height="100%"></p-skeleton></div>
-      <div class="data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+      <div class="data-detail"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+      <div class="data-detail"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
+      <div class="data-footer"><div class="data-text"><p-skeleton width="200px"></p-skeleton></div></div>
     </div>
   </div>
   <ng-template #blockBlog>

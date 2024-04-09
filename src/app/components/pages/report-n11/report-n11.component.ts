@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ReportN11 } from '../../../models/reportN11';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-report-n11',
   standalone: true,
-  imports: [CommonModule,ButtonModule],
+  imports: [CommonModule,ButtonModule,SkeletonModule],
   templateUrl: './report-n11.component.html',
   styleUrl: './report-n11.component.scss'
 })
@@ -30,11 +31,13 @@ export class ReportN11Component implements OnInit{
   }
 
   sendData(){
+    this.loading = true;
     this.backendService.findAllReportN11().subscribe(
       (response)=>{
         console.log("Get Reponse Success :",response);
         this.reportN11List = response;
-
+        this.loading = false;
+        console.log("loading : ",this.loading);
         for(let i of this.reportN11List){
           if(i.blockStatus==='ยังใช้งาน'){
             this.activeIndex++;

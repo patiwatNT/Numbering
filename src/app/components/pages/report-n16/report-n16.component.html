@@ -3,6 +3,33 @@
         N-16 : รายงานเลขหมายว่าง
     </div>
     <div class="line"></div>
+    <div class="report-n16-container" *ngIf="loading;else container">
+        <div class="data-rows">
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data"><div class="data-text">Block</div></div>
+            <div class="data"><div class="data-text">จำนวน Block</div></div>
+            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
+            <div class="data"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายปี (ล้านบาท)</div></div>
+        </div>
+        <div *ngFor="let item of [1,2,3,4]">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><p-skeleton width="10px"></p-skeleton></div></div>
+                <div class="data">
+                    <div class="data-text">
+                            <p-skeleton width="170px"></p-skeleton>
+                    </div>
+                </div>
+                <div class="data"><div class="data-text"><p-skeleton width="170px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="170px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text"><p-skeleton width="170px"></p-skeleton></div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text"><p-skeleton width="170px"></p-skeleton></div></div>
+            </div>
+        </div>
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #container>
+    
     <div class="report-n16-container">
         <div class="data-rows">
             <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
@@ -15,7 +42,13 @@
         <div *ngFor="let item of reportN16IncList;let index = index">
             <div class="data-rows">
                 <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
-                <div class="data"><div class="data-text">{{item.block}}</div></div>
+                <div class="data">
+                    <div class="data-text">
+                        <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showReportN16Detail(item.block,item.blockAmount)">
+                            {{item.block}}
+                        </p-button>
+                    </div>
+                </div>
                 <div class="data"><div class="data-text">{{item.blockAmount}}</div></div>
                 <div class="data"><div class="data-text">{{item.numberAmount}}</div></div>
                 <div class="data"><div class="data-text">{{item.monthlyFee}}</div></div>
@@ -36,7 +69,13 @@
         <div *ngFor="let item of reportN16OnlyList;let index = index">
             <div class="data-rows">
                 <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
-                <div class="data"><div class="data-text">{{item.block}}</div></div>
+                <div class="data">
+                    <div class="data-text">
+                        <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showReportN16Detail(item.block,item.blockAmount)">
+                            {{item.block}}
+                        </p-button>
+                    </div>
+                </div>
                 <div class="data"><div class="data-text">{{item.blockAmount}}</div></div>
                 <div class="data"><div class="data-text">{{item.numberAmount}}</div></div>
                 <div class="data"><div class="data-text">{{item.monthlyFee}}</div></div>
@@ -58,4 +97,5 @@
     ></p-paginator> -->
         <div style="padding-bottom: 10px;"></div>
     </div>
+    </ng-template>
 </div>

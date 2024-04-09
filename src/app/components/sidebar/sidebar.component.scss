@@ -55,6 +55,29 @@
     }
   }
 
+  
+:host ::ng-deep {
+    .p-button {
+      color: #4b5563;
+      font-weight: bold;
+      width: 100%;
+      min-height: 74.56px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: #ffd100;
+      border: 1px solid #ffd100;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    .pi{
+        font-size: 22px
+    }
+  }
+
+  
+
     
   
 

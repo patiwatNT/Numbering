@@ -3,6 +3,27 @@
         รายงาน Numbering
     </div>
     <div class="line"></div>
+    <div class="report-container" *ngIf="loading; else reportContainer">
+        <div class="data-rows">
+            <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">ที่</div> </div>
+            <div class="data" style="width: 40%;"><div class="data-text">รายงาน</div></div>
+            <div class="data"><div class="data-text">คำอธิบาย</div></div>
+            <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">สิทธิ์การใช้งาน</div></div>
+        </div>
+        <div *ngFor="let i of [1,2,3,4,5,6]">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div> </div>
+                <div class="data" style="width: 40%;"><div class="data-text">
+                    <p-skeleton width="200px"></p-skeleton></div></div>
+                <div class="data"><div class="data-text" style="justify-content: left;"><p-skeleton width="530px"></p-skeleton></div></div>
+                <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">
+                    <p-skeleton width="200px"></p-skeleton>
+                </div></div>
+            </div>
+        </div>
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #reportContainer>
     <div class="report-container">
         <div class="data-rows">
             <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">ที่</div> </div>
@@ -18,9 +39,16 @@
                     {{ i.name }}
                 </p-button></div></div>
                 <div class="data"><div class="data-text" style="justify-content: left;">{{i.description}}</div></div>
-                <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">Test</div></div>
+                <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">
+                    <span *ngIf="checkAccess(i.privilege.accessRight)" class="pi pi-check-circle" style="font-size: 1rem;margin-right: 15px; color: green;">
+                    </span>
+                    <span *ngIf="!checkAccess(i.privilege.accessRight)" class="pi pi-times-circle" style="font-size: 1rem;margin-right: 15px; color: red;">
+                    </span>
+                    {{i.privilege.accessRight}}
+                </div></div>
             </div>
         </div>
         <div style="padding-bottom: 10px;"></div>
     </div>
+    </ng-template>
 </div>

@@ -15,86 +15,126 @@ import { ReportN13Component } from './components/pages/report-n13/report-n13.com
 import { ReportN14Component } from './components/pages/report-n14/report-n14.component';
 import { ReportN15Component } from './components/pages/report-n15/report-n15.component';
 import { ReportN16Component } from './components/pages/report-n16/report-n16.component';
+import { ReportN16DetailComponent } from './components/pages/report-n16-detail/report-n16-detail.component';
+import { UserComponent } from './components/pages/user/user.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { LoginGuardService } from './services/login-guard.service';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+    canActivate:[LoginGuardService]
+  },
+  {
     path: 'main',
     component: MainComponent,
+    canActivate:[AuthGuardService]
+  },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'admin/news',
-    component: NewsComponent
+    component: NewsComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'admin/news/edit',
-    component: NewsComponent
+    component: NewsComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'phone',
-    component: PhoneComponent
+    component: PhoneComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'block',
-    component: BlockComponent
+    component: BlockComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'block/search',
-    component: BlockSearchComponent
+    component: BlockSearchComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'block/search/info',
-    component: BlockSearchComponent
+    component: BlockSearchComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path:'block/assignData',
-    component: AssignSearchComponent
+    component: AssignSearchComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'assign',
-    component: AssignComponent
+    component: AssignComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'assign/search',
-    component: AssignSearchComponent
+    component: AssignSearchComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'assign/search/info',
-    component: AssignSearchComponent
+    component: AssignSearchComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path:'report',
-    component: ReportComponent
+    component: ReportComponent,
+    canActivate:[AuthGuardService]
   },{
     path: 'data',
-    component: DataComponent
+    component: DataComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'changeServiceLocation',
-    component : ChangeServiceLocationComponent
+    component : ChangeServiceLocationComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-11',
-    component : ReportN11Component
+    component : ReportN11Component,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-12',
-    component : ReportN12Component
+    component : ReportN12Component,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-13',
-    component : ReportN13Component
+    component : ReportN13Component,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-14',
-    component : ReportN14Component
+    component : ReportN14Component,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-15',
-    component : ReportN15Component
+    component : ReportN15Component,
+    canActivate:[AuthGuardService]
   },
   {
     path: 'report/N-16',
-    component : ReportN16Component
+    component : ReportN16Component,
+    canActivate:[AuthGuardService]
+  },
+  {
+    path: 'report/N-16/detail',
+    component : ReportN16DetailComponent,
+    canActivate:[AuthGuardService]
   },
   {
     path:'**',

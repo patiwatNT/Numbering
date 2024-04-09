@@ -20,12 +20,12 @@ import {
 import moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { ExcelService } from '../../../services/excel.service';
-import { ExcelObj } from '../../../models/excelObj';
+import { ExcelAssignedObj } from '../../../models/excelAssignedObj';
 
 @Component({
   selector: 'app-change-service-location',
   standalone: true,
-  imports: [ButtonModule,CommonModule,PaginatorModule,DialogModule,SkeletonModule,DropdownModule,ReactiveFormsModule,FormsModule,ConfirmDialogModule],
+  imports: [ButtonModule,CommonModule,PaginatorModule,DialogModule,SkeletonModule,DropdownModule,ReactiveFormsModule,FormsModule,ConfirmDialogModule,SkeletonModule],
   templateUrl: './change-service-location.component.html',
   styleUrl: './change-service-location.component.scss',
   providers: [ConfirmationService,ExcelService],
@@ -46,7 +46,8 @@ export class ChangeServiceLocationComponent implements OnInit{
   serviceLocation: SelectItemGroup[] = [];
   temp: any = {};
   assignRangeId:string = "";
-  excelObj:ExcelObj = {assignObj:{},listPhoneDetail:[]}
+  excelObj:ExcelAssignedObj = {assignObj:{},listPhoneDetail:[]}
+  loading:boolean = false;
   constructor(
     private backendService: BackendService,
     private router: Router,
@@ -61,11 +62,13 @@ export class ChangeServiceLocationComponent implements OnInit{
     this.activeRoute.queryParams.subscribe(params=>{
       this.assignRangeId  = params['assignRangeId'];
     })
+    this.loading = true;
     this.backendService.findAssignedRangeDetail(this.assignRangeId).subscribe(
       (response)=>{
         console.log('Get Response Success',response);
         this.phoneInfo = response
         this.excelObj.assignObj = response;
+        this.loading = false;
         console.log(this.excelObj.assignObj.assignedRangeDetailPK.id);
       },
       (error)=>{
@@ -77,6 +80,7 @@ export class ChangeServiceLocationComponent implements OnInit{
         console.log('Get Response Success',reponse);
         this.phoneDetailList = reponse;
         this.excelObj.listPhoneDetail = reponse;
+        this.loading = false;
         this.totalPage = Math.ceil(this.phoneDetailList.length/this.rows);
         this.updatePagedData(0)
       },
@@ -170,6 +174,6 @@ export class ChangeServiceLocationComponent implements OnInit{
   }
 
   exportExcel(){
-    this.excelService.generateExcel('TestTemp',this.excelObj);
+    this.excelService.generateExcelAssignRange('TestTemp',this.excelObj);
   }
 }

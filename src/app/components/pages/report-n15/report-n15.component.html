@@ -3,6 +3,62 @@
         N-15 : รายงาน เลขหมาย จำแนกตามส่วนงาน
     </div>
     <div class="line"></div>
+    <div class="report-n15-container" *ngIf="loading; else container">
+        <div class="data-rows">
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">สำนัก</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">ฝ่าย</div></div>
+            <div class="data" style="width: 10%"><div class="data-text">ส่วน</div></div>
+            <div class="data" style="width: 30%"><div class="data-text">ศูนย์บริการฯ<br>(Service Location)</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text">Assigned</div></div>
+                        <div class="data"><div class="data-text">Active</div></div>
+                        <div class="data"><div class="data-text">Available</div></div>
+                        <div class="data"><div class="data-text">% Utilization (Assigned)</div></div>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let item of [1,2,3,4]">
+            <div class="data-rows">
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                <div class="data" style="width: 10%"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                <div class="data" style="width: 10%"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                <div class="data" style="width: 10%"><div class="data-text"><p-skeleton width="30px"></p-skeleton></div></div>
+                <div class="data" style="width: 30%"><div class="data-text"><p-skeleton width="160px"></p-skeleton></div></div>
+                <div class="number-amount-group" style="margin-right: 10px;">
+                        <div class="number-amount-subgroup">
+                            <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                            <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                            <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                            <div class="data"><div class="data-text" ><p-skeleton width="100px"></p-skeleton></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-rows">
+            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="number-amount-group" style="margin-right: 10px;">
+                    <div class="number-amount-subgroup">
+                        <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                        <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                        <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
+                        <div class="data"><div class="data-text" ><p-skeleton width="100px"></p-skeleton></div></div>
+                </div>
+            </div>
+        </div>
+        <!-- <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="rows"
+            [totalRecords]="reportN12List.length"
+            [rowsPerPageOptions]="[5, 10, 15]"
+    ></p-paginator> -->
+        <div style="padding-bottom: 10px;"></div>
+    </div>
+    <ng-template #container>
+    
     <div class="report-n15-container">
         <div class="data-rows">
             <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
@@ -58,4 +114,5 @@
     ></p-paginator> -->
         <div style="padding-bottom: 10px;"></div>
     </div>
+</ng-template>
 </div>

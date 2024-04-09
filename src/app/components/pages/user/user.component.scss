@@ -9,8 +9,8 @@
     padding-bottom: 20px;
   }
 
-  .data-export-header {
-    font-size: 24px;
+  .user-header {
+    font-size: 22px;
     font-weight: bold;
     margin-top: 20px;
     width: 100%;
@@ -29,7 +29,7 @@
     position: relative;
   }
 
-  .data-export-container {
+  .user-container {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -51,7 +51,6 @@
     padding: 18px;
     width: 100%;
     text-align: center;
-    font-weight: bold;
     display: flex;
   }
 
@@ -61,36 +60,10 @@
     align-self: center;
     width: 100%;
   }
-  .description-text{
-    display: flex;
-    flex-direction: column;
-  }
 
-  .number-amount-group{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  .number-amount-subgroup{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-
-  .greater-than-fifty{
-    color: green;
-  }
-
-  .less-than-fifty {
-    color: orange;
-  }
-
-  .no-location_text{
-    color: red;
-  }
-
-  :host ::ng-deep {
-    .p-button {
-      padding: 0px;
-    }
+  .user-group{
+    margin-left: 25px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 22px;
   }

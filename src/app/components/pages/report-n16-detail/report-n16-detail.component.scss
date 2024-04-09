@@ -9,8 +9,8 @@
     padding-bottom: 20px;
   }
 
-  .data-export-header {
-    font-size: 24px;
+  .report-n16-detail-header {
+    font-size: 22px;
     font-weight: bold;
     margin-top: 20px;
     width: 100%;
@@ -29,7 +29,7 @@
     position: relative;
   }
 
-  .data-export-container {
+  .report-n16-detail-container {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -61,10 +61,6 @@
     align-self: center;
     width: 100%;
   }
-  .description-text{
-    display: flex;
-    flex-direction: column;
-  }
 
   .number-amount-group{
     display: flex;
@@ -91,6 +87,28 @@
 
   :host ::ng-deep {
     .p-button {
-      padding: 0px;
+      padding: 10px;
+    }
+    .excel-btn {
+        .p-button {
+          background-color: green;
+          border: 1px solid green;
+          height: 100%;
+          justify-content: flex-end;
+          &:focus {
+            box-shadow: none;
+          }
+        }
+    }
+
+    .text-btn {
+        .p-button {
+          background-color: #545859;
+          border: 1px solid #545859;
+          height: 100%;
+          &:focus {
+            box-shadow: none;
+          }
+        }
     }
   }

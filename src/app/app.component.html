@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" *ngIf="token; else login">
   <div class="header">
     <app-header></app-header>
   </div>
@@ -12,3 +12,7 @@
     <app-footer></app-footer>
   </div>
 </div>
+<ng-template #login>
+  <app-login></app-login>
+</ng-template>
+

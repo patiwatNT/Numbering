@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="wrap-container">
+    <form [formGroup]="loginForm">
+      <span class="login-title"> Numbering </span>
+      <div class="alert-text" *ngIf="responseStatus==='fail'">ชื่อผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง</div>
+        <input
+          type="text"
+          pInputText
+          placeholder="ชื่อผู้ใช้งาน"
+          formControlName="username"
+          style="width: 100%"
+          [(ngModel)]="username"
+        />
+      <input
+        type="password"
+        pInputText
+        placeholder="รหัสผ่าน"
+        formControlName="password"
+        style="width: 100%"
+        [(ngModel)]="password"
+
+      />
+      <div class="container-login100-form-btn">
+        <p-button class="login100-form-btn" [loading]="loading" (onClick)="login(loginForm)">เข้าสู่ระบบ</p-button>
+      </div>
+    </form>
+  </div>
+</div>

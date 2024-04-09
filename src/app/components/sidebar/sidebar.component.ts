@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TreeModule } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [TreeModule, CommonModule, DropdownModule,RouterLink],
+  imports: [TreeModule, CommonModule, DropdownModule,RouterLink,ButtonModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
+  styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
-  constructor(private router: Router){}
+export class SidebarComponent implements OnInit{
+  userRole!: string | null;
+  ngOnInit(): void {
+    this.userRole = localStorage.getItem('roleId');
+    console.log("User Role",this.userRole);
+  }
+  loading:boolean = false;
+
+  constructor(private router: Router,private loginService:LoginService){}
   phoneInfoNode: TreeNode[] = [
     {
       label: 'ข้อมูลเลขหมาย',
@@ -66,5 +75,27 @@ export class SidebarComponent {
     }else if(event.node.data === 'data'){
       this.router.navigateByUrl('/data');
     }  
+  }
+
+  signOut(){
+    this.loading = true;
+
+    let data = {
+      "clientKey":"bc2a5cd7-c13b-4c2e-a884-24f88b3f21f0",
+      "token":localStorage.getItem('token')
+    }
+
+    this.loginService.signOut(data).subscribe(
+      (response:any)=>{
+        console.log(response);
+        this.loading = false;
+        localStorage.removeItem('token');
+        window.location.reload();
+      },
+      (error)=>{
+        console.log(error.message);
+        this.loading = false;
+      }
+    );
   }
 }
