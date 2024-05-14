@@ -30,9 +30,9 @@ export class ReportN15Component implements OnInit{
         this.reportN15List = response;
 
         // Add Comma in Sum Section
-        const sumNumberAmountAssigned = this.reportN15List.reduce((acc, curr) => acc + curr.numberAmountAssigned,0);
-        const sumNumberAmountActive = this.reportN15List.reduce((acc, curr) => acc + curr.numberAmountActive,0);
-        const sumNumberAmountAvailable = this.reportN15List.reduce((acc, curr) => acc + curr.numberAmountAvailable,0);
+        const sumNumberAmountAssigned = this.reportN15List.reduce((acc, curr) => acc + curr.qtyAssigned,0);
+        const sumNumberAmountActive = this.reportN15List.reduce((acc, curr) => acc + curr.qtyActive,0);
+        const sumNumberAmountAvailable = this.reportN15List.reduce((acc, curr) => acc + curr.qtyEmpty,0);
         this.sumNumberAmountAssigned = this.addComma(sumNumberAmountAssigned);
         this.sumNumberAmountActive = this.addComma(sumNumberAmountActive);
         this.sumNumberAmountAvailable = this.addComma(sumNumberAmountAvailable);
@@ -40,9 +40,9 @@ export class ReportN15Component implements OnInit{
         // Add Comma to Value in BlockList
         this.reportN15List = response.map((item:any) => ({
           ...item,
-          numberAmountAssigned: this.addComma(item.numberAmountAssigned),
-          numberAmountActive: this.addComma(item.numberAmountActive),
-          numberAmountAvailable: this.addComma(item.numberAmountAvailable),
+          qtyAssigned: this.addComma(item.qtyAssigned),
+          qtyActive: this.addComma(item.qtyActive),
+          qtyEmpty: this.addComma(item.qtyEmpty),
           }));
           this.loading = false;
       },

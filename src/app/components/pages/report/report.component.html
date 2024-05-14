@@ -5,10 +5,10 @@
     <div class="line"></div>
     <div class="report-container" *ngIf="loading; else reportContainer">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">ที่</div> </div>
-            <div class="data" style="width: 40%;"><div class="data-text">รายงาน</div></div>
-            <div class="data"><div class="data-text">คำอธิบาย</div></div>
-            <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">สิทธิ์การใช้งาน</div></div>
+            <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 40%;"><div class="data-text"><b>รายงาน</b></div></div>
+            <div class="data"><div class="data-text"><b>คำอธิบาย</b></div></div>
+            <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text"><b>สิทธิ์การใช้งาน</b></div></div>
         </div>
         <div *ngFor="let i of [1,2,3,4,5,6]">
             <div class="data-rows">
@@ -26,25 +26,29 @@
     <ng-template #reportContainer>
     <div class="report-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">ที่</div> </div>
-            <div class="data" style="width: 40%;"><div class="data-text">รายงาน</div></div>
-            <div class="data"><div class="data-text">คำอธิบาย</div></div>
-            <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">สิทธิ์การใช้งาน</div></div>
+            <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text"><b>ที่</b></div> </div>
+            <div class="data" style="width: 40%;"><div class="data-text"><b>รายงาน</b></div></div>
+            <div class="data"><div class="data-text"><b>คำอธิบาย</b></div></div>
+            <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text"><b>สิทธิ์การใช้งาน</b></div></div>
         </div>
         <div *ngFor="let i of numberingReportList">
             <div class="data-rows">
-                <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">{{i.no}}</div> </div>
+                <div class="data" style="width: 10%; margin-left: 30px;"><div class="data-text">{{i.reportId}}</div> </div>
                 <div class="data" style="width: 40%;"><div class="data-text">
-                    <p-button class="btn3" [link]="true" (onClick)="linkToAnotherReport(i.name)">
-                    {{ i.name }}
-                </p-button></div></div>
-                <div class="data"><div class="data-text" style="justify-content: left;">{{i.description}}</div></div>
+                    <p-button class="btn3" [link]="true" (onClick)="linkToAnotherReport(i.reportName)" *ngIf="checkAccess(i.privilege.rep1) else disable">
+                        {{ i.reportName }}
+                    </p-button>
+                    <ng-template #disable>
+                            {{ i.reportName }}
+                    </ng-template> 
+                </div></div>
+                <div class="data"><div class="data-text" style="justify-content: left;">{{i.reportDescription}}</div></div>
                 <div class="data" style="width: 50%;margin-right: 30px;"><div class="data-text">
-                    <span *ngIf="checkAccess(i.privilege.accessRight)" class="pi pi-check-circle" style="font-size: 1rem;margin-right: 15px; color: green;">
+                    <span *ngIf="checkAccess(i.privilege.rep1)" class="pi pi-check-circle" style="font-size: 1rem;margin-right: 15px; color: green;">
                     </span>
-                    <span *ngIf="!checkAccess(i.privilege.accessRight)" class="pi pi-times-circle" style="font-size: 1rem;margin-right: 15px; color: red;">
+                    <span *ngIf="!checkAccess(i.privilege.rep1)" class="pi pi-times-circle" style="font-size: 1rem;margin-right: 15px; color: red;">
                     </span>
-                    {{i.privilege.accessRight}}
+                    {{i.privilege.rep1 == 1 ? 'มีสิทธิ์':'ไม่มีสิทธิ์'}}
                 </div></div>
             </div>
         </div>

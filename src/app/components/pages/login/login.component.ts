@@ -15,6 +15,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BackendService } from '../../../services/BackendService';
 import { UserService } from '../../../services/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -36,14 +37,15 @@ export class LoginComponent {
   loading: boolean = false;
   responseStatus: string = '';
   user: any = {};
-  test:string = 'Test Text';
+  test: string = 'Test Text';
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private loginService: LoginService,
     private router: Router,
     private backendService: BackendService,
-    private userService:UserService
+    private userService: UserService,
+    private cookies:CookieService
   ) {
     this.loginForm = this.formBuilder.group({
       username: [''],
@@ -69,14 +71,44 @@ export class LoginComponent {
         console.log(response);
         this.responseStatus = response.result;
         if (this.responseStatus != 'fail') {
-          localStorage.setItem('user', username);
-          localStorage.setItem('token', response.data.token);
+          //localStorage.setItem('user', username);
+          this.cookies.set('user', username)
+          //localStorage.setItem('token', response.data.token);
+          this.cookies.set('token',response.data.token);
+          this.userService.Token = response.data.token;
           localStorage.setItem('tokenExpire', response.data.session_expire);
+          console.log('Emp Code : ', response.data.empcode);
+          //localStorage.setItem('empCode', response.data.empcode);
+          this.cookies.set('empCode',response.data.empcode);
+          this.backendService.findByEmpCode(response.data.empcode).subscribe(
+            (response) => {
+              console.log('Get Response Success : ', response);
+              this.userService.AdminFlag = response.adminFlag;
+              this.cookies.set('adminFlag',response.adminFlag);
+              //const privilege = this.user.numberingUserPrivilegeList;
+              this.userService.User = response;
+              this.cookies.set('privilege',JSON.stringify(response));
+              console.log("Privilege : ",this.userService.User);
+              this.router.navigate(['/main']).then(() => {
+                this.loading = false;
+              });
+            },
+            (error) => {
+              console.log('Error', error);
+            }
+          );
 
-          // this.router.navigateByUrl('/main').then(() => {
-          //   this.loading = false;
-          //   window.location.reload();
-          // });
+          // this.backendService
+          //   .findByUsername(localStorage.getItem('user') as string)
+          //   .subscribe(
+          //     (response) => {
+          //       console.log('Get Respons Success :', response);
+          //       localStorage.setItem('roleId', response.roleId.roleId);
+          //       console.log('Role Id', localStorage.getItem('roleId'));
+          //       this.getUserDetail(username);
+          //     },
+          //     (error) => {}
+          //   );
         } else {
           this.loading = false;
         }
@@ -86,17 +118,6 @@ export class LoginComponent {
         this.loading = false;
       }
     );
-    this.backendService
-      .findByUsername(localStorage.getItem('user') as string)
-      .subscribe(
-        (response) => {
-          console.log('Get Respons Success :', response);
-          localStorage.setItem('roleId', response.roleId.roleId);
-          console.log('Role Id',localStorage.getItem('roleId'));
-          this.getUserDetail(username);
-        },
-        (error) => {}
-      );
   }
 
   signOut(form: FormGroup) {
@@ -112,7 +133,7 @@ export class LoginComponent {
       (response: any) => {
         console.log(response);
         this.loading = false;
-        localStorage.removeItem('token');
+        localStorage.clear();
         window.location.reload();
       },
       (error) => {
@@ -121,18 +142,23 @@ export class LoginComponent {
       }
     );
   }
-  getUserDetail(data: any) {
-    this.backendService.findUserDetail(data).subscribe(
-      (response) => {
-        this.user = response;
-        console.log('User', this.user);
-        const privilege = JSON.stringify(this.user.numberingUserPrivilegeList);
-        localStorage.setItem('privilege',privilege)
-        console.log('Privilege',localStorage.getItem('privilege'));
-      },
-      (error) => {
-        console.log('Error : ', error);
-      }
-    );
-  }
+  // getUserDetail(data: any) {
+  //   this.backendService.findUserDetail(data).subscribe(
+  //     (response) => {
+  //       this.user = response;
+  //       console.log('User', this.user);
+  //       // const privilege = JSON.stringify(this.user.numberingUserPrivilegeList);
+  //       // localStorage.setItem('privilege', privilege);
+  //       const privilege = this.user.numberingUserPrivilegeList;
+  //       this.userService.User = privilege;
+  //       console.log('Privilege', this.userService.User);
+  //       // this.router.navigate(['/main']).then(() => {
+  //       //   this.loading = false;
+  //       // });
+  //     },
+  //     (error) => {
+  //       console.log('Error : ', error);
+  //     }
+  //   );
+  // }
 }

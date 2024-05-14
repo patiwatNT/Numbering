@@ -5,12 +5,12 @@
     <div class="line"></div>
     <div class="report-n16-container" *ngIf="loading;else container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data"><div class="data-text">Block</div></div>
-            <div class="data"><div class="data-text">จำนวน Block</div></div>
-            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
-            <div class="data"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายปี (ล้านบาท)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data"><div class="data-text"><b>Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวน Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายปี (ล้านบาท)</b></div></div>
         </div>
         <div *ngFor="let item of [1,2,3,4]">
             <div class="data-rows">
@@ -32,58 +32,58 @@
     
     <div class="report-n16-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data"><div class="data-text">Block</div></div>
-            <div class="data"><div class="data-text">จำนวน Block</div></div>
-            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
-            <div class="data"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายปี (ล้านบาท)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data"><div class="data-text"><b>Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวน Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายปี (ล้านบาท)</b></div></div>
         </div>
         <div *ngFor="let item of reportN16IncList;let index = index">
             <div class="data-rows">
                 <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
                 <div class="data">
                     <div class="data-text">
-                        <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showReportN16Detail(item.block,item.blockAmount)">
+                        <p-button class="btn3" [link]="true" title="Click เพื่อดูรายละเอียด" (onClick)="showReportN16Detail(item.block,item.qtyRange)">
                             {{item.block}}
                         </p-button>
                     </div>
                 </div>
-                <div class="data"><div class="data-text">{{item.blockAmount}}</div></div>
-                <div class="data"><div class="data-text">{{item.numberAmount}}</div></div>
-                <div class="data"><div class="data-text">{{item.monthlyFee}}</div></div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text">{{item.annualFee}}</div></div>
+                <div class="data"><div class="data-text">{{item.qtyRange}}</div></div>
+                <div class="data"><div class="data-text">{{item.qty}}</div></div>
+                <div class="data"><div class="data-text">{{item.amt}}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text">{{item.amtYearly}}</div></div>
             </div>
         </div>
         <div style="padding-bottom: 10px;"></div>
     </div>
     <div class="report-n16-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data"><div class="data-text">Block</div></div>
-            <div class="data"><div class="data-text">จำนวน Block</div></div>
-            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
-            <div class="data"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายปี (ล้านบาท)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data"><div class="data-text"><b>Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวน Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายปี (ล้านบาท)</b></div></div>
         </div>
         <div *ngFor="let item of reportN16OnlyList;let index = index">
             <div class="data-rows">
                 <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
                 <div class="data">
                     <div class="data-text">
-                        <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showReportN16Detail(item.block,item.blockAmount)">
+                        <p-button class="btn3" [link]="true" title="Click เพื่อดูรายละเอียด" (onClick)="showReportN16Detail(item.block,item.qtyRange)">
                             {{item.block}}
                         </p-button>
                     </div>
                 </div>
-                <div class="data"><div class="data-text">{{item.blockAmount}}</div></div>
-                <div class="data"><div class="data-text">{{item.numberAmount}}</div></div>
-                <div class="data"><div class="data-text">{{item.monthlyFee}}</div></div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text">{{item.annualFee}}</div></div>
+                <div class="data"><div class="data-text">{{item.qtyRange}}</div></div>
+                <div class="data"><div class="data-text">{{item.qty}}</div></div>
+                <div class="data"><div class="data-text">{{item.amt}}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text">{{item.amtYearly}}</div></div>
             </div>
         </div>
         <div class="data-rows">
-            <div class="data" style="width: 251.2%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="data" style="width: 251.2%; margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
             <div class="data"><div class="data-text">{{sumNumberAmount}}</div></div>
             <div class="data"><div class="data-text">{{sumMonthlyFee}}</div></div>
             <div class="data" style="margin-right: 20px;"><div class="data-text">{{sumAnnualFee}}</div></div>

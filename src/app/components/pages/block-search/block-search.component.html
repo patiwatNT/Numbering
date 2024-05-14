@@ -59,14 +59,14 @@
     <div class="line"></div>
     <div class="block-search-detail-container" *ngIf="loading; else blockSearchDetail">
       <div class="data-rows">
-        <div class="data-header"><div class="data-detail-text">ที่</div></div>
-        <div class="data-detail"><div class="data-detail-text">Block Start</div></div>
-        <div class="data-detail"><div class="data-detail-text">Block End</div></div>
-        <div class="data-detail"><div class="data-detail-text">จำนวน</div></div>
-        <div class="data-detail"><div class="data-detail-text">Provider</div></div>
-        <div class="data-detail"><div class="data-detail-text">พื้นที่/สำนัก</div></div>
-        <div class="data-detail"><div class="data-detail-text">สถานะ</div></div>
-        <div class="data-footer"><div class="data-detail-text">Action</div></div>
+        <div class="data-header"><div class="data-detail-text"><b>ที่</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Block Start</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Block End</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>จำนวน</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Provider</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>พื้นที่/สำนัก</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>สถานะ</b></div></div>
+        <div class="data-footer"><div class="data-detail-text"><b>Action</b></div></div>
       </div>
       <div *ngFor="let i of[1,2,3]">
         <div class="data-rows">
@@ -85,30 +85,40 @@
     <ng-template #blockSearchDetail>
     <div class="block-search-detail-container" *ngIf="responseLoading&&blockDetailList.length!=0">
       <div class="data-rows">
-        <div class="data-header"><div class="data-detail-text">ที่</div></div>
-        <div class="data-detail"><div class="data-detail-text">Block Start</div></div>
-        <div class="data-detail"><div class="data-detail-text">Block End</div></div>
-        <div class="data-detail"><div class="data-detail-text">จำนวน</div></div>
-        <div class="data-detail"><div class="data-detail-text">Provider</div></div>
-        <div class="data-detail"><div class="data-detail-text">พื้นที่/สำนัก</div></div>
-        <div class="data-detail"><div class="data-detail-text">สถานะ</div></div>
-        <div class="data-footer"><div class="data-detail-text">Action</div></div>
+        <div class="data-header"><div class="data-detail-text"><b>ที่</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Block Start</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Block End</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>จำนวน</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Provider</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>พื้นที่/สำนัก</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>สถานะ</b></div></div>
+        <div class="data-footer"><div class="data-detail-text"><b>Action</b></div></div>
       </div>
       <div *ngFor="let i of pagedData;let index = index">
         <div class="data-rows">
           <div class="data-header"><div class="data-detail-text">{{ index+first+1 }}</div></div>
           <div class="data-detail"><div class="data-detail-text">{{ i.blockStart }}</div></div>
           <div class="data-detail"><div class="data-detail-text">{{ i.blockEnd }}</div></div>
-          <div class="data-detail"><div class="data-detail-text">{{ i.amount }}</div></div>
+          <div class="data-detail"><div class="data-detail-text">{{ i.blockAmount }}</div></div>
           <div class="data-detail"><div class="data-detail-text">{{ i.provider }}</div></div>
-          <div class="data-detail"><div class="data-detail-text">{{ i.location }}</div></div>
-          <div class="data-detail" [ngClass]="{'success-text': i.blockStatus=='ยังใช้งาน', 'false-text': i.blockStatus=='คืน กสทช. แล้ว' , 'inprogress-text': i.blockStatus=='อยู่ระหว่างดำเนินการคืน กสทช.'}"><div class="data-detail-text">{{ i.blockStatus }}</div></div>
-          <div class="data-footer" *ngIf="i.actionStatus==='F'; else assignButton">
+          <div class="data-detail"><div class="data-detail-text">{{ i.blockArea }}</div></div>
+          <div class="data-detail"><div class="data-detail-text"><b>
+            <span [ngClass]="{
+              'success-text': i.blockStatus === 1,
+              'false-text': i.blockStatus === 0,
+              'inprogress-text': i.blockStatus === 2
+            }">
+              {{ i.blockStatus === 1 ? 'ใช้งาน' : i.blockStatus === 0 ? 'คืน กสทช. แล้ว' : 'อยู่ในระหว่างดำเนินการคืน กสทช.' }}
+            </span>
+          </b></div></div>
+          <div class="data-footer" *ngIf="i.blockStatus === 0; else assignButton">
           </div>
           <ng-template #assignButton>
             <div class="data-footer-assign">
               <div class="data-detail-text">
-              <p-button icon="pi pi-at" class="btn2" title="ดูเลขหมาย Assigned" (onClick)="assign(i.blockStart)"></p-button>
+              <p-button icon="pi pi-at" class="btn2" title="ดูเลขหมาย Assigned" (onClick)="assign(i.blockId)"></p-button>
+              <div style="margin: 6px;"></div>
+              <p-button icon="pi pi-eye" class="btn2" title="Admin แก้ไข Assigned Range" (onClick)="assignAdmin(i.blockId)" *ngIf="adminFlag === '1'"></p-button>
               </div>
             </div>
           </ng-template>

@@ -15,6 +15,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 export class MainComponent implements OnInit{
   newsList: any[] = [];
   editLoading: boolean = false;
+  roleId:string = '';
 
   constructor(
     private backendService: BackendService,
@@ -28,6 +29,7 @@ export class MainComponent implements OnInit{
 
   ngOnInit() {
     this.editLoading = true;
+    this.roleId = localStorage.getItem('roleId') as string;
     console.log(this.editLoading);
   this.backendService.init().subscribe(
     response => {

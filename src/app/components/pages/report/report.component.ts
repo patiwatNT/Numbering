@@ -5,35 +5,53 @@ import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { SkeletonModule } from 'primeng/skeleton';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [CommonModule, ButtonModule,SkeletonModule],
+  imports: [CommonModule, ButtonModule, SkeletonModule],
   templateUrl: './report.component.html',
   styleUrl: './report.component.scss',
 })
 export class ReportComponent implements OnInit {
   numberingReportList: any[] = [];
   privilegeList: any[] = [];
-  loading:boolean = false;
+  privilegeFilterList: any[] = [];
+  privilege: any;
+  loading: boolean = false;
   constructor(
     private backendService: BackendService,
-    private router: Router // private userService:UserService
+    private router: Router,
+    private userService: UserService,
+    private cookies: CookieService
   ) {}
 
   ngOnInit(): void {
-    const privilege = JSON.parse(localStorage.getItem('privilege') as string);
-    console.log('Privilege', privilege);
-    this.privilegeList = privilege.filter(
-      (privilege: { privilegeName: string | string[] }) =>
-        privilege.privilegeName.includes('N-11') ||
-        privilege.privilegeName.includes('N-12') ||
-        privilege.privilegeName.includes('N-13') ||
-        privilege.privilegeName.includes('N-14') ||
-        privilege.privilegeName.includes('N-15') ||
-        privilege.privilegeName.includes('N-16')
-    );
+    this.privilege = JSON.parse(this.cookies.get('privilege'));
+    console.log(this.privilege);
+    const repObjects = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const repObject = {
+        rep1: this.privilege[`rep${i}`],
+      };
+      repObjects.push(repObject);
+    }
+
+    this.privilegeList.push(...repObjects);
+    this.privilegeList.push({rep1:1})
+    console.log(this.privilegeList);
+    // this.privilegeFilterList =  this.privilegeList = this.privilege.filter(
+    //   (privilege: { privilegeName: string | string[] }) =>
+    //     privilege.privilegeName.includes('rep1') ||
+    //     privilege.privilegeName.includes('rep2') ||
+    //     privilege.privilegeName.includes('rep3') ||
+    //     privilege.privilegeName.includes('rep4') ||
+    //     privilege.privilegeName.includes('rep5') ||
+    //     privilege.privilegeName.includes('rep6')
+    // );
+    // console.log(this.privilegeFilterList);
     this.sendDataToBackendService();
   }
 
@@ -45,9 +63,10 @@ export class ReportComponent implements OnInit {
         this.numberingReportList = response;
         // const user = this.userService.getUser();
         // console.log(user);
+        let i = 0;
         this.numberingReportList.forEach((item) => {
           // Add additional fields to 'item' as needed
-          let i = 0;
+          console.log(i, this.privilegeList[i]);
           item.privilege = this.privilegeList[i]; // Example: Adding a new field 'additionalField' with a value 'value'
           i++;
         });
@@ -62,10 +81,10 @@ export class ReportComponent implements OnInit {
   linkToAnotherReport(data: any) {
     this.router.navigateByUrl('/report/' + data);
   }
-  checkAccess(access:string):boolean{
-    if(access==='มีสิทธิ์'){
-      return true
-    }else{
+  checkAccess(access: any): boolean {
+    if (access == 1) {
+      return true;
+    } else {
       return false;
     }
   }

@@ -1,15 +1,10 @@
 export interface ReportN13 {
-  createAt?: any;
-  lastModifiedAt?: any;
-  createdBy?: any;
-  lastModifiedBy?: any;
-  id: string;
-  blockId: string;
-  startTel: string;
-  endTel: string;
-  blockStatus: string;
-  reference: string;
-  numberAmountAll: number;
-  numberAmountAssigned: number;
-  numberAmountActive: number;
+  blockId: number;
+  blockStart: string;
+  blockEnd: string;
+  docRef: string;
+  blockStatus: number;
+  qtyNo: number;
+  qtyAssigned: number;
+  qtyActive: number;
 }

@@ -68,12 +68,20 @@
   margin-right: 10PX;
   padding: 20px;
   width: 100%;
+  display: flex;
 }
 .data-footer{
   background-color: #d9d9d9;
   margin-top: 10px;
   margin-right: 30px;
   padding: 20px;
+  width: 100%;
+}
+
+.data-text{
+  display: flex;
+  justify-content: left;
+  align-self: center;
   width: 100%;
 }
 .error-message-title{
@@ -114,6 +122,16 @@
   color: orange;
 }
 
+.active-status {
+  color: green;
+  white-space: pre;
+}
+
+.inactive-status{
+  color: gray;
+  white-space: pre;
+}
+
 :host ::ng-deep {
   .btn1 {
     .p-button {
@@ -142,6 +160,7 @@
     .p-button {
       color: black;
       text-decoration: underline;
+      text-align: left;
       padding: 0px;
       &:focus {
         box-shadow: none;

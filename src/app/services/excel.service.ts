@@ -19,7 +19,7 @@ export class ExcelService {
       bold: true,
       size: 18,
     };
-    let assignedId = excelAssignedObj.assignObj.assignedRangeDetailPK.id;
+    let assignedId = excelAssignedObj.assignObj.assignedId;
     worksheet.getCell('A1').value =
       'Export ข้อมูลรายเลขหมาย assignedId: ' + assignedId;
     // Cell A2
@@ -30,11 +30,11 @@ export class ExcelService {
     };
     worksheet.getCell('A2').value =
       'หมายเลข ' +
-      excelAssignedObj.assignObj.startTel +
+      excelAssignedObj.assignObj.assignedStart +
       ' - ' +
-      excelAssignedObj.assignObj.endTel +
+      excelAssignedObj.assignObj.assignedEnd +
       ' จำนวน ' +
-      excelAssignedObj.assignObj.amount +
+      excelAssignedObj.assignObj.assignedQty +
       ' เลขหมาย ';
 
     // Cell A3
@@ -61,20 +61,20 @@ export class ExcelService {
     ];
 
     // Old Headers to keep
-    const oldHeaders = ['phoneNumber', 'crmStatus', 'updateBy', 'updateDate'];
+    const oldHeaders = ['serviceNo', 'crmStatus', 'modifiedBy', 'crmLastModified'];
 
     // Add headers
     const headers = Object.keys(excelAssignedObj.listPhoneDetail[0])
       .filter((header) => oldHeaders.includes(header))
       .map((header) => {
         switch (header) {
-          case 'phoneNumber':
+          case 'serviceNo':
             return 'หมายเลข';
           case 'crmStatus':
             return 'สถานะใน CRM';
-          case 'updateBy':
+          case 'modifiedBy':
             return 'ข้อมูลล่าสุดโดย';
-          case 'updateDate':
+          case 'crmLastModified':
             return 'ข้อมูลล่าสุดเมื่อ';
           default:
             return header;
@@ -94,30 +94,42 @@ export class ExcelService {
     });
 
     // Add data
-    excelAssignedObj.listPhoneDetail.forEach((item) => {
+    excelAssignedObj.listPhoneDetail.forEach((item,index) => {
       const row: any[] = customHeaders.map((header) => {
         // Modify data if needed
         switch (header) {
           case 'ที่':
-            return item['phoneDetailPK'].no;
+            return index+1;
           case 'หมายเลข':
-            return item['phoneNumber'];
+            return item['serviceNo'];
           case 'รหัสศูนย์บริการ':
-            let serviceLocationCode: string = item['serviceLocation'];
+            let serviceLocationCode: string = item['locationCode'];
             serviceLocationCode = serviceLocationCode.substring(0, 4);
-            console.log(serviceLocationCode);
+            //console.log(serviceLocationCode);
             return serviceLocationCode;
           case 'ชื่อศูนย์บริการ':
-            let serviceLocationName = item['serviceLocation'];
+            let serviceLocationName = item['locationCode'];
             serviceLocationName = serviceLocationName.substring(7);
-            console.log(serviceLocationName);
+            //console.log(serviceLocationName);
             return serviceLocationName;
           case 'สถานะใน CRM':
-            return item['crmStatus'];
+            let crmStatus = item['crmStatus'];
+            if(crmStatus==1){
+              return 'Active'
+            }else {
+              return 'Inactive'
+            }
           case 'ข้อมูลล่าสุดโดย':
-            return item['updateBy'];
+            return item['modifiedBy'];
           case 'ข้อมูลล่าสุดเมื่อ':
-            return moment(item['updateDate']).format('DD/MM/YYYY');
+            console.log("Crm Modifeid : ",item['crmLastModified'],item['lastModified']);
+            if(item['crmLastModified']==null){
+              //console.log("IF");
+              return moment(item['lastModified']).format('DD/MM/YYYY');
+            }else{
+              //console.log("ELSE");
+              return moment(item['crmLastModified']).format('DD/MM/YYYY');
+            }
           default:
             return ''; // Default to empty string if the header doesn't match any property in 'item'
         }
@@ -176,7 +188,7 @@ export class ExcelService {
     };
 
     // Old Headers to keep
-    const oldHeaders = ['id','blockRange','startTel', 'endTel', 'location', 'numberAmount','annualFee'];
+    const oldHeaders = ['id','blockRange','blockStart', 'blockEnd', 'blockArea', 'qty','amt'];
 
     // Add headers
     const headers = Object.keys(excelBlockObj.reportN16DetailList[0])
@@ -187,15 +199,15 @@ export class ExcelService {
             return 'ที่';
           case 'blockRange':
             return 'Block Range';
-          case 'startTel':
+          case 'blockStart':
             return 'หมายเลขเริ่มต้น';
-          case 'endTel':
+          case 'blockEnd':
             return 'หมายเลขสิ้นสุด';
-          case 'location':
+          case 'blockArea':
             return 'พื้นที่';
-          case 'numberAmount':
+          case 'qty':
             return 'จำนวนเลขหมาย';
-          case 'annualFee':
+          case 'amt':
             return 'ค่าธรรมเนียมรายเดือน (บาท)';
           default:
             return header;
@@ -217,15 +229,15 @@ export class ExcelService {
           case 'Block Range':
             return item['blockRange'];
           case 'หมายเลขเริ่มต้น':
-            return item['startTel'];
+            return item['blockStart'];
           case 'หมายเลขสิ้นสุด':
-            return item['endTel'];
+            return item['blockEnd'];
           case 'พื้นที่':
-            return item['location'];
+            return item['blockArea'];
           case 'จำนวนเลขหมาย':
-            return this.addComma(item['numberAmount']);
+            return this.addComma(item['qty']);
           case 'ค่าธรรมเนียมรายเดือน (บาท)':
-            return this.addCommaDecimal(item['annualFee']);
+            return this.addCommaDecimal(item['amt']);
           default:
             return ''; // Default to empty string if the header doesn't match any property in 'item'
         }

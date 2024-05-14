@@ -18,6 +18,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { PaginatorModule } from 'primeng/paginator';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class BlockSearchComponent implements OnInit {
   phoneInfo: string = "";
   haveData:boolean = false;
   blockSearch:string = "";
+  adminFlag:string = this.cookies.get('adminFlag');
   provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
@@ -69,7 +71,8 @@ export class BlockSearchComponent implements OnInit {
     private backendService: BackendService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private cookies:CookieService
   ) {
     this.blockForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
@@ -123,13 +126,15 @@ export class BlockSearchComponent implements OnInit {
       );
     }
     console.log("Block Detail list : ",this.blockDetailList);
-    this.backendService.findAllBlock().subscribe(
+    this.backendService.findAllProvider().subscribe(
       (response) => {
         console.log('Provider Repsponse', response);
+        response[2].providerName = 'TRUE';
+        response.splice(3, 2);
         for (let i of response) {
           this.provider.push({
-            name: i.provide,
-            value: i.provide,
+            name: i.providerName,
+            value: i.providerName,
           });
         }
       },
@@ -156,8 +161,8 @@ export class BlockSearchComponent implements OnInit {
         console.log('Location Reposnse Success', response);
         for (let i of response) {
           this.location.push({
-            name: i.name,
-            value: i.value,
+            name: i,
+            value: i,
           });
         }
       },
@@ -227,6 +232,11 @@ export class BlockSearchComponent implements OnInit {
   assign(data:any){
     console.log(data);
     this.router.navigateByUrl('/block/assignData?id='+data);
+  }
+
+  assignAdmin(data:any){
+    console.log(data);
+    this.router.navigateByUrl('assigned/admin?blockId='+data);
   }
 
   valid() {

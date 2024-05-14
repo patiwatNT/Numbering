@@ -3,11 +3,11 @@
   <div class="line"></div>
   <div class="assigned-blog" *ngIf="loading else assignBlog">
     <div class="data-rows">
-      <div class="data-header">ที่</div>
-      <div class="data-detail" style="width: 30%">Provider</div>
-      <div class="data-detail" style="width: 170%">Provider Description</div>
-      <div class="data-detail" style="width: 70%">จำนวนช่วง</div>
-      <div class="data-footer" style="width: 70%">จำนวนเลขหมาย</div>
+      <div class="data-header"><b>ที่</b></div>
+      <div class="data-detail" style="width: 30%"><b>Provider</b></div>
+      <div class="data-detail" style="width: 170%"><b>Provider Description</b></div>
+      <div class="data-detail" style="width: 70%"><b>จำนวนช่วง</b></div>
+      <div class="data-footer" style="width: 70%"><b>จำนวนเลขหมาย</b></div>
     </div>
     <div *ngFor="let i of [1,2,3,4]">
       <div class="data-rows">
@@ -29,11 +29,11 @@
   <ng-template #assignBlog>
     <div class="assigned-blog">
     <div class="data-rows">
-        <div class="data-header">ที่</div>
-        <div class="data-detail" style="width: 30%">Provider</div>
-        <div class="data-detail" style="width: 170%">Provider Description</div>
-        <div class="data-detail" style="width: 70%">จำนวนช่วง</div>
-        <div class="data-footer" style="width: 70%">จำนวนเลขหมาย</div>
+        <div class="data-header"><b>ที่</b></div>
+        <div class="data-detail" style="width: 30%"><b>Provider</b></div>
+        <div class="data-detail" style="width: 170%"><b>Provider Description</b></div>
+        <div class="data-detail" style="width: 70%"><b>จำนวนช่วง</b></div>
+        <div class="data-footer" style="width: 70%"><b>จำนวนเลขหมาย</b></div>
       </div>
       <div *ngFor="let i of assignList">
         <div class="data-rows">

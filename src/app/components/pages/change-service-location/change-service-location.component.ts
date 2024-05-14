@@ -63,26 +63,23 @@ export class ChangeServiceLocationComponent implements OnInit{
       this.assignRangeId  = params['assignRangeId'];
     })
     this.loading = true;
-    this.backendService.findAssignedRangeDetail(this.assignRangeId).subscribe(
+    this.backendService.findAssignedById(this.assignRangeId).subscribe(
       (response)=>{
         console.log('Get Response Success',response);
         this.phoneInfo = response
         this.excelObj.assignObj = response;
-        this.loading = false;
-        console.log(this.excelObj.assignObj.assignedRangeDetailPK.id);
       },
       (error)=>{
         console.log('Error',error);
       }
     )
-    this.backendService.findPhoneDetail(this.assignRangeId).subscribe(
+    this.backendService.findAssignedRangeDetail(this.assignRangeId).subscribe(
       (reponse)=>{
         console.log('Get Response Success',reponse);
         this.phoneDetailList = reponse;
         this.excelObj.listPhoneDetail = reponse;
-        this.loading = false;
-        this.totalPage = Math.ceil(this.phoneDetailList.length/this.rows);
         this.updatePagedData(0)
+        this.loading = false;
       },
       (error)=>{
         console.log('Error',error);
@@ -103,6 +100,7 @@ export class ChangeServiceLocationComponent implements OnInit{
     const endIndex = startIndex + this.rows;
     console.log(endIndex);
     this.pagedData = this.phoneDetailList.slice(startIndex, endIndex);
+    this.totalPage = Math.ceil(this.phoneDetailList.length/this.rows);
     console.log(this.pagedData);
   }
 
@@ -118,12 +116,14 @@ export class ChangeServiceLocationComponent implements OnInit{
   changeServiceLocation(data:any){
     console.log('change service location');
     this.temp = data;
+    console.log(this.temp);
     this.visible = true;
     this.backendService.findServiceLocation().subscribe(
       (response)=>{
         console.log("Get Response Success",response);
         this.serviceLocation = response;
-        this.selectedLocation = this.temp.serviceLocation.slice(0,this.temp.serviceLocation.lastIndexOf(':')-1);
+        this.selectedLocation = this.temp.locationCode.slice(0,this.temp.locationCode.lastIndexOf(':'));
+        console.log(this.selectedLocation);
       },
       (error)=>{
         console.log("Error",error);
@@ -144,7 +144,8 @@ export class ChangeServiceLocationComponent implements OnInit{
         console.log('ยืนยันการเพิ่มข่าว');
         console.log(this.selectedLocation);
         let phoneDetailDto:any = {}
-        phoneDetailDto = {"phoneNumber":data,"serviceLocation":this.selectedLocation}
+        phoneDetailDto = {"serviceNo":data,"locationCode":this.selectedLocation}
+        console.log(phoneDetailDto);
         this.backendService.updateServiceLocation(phoneDetailDto).subscribe(
           (response)=>{
             console.log("Get Response Success",response);

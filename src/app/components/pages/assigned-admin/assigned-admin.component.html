@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="assigned-admin-header" style="font-weight: bold;">Admin จัดการช่วง Assigned ใน Block ID {{blockId}}</div>
+    <div class="line"></div>
+    <div class="assigned-admin-container">
+        <div style="margin-top: 10px;"></div>
+        <div class="data-rows">
+            <div class="data" style="margin-left: 20px;"><div class="data-text" style="font-weight: bold;">Block ID</div></div>
+            <div class="data"><div class="data-text" style="font-weight: bold;">Block Start</div></div>
+            <div class="data"><div class="data-text" style="font-weight: bold;">Block End</div></div>
+            <div class="data"><div class="data-text" style="font-weight: bold;">จำนวน</div></div>
+            <div class="data"><div class="data-text" style="font-weight: bold;">Provider</div></div>
+            <div class="data"><div class="data-text" style="font-weight: bold;">พื้นที่/สำนัก</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text" style="font-weight: bold;">สถานะ</div></div>
+        </div>
+        <div class="data-rows">
+            <div class="data" style="margin-left: 20px;"><div class="data-text">{{blockObj.blockId}}</div></div>
+            <div class="data"><div class="data-text">{{blockObj.blockStart}}</div></div>
+            <div class="data"><div class="data-text">{{blockObj.blockEnd}}</div></div>
+            <div class="data"><div class="data-text">{{blockObj.blockAmount}}</div></div>
+            <div class="data"><div class="data-text">{{blockObj.provider}}</div></div>
+            <div class="data"><div class="data-text">{{blockObj.blockArea}}</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text" [ngClass]="{
+                'active-text': blockObj.blockStatus == 1,
+                'inactive-text': blockObj.blockStats == 0,
+                'inprogress-text': blockObj.blockStats == 2
+              }" >{{blockObj.blockStatus == 1 ? 'ยังใช้งาน':blockObj.blockStats == 0 ? 'คืน กสทช. แล้ว' :'อยู่ระหว่างดำเนินการคืน กสทช.'}}</div></div>
+        </div>
+    </div>
+</div>
+<div style="margin-bottom: 20px;"></div>
+<div class="container">
+    <div class="assigned-admin-header" style="font-weight: bold;">
+        <p-button label="เพิ่มช่วง Assigned" class="btn1" (onClick)="addAssignedRange()"></p-button>
+    </div>
+    <div class="assigned-admin-container">
+        <div style="margin-top: 10px;"></div>
+        <div class="data-rows">
+            <div class="data" style="margin-left: 20px; width: 10%;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 100%;"><div class="data-text"><b>Station Name</b></div></div>
+            <div class="data" style="width: 100%;"><div class="data-text"><b>หมายเลขเริ่มต้น</b></div></div>
+            <div class="data" style="width: 100%;"><div class="data-text"><b>หมายเลขสิ้นสุด</b></div></div>
+            <div class="data" style="width: 60%;"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data"  style="width: 60%"><div class="data-text"><b>ระบุ Location</b></div></div>
+            <div class="data"  style="width: 60%"><div class="data-text"><b>ไม่ระบุ Location</b></div></div>
+            <div class="data" style="width: 80%;"><div class="data-text"><b>พร้อมให้บริการ (เลขหมาย)</b></div></div>
+            <div class="data" style="width: 50%;"><div class="data-text"><b>Provider</b></div></div>
+            <div class="data" style="width: 50%"><div class="data-text"><b>พื้นที่</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>Action</b></div></div>
+          </div>
+        <div *ngFor="let item of pagedData;let index = index">
+              <div class="data-rows">
+                <div class="data" style="margin-left: 20px; width: 10%;"><div class="data-text">{{ index+first+1 }}</div></div>
+                <div class="data" style="width: 100%;"><div class="data-text">{{ item.stationNameTh }}</div></div>
+                <div class="data" style="width: 100%;"><div class="data-text">{{ item.assignedStart }}</div></div>
+                <div class="data" style="width: 100%;"><div class="data-text">{{ item.assignedEnd }}</div></div>
+                <div class="data" style="width: 60%;"><div class="data-text">{{ item.assignedQty }}</div></div>
+                <div class="data"  style="width: 60%"><div class="data-text" style="color: green;">{{ item.okLocation==null?'0': item.okLocation}}</div></div>
+                <div class="data"  style="width: 60%"><div class="data-text" style="color: red;">{{ item.noLocation==null?'0':item.noLocation}}</div></div>
+                <div class="data" style="width: 80%;"><div class="data-text">0</div></div>
+                <div class="data" style="width: 50%;"><div class="data-text">{{ 
+                    item.providerId === 1 ? 'TOT' : 
+                    item.providerId === 2 ? 'TT&T' : 
+                    item.providerId === 3 ? 'TRUE-1' : 
+                    item.providerId === 4 ? 'TRUE-2' : 
+                    '0' 
+                }}</div></div>
+                <div class="data" style="width: 50%"><div class="data-text">{{ item.assignedRegion }}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text"><p-button icon="pi pi-exclamation-circle" title="ดูรายละเอียด Assigned"  class="btn2" ></p-button>
+                    <div style="padding: 2px;"></div>
+                    <p-button icon="pi pi-pencil" title="แก้ไขจำนวนพร้อมให้บริการ" class="btn2" ></p-button>
+                    <div style="padding: 2px;"></div>
+                    <p-button icon="pi pi-calendar" title="ดู/แก้ไขเลขหมาย" class="btn2" ></p-button></div></div>
+              </div>
+        </div>
+    </div>
+</div>

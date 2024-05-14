@@ -6,20 +6,20 @@
         <div class="line"></div>
         <div class="report-n11-container" style="width: 95%; margin-left: 30px;">
             <div class="data-rows">
-                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-                <div class="data" style="width: 30%;"><div class="data-text">Provider</div></div>
-                <div class="data" style="width: 30%;"><div class="data-text">สถานะ Block</div></div>
-                <div class="data" style="width: 30%;"><div class="data-text">จำนวน Block</div></div>
+                <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+                <div class="data" style="width: 30%;"><div class="data-text"><b>Provider</b></div></div>
+                <div class="data" style="width: 30%;"><div class="data-text"><b>สถานะ Block</b></div></div>
+                <div class="data" style="width: 30%;"><div class="data-text"><b>จำนวน Block</b></div></div>
                 <div class="number-amount-group">
-                    <div class="data" style="width: 98%;justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                    <div class="data" style="width: 98%;justify-content: center;"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
                         <div class="number-amount-subgroup">
-                            <div class="data"><div class="data-text">ทั้งหมด</div></div>
-                            <div class="data"><div class="data-text">Assigned</div></div>
-                            <div class="data"><div class="data-text">Active<br>(Assigned)</div></div>
-                            <div class="data"><div class="data-text">Active<br>(Not Assigned)</div></div>
+                            <div class="data"><div class="data-text"><b>ทั้งหมด</b></div></div>
+                            <div class="data"><div class="data-text"><b>Assigned</b></div></div>
+                            <div class="data"><div class="data-text"><b>Active<br>(Assigned)</b></div></div>
+                            <div class="data"><div class="data-text"><b>Active<br>(Not Assigned)</b></div></div>
                     </div>
                 </div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
             </div>
             <div *ngFor="let i of [1,2,3]">
                     <div class="data-rows">
@@ -65,23 +65,22 @@
     <div class="line"></div>
     <div class="report-n11-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">Provider</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">สถานะ Block</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">จำนวน Block</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>Provider</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>สถานะ Block</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>จำนวน Block</b></div></div>
             <div class="number-amount-group">
-                <div class="data" style="width: 98%;justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                <div class="data" style="width: 98%;justify-content: center;"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
                     <div class="number-amount-subgroup">
-                        <div class="data"><div class="data-text">ทั้งหมด</div></div>
-                        <div class="data"><div class="data-text">Assigned</div></div>
-                        <div class="data"><div class="data-text">Active<br>(Assigned)</div></div>
-                        <div class="data"><div class="data-text">Active<br>(Not Assigned)</div></div>
+                        <div class="data"><div class="data-text"><b>ทั้งหมด</b></div></div>
+                        <div class="data"><div class="data-text"><b>Assigned</b></div></div>
+                        <div class="data"><div class="data-text"><b>Active<br>(Assigned)</b></div></div>
+                        <div class="data"><div class="data-text"><b>Active<br>(Not Assigned)</b></div></div>
                 </div>
             </div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
         </div>
-        <div *ngFor="let i of reportN11List; let index = index">
-            <div *ngIf="i.blockStatus==='ST001'">
+        <div *ngFor="let i of reportN11ActiveList; let index = index">
                 <div class="data-rows">
                     <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
                     <div class="data" style="width: 30%;">
@@ -91,32 +90,31 @@
                             </p-button>
                         </div>
                     </div>
-                    <div class="data" style="width: 30%;"><div class="data-text" style="color: green;">ยังใช้งาน</div></div>
-                    <div class="data" style="width: 30%;"><div class="data-text">{{i.blockAmount}}</div></div>
+                    <div class="data" style="width: 30%;"><div class="data-text" style="color: green;"><b>ยังใช้งาน</b></div></div>
+                    <div class="data" style="width: 30%;"><div class="data-text">{{i.qtyBlock}}</div></div>
                     <div class="number-amount-group">
                             <div class="number-amount-subgroup">
-                                <div class="data"><div class="data-text">{{i.numberAmountAll}}</div></div>
-                                <div class="data"><div class="data-text">{{i.numberAmountAssigned}}</div></div>
-                                <div class="data"><div class="data-text">{{i.numberAmountAssignedActive}}</div></div>
-                                <div class="data"><div class="data-text">{{i.numberAmountNotAssigned}}</div></div>
+                                <div class="data"><div class="data-text">{{i.qtyNo}}</div></div>
+                                <div class="data"><div class="data-text">{{i.qtyAssigned}}</div></div>
+                                <div class="data"><div class="data-text">{{i.qtyActive}}</div></div>
+                                <div class="data"><div class="data-text">{{i.qtyActiveAssigned}}</div></div>
                         </div>
                     </div>
-                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.feeAmount}}</div></div>
+                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.qtyPay}}</div></div>
                 </div>
-            </div>
         </div>
           <div class="data-rows">
-            <div class="data" style="margin-left: 20px;"><div class="data-text">รวม</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmount }}</div></div>
+            <div class="data" style="margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmountActive }}</div></div>
             <div class="number-amount-group">
                 <div class="number-amount-subgroup">
-                    <div class="data"><div class="data-text">{{ sumNumberAmountAll }}</div></div>
+                    <div class="data"><div class="data-text">{{ sumNumberAmountAllActive }}</div></div>
                     <div class="data"><div class="data-text">{{ sumNumberAmountAssigned }}</div></div>
                     <div class="data"><div class="data-text">{{ sumNumberAmountAssignedActive }}</div></div>
                     <div class="data"><div class="data-text">{{ sumNumberAmountNotAssigned }}</div></div>
                 </div>
             </div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmount }}</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmountActive }}</div></div>
         </div>
         <div style="padding-bottom: 10px;"></div>
     </div>
@@ -125,35 +123,33 @@
     </div>
     <div class="report-n11-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">Provider</div></div>
-            <div class="data"><div class="data-text">สถานะ Block</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">จำนวน Block</div></div>
-            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>Provider</b></div></div>
+            <div class="data"><div class="data-text"><b>สถานะ Block</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>จำนวน Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
         </div>
-        <div *ngFor="let i of reportN11List; let index = index">
-            <div *ngIf="i.blockStatus==='ST003'">
+        <div *ngFor="let i of reportN11InprogressList; let index = index">
                 <div class="data-rows">
-                    <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1-activeIndex}}</div></div>
+                    <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
                     <div class="data" style="width: 30%;"><div class="data-text">
                         <div class="data-text">
                         <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showProviderDetail(i.provider,i.blockStatus)">
                             {{ i.provider }}
                         </p-button>
                     </div></div></div>
-                    <div class="data"><div class="data-text" style="color: orange;">อยู่ระหว่างดำเนินการคืน กสทช</div></div>
-                    <div class="data" style="width: 30%;"><div class="data-text">{{i.blockAmount}}</div></div>
-                    <div class="data"><div class="data-text">{{i.numberAmountAll}}</div></div>
-                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.feeAmount}}</div></div>
+                    <div class="data"><div class="data-text" style="color: orange;"><b>อยู่ระหว่างดำเนินการคืน กสทช</b></div></div>
+                    <div class="data" style="width: 30%;"><div class="data-text">{{i.qtyBlock}}</div></div>
+                    <div class="data"><div class="data-text">{{i.qtyNo}}</div></div>
+                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.qtyPay}}</div></div>
                 </div>
             </div>
-        </div>
           <div class="data-rows">
-            <div class="data" style="width: 168.5%; margin-left: 20px;"><div class="data-text">รวม</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmount }}</div></div>
-            <div class="data"><div class="data-text">{{ sumNumberAmountAll }}</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmount }}</div></div>
+            <div class="data" style="width: 168.5%; margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmountInProgress }}</div></div>
+            <div class="data"><div class="data-text">{{ sumNumberAmountAllInProgress }}</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmountInProgress }}</div></div>
         </div>
         <div style="padding-bottom: 10px;"></div>
     </div>
@@ -162,34 +158,32 @@
     </div>
     <div class="report-n11-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">Provider</div></div>
-            <div class="data"><div class="data-text">สถานะ Block</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">จำนวน Block</div></div>
-            <div class="data"><div class="data-text">จำนวนเลขหมาย</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>Provider</b></div></div>
+            <div class="data"><div class="data-text"><b>สถานะ Block</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text"><b>จำนวน Block</b></div></div>
+            <div class="data"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
         </div>
-        <div *ngFor="let i of reportN11List; let index = index">
-            <div *ngIf="i.blockStatus==='ST002'">
+        <div *ngFor="let i of reportN11InactiveList; let index = index">
                 <div class="data-rows">
-                    <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1-activeIndex-inprogressIndex}}</div></div>
+                    <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
                     <div class="data" style="width: 30%;"><div class="data-text"><div class="data-text">
                         <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showProviderDetail(i.provider,i.blockStatus)">
                             {{ i.provider }}
                         </p-button>
                     </div></div></div>
-                    <div class="data"><div class="data-text" style="color: red;">คืน กสทช. แล้ว</div></div>
-                    <div class="data" style="width: 30%;"><div class="data-text">{{i.blockAmount}}</div></div>
-                    <div class="data"><div class="data-text">{{i.numberAmountAll}}</div></div>
-                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.feeAmount}}</div></div>
+                    <div class="data"><div class="data-text" style="color: red;"><b>คืน กสทช. แล้ว</b></div></div>
+                    <div class="data" style="width: 30%;"><div class="data-text">{{i.qtyBlock}}</div></div>
+                    <div class="data"><div class="data-text">{{i.qtyNo}}</div></div>
+                    <div class="data" style="margin-right: 20px;"><div class="data-text">{{i.qtyPay}}</div></div>
                 </div>
             </div>
-        </div>
           <div class="data-rows">
-            <div class="data" style="width: 168.5%; margin-left: 20px;"><div class="data-text">รวม</div></div>
-            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmount }}</div></div>
-            <div class="data"><div class="data-text">{{ sumNumberAmountAll }}</div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmount }}</div></div>
+            <div class="data" style="width: 168.5%; margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
+            <div class="data" style="width: 30%;"><div class="data-text">{{ sumBlockAmountInactive }}</div></div>
+            <div class="data"><div class="data-text">{{ sumNumberAmountAllInactive }}</div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text">{{ sumFeeAmountInactive }}</div></div>
         </div>
         <div style="padding-bottom: 10px;"></div>
     </div>

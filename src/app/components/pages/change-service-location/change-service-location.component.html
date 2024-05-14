@@ -1,13 +1,13 @@
 <div class="container">
   <div class="change-service-location-header" *ngIf="!loading;else locationHeader">
     <div>
-      <b>หมายเลข</b> {{ phoneInfo.startTel }}-{{ phoneInfo.endTel }}
-      <b>จำนวน</b> {{ phoneInfo.amount }} เลขหมาย<br />
+      <b>หมายเลข</b> {{ phoneInfo.assignedStart }}-{{ phoneInfo.assignedEnd }}
+      <b>จำนวน</b> {{ phoneInfo.assignedQty }} เลขหมาย<br />
       <b>ผลการค้นหา</b> {{ phoneDetailList.length }} รายการ : จำนวน {{totalPage}} หน้า<br />
-      <b>Station Code</b> : {{ phoneInfo.stationCode }} <b>ชื่อย่อ Station:</b>
-      {{ phoneInfo.stationNameShort }} <b>ชื่อ Station (ไทย):</b>
-      {{ phoneInfo.stationNameTh }} <b>ชื่อ Station (อังกฤษ):</b>
-      {{ phoneInfo.stationNameEn }}
+      <span *ngIf="phoneInfo.stationCode!=null"><b>Station Code</b> : {{ phoneInfo.stationCode }} </span>
+      <span *ngIf="phoneInfo.stationNameShort!=null"><b>ชื่อย่อ Station</b> : {{ phoneInfo.stationNameShort }} </span>
+      <span *ngIf="phoneInfo.stationNameTh!=null"><b>ชื่อ Station (ไทย)</b> : {{ phoneInfo.stationNameTh }} </span>
+      <span *ngIf="phoneInfo.stationNameEn!=null"><b>ชื่อ Station (อังกฤษ)</b> : {{ phoneInfo.stationNameEn }}</span>
     </div>
     <p-button label="excel" class="excel-btn" (onClick)="exportExcel()"></p-button>
   </div>
@@ -30,17 +30,17 @@
   <div class="change-service-location-container" *ngIf="!loading; else locationContainer">
     <div class="data-rows">
       <div class="data" style="width: 30%; margin-left: 30px">
-        <div class="data-text">ที่</div>
+        <div class="data-text"><b>ที่</b></div>
       </div>
-      <div class="data"><div class="data-text">หมายเลข</div></div>
+      <div class="data"><div class="data-text"><b>หมายเลข</b></div></div>
       <div class="data">
-        <div class="data-text">ศูนย์บริการฯ <br />(Service Location)</div>
+        <div class="data-text"><b>ศูนย์บริการฯ <br />(Service Location)</b></div>
       </div>
-      <div class="data"><div class="data-text">สถานะใน CRM</div></div>
-      <div class="data"><div class="data-text">ข้อมูลล่าสุดโดย</div></div>
-      <div class="data"><div class="data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+      <div class="data"><div class="data-text"><b>สถานะใน CRM</b></div></div>
+      <div class="data"><div class="data-text"><b>ข้อมูลล่าสุดโดย</b></div></div>
+      <div class="data"><div class="data-text"><b>ข้อมูลล่าสุดเมื่อ</b></div></div>
       <div class="data" style="width: 50%; margin-right: 30px">
-        <div class="data-text">Action</div>
+        <div class="data-text"><b>Action</b></div>
       </div>
     </div>
     <div class="data-rows" *ngFor="let i of pagedData; let index = index">
@@ -48,38 +48,38 @@
         <div class="data-text">{{ index + first + 1 }}</div>
       </div>
       <div class="data">
-        <div class="data-text">{{ i.phoneNumber }}</div>
+        <div class="data-text">{{ i.serviceNo }}</div>
       </div>
       <div class="data">
-        <div class="data-text">{{ i.serviceLocation }}</div>
+        <div class="data-text">{{ i.locationCode }}</div>
       </div>
       <div class="data">
         <div
           class="data-text"
           [ngClass]="{
-            'success-text': i.crmStatus == 'Active',
-            'false-text': i.crmStatus == 'Inactive'
+            'success-text': i.crmStatus == '1',
+            'false-text': i.crmStatus == '2'
           }"
         >
-          {{ i.crmStatus }}
+          <b>{{ i.crmStatus =='1' ? 'Active':i.crmStatus =='2' ? 'Inactive':''}}</b>
         </div>
       </div>
       <div class="data">
-        <div class="data-text">{{ i.updateBy }}</div>
+        <div class="data-text">{{ i.modifiedBy }}</div>
       </div>
       <div class="data">
-        <div class="data-text">{{ convertDate(i.updateDate) }}</div>
+        <div class="data-text">{{ i.crmLastModified!=null ? convertDate(i.crmLastModified) : '' }}</div>
       </div>
       <div class="data" style="width: 50%; margin-right: 30px">
         <div
           class="data-text"
-          *ngIf="i.crmStatus == 'Inactive'; else showButton"
+          *ngIf="i.crmStatus == '2'; else showButton"
         >
           <p-button
             icon="pi pi-search"
             title="ดูแลรายละเอียดเลขหมาย"
             class="btn2"
-            (onClick)="showPhoneInfo(i.phoneNumber)"
+            (onClick)="showPhoneInfo(i.serviceNo)"
           ></p-button>
           <div style="padding: 6px"></div>
           <p-button
@@ -95,7 +95,7 @@
               icon="pi pi-search"
               title="ดูแลรายละเอียดเลขหมาย"
               class="btn2"
-              (onClick)="showPhoneInfo(i.phoneNumber)"
+              (onClick)="showPhoneInfo(i.serviceNo)"
             ></p-button>
           </div>
         </ng-template>
@@ -156,7 +156,7 @@
         [resizable]="false"
       >
         <ng-template pTemplate="header">
-          <div class="dialog-detail-assigned">หมายเลข : {{ temp.phoneNumber }}</div>
+          <div class="dialog-detail-assigned">หมายเลข : {{ temp.serviceNo }}</div>
         </ng-template>
         <div class="dialog-data-container">
           <div class="dialog-data-rows">
@@ -177,22 +177,22 @@
           </div>
           <div class="dialog-data-rows">
             <div class="dialog-data"><div class="dialog-data-text">สถานะใน CRM</div></div>
-            <div class="dialog-data"><div class="dialog-data-text">{{ temp.crmStatus }}</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{ temp.crmStatus == '1'?'Active':'Inactive'}}</div></div>
           </div>
           <div class="dialog-data-rows">
             <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดเมื่อ</div></div>
-            <div class="dialog-data"><div class="dialog-data-text">{{ convertDate(temp.updateDate) }}</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{ temp.crmLastModified != null ? convertDate(temp.crmLastModified) : '' }}</div></div>
           </div>
           <div class="dialog-data-rows">
             <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดโดย</div></div>
-            <div class="dialog-data"><div class="dialog-data-text">{{temp.updateBy}}</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{temp.modifiedBy}}</div></div>
           </div>
         </div>
         <ng-template pTemplate="footer">
           <p-confirmDialog></p-confirmDialog>
           <p-button
             icon="pi pi-check"
-            (onClick)="Confirm(temp.phoneNumber)"
+            (onClick)="Confirm(temp.serviceNo)"
             label="บันทึกการแก้ไข"
             pAutoFocus
             [autofocus]="true"
@@ -221,17 +221,17 @@
     <div class="change-service-location-container">
       <div class="data-rows">
         <div class="data" style="width: 30%; margin-left: 30px">
-          <div class="data-text">ที่</div>
+          <div class="data-text"><b>ที่</b></div>
         </div>
-        <div class="data"><div class="data-text">หมายเลข</div></div>
+        <div class="data"><div class="data-text"><b>หมายเลข</b></div></div>
         <div class="data">
-          <div class="data-text">ศูนย์บริการฯ <br />(Service Location)</div>
+          <div class="data-text"><b>ศูนย์บริการฯ <br />(Service Location)</b></div>
         </div>
-        <div class="data"><div class="data-text">สถานะใน CRM</div></div>
-        <div class="data"><div class="data-text">ข้อมูลล่าสุดโดย</div></div>
-        <div class="data"><div class="data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+        <div class="data"><div class="data-text"><b>สถานะใน CRM</b></div></div>
+        <div class="data"><div class="data-text"><b>ข้อมูลล่าสุดโดย</b></div></div>
+        <div class="data"><div class="data-text"><b>ข้อมูลล่าสุดเมื่อ</b></div></div>
         <div class="data" style="width: 50%; margin-right: 30px">
-          <div class="data-text">Action</div>
+          <div class="data-text"><b>Action</b></div>
         </div>
       </div>
       <div *ngFor="let i of[1,2,3]">

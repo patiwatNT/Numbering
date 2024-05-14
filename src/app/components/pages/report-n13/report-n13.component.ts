@@ -31,9 +31,9 @@ export class ReportN13Component implements OnInit{
         //this.updatePagedData(0);
 
         // Add Comma in Sum Section
-        const sumNumberAmountAll = this.reportN13List.reduce((acc, curr) => acc + curr.numberAmountAll,0);
-        const sumNumberAmountAssigned = this.reportN13List.reduce((acc, curr) => acc + curr.numberAmountAssigned,0);
-        const sumNumberAmountActive = this.reportN13List.reduce((acc, curr) => acc + curr.numberAmountActive,0);
+        const sumNumberAmountAll = this.reportN13List.reduce((acc, curr) => acc + curr.qtyNo,0);
+        const sumNumberAmountAssigned = this.reportN13List.reduce((acc, curr) => acc + curr.qtyAssigned,0);
+        const sumNumberAmountActive = this.reportN13List.reduce((acc, curr) => acc + curr.qtyActive,0);
         this.sumNumberAmountAll = this.addComma(sumNumberAmountAll);
         this.sumNumberAmountAssigned = this.addComma(sumNumberAmountAssigned);
         this.sumNumberAmountActive = this.addComma(sumNumberAmountActive);
@@ -41,9 +41,9 @@ export class ReportN13Component implements OnInit{
         // Add Comma to Value in BlockList
         this.reportN13List = response.map((item:ReportN13) => ({
           ...item,
-          numberAmountAll: this.addComma(item.numberAmountAll),
-          numberAmountAssigned: this.addComma(item.numberAmountAssigned),
-          sumNumberAmountActive: this.addComma(item.numberAmountActive),
+          qtyNo: this.addComma(item.qtyNo),
+          qtyAssigned: this.addComma(item.qtyAssigned),
+          qtyActive: this.addComma(item.qtyActive),
           }));
           this.loading = false;
         
@@ -63,11 +63,11 @@ export class ReportN13Component implements OnInit{
   }
 
   replaceStatus(data:any):string{
-    if(data==='ST001'){
-      return 'ยังใช้งาน'
-    }else if(data==='ST002'){
+    if(data==1){
+      return 'ใช้งาน'
+    }else if(data==0){
       return 'คืน กสทช. แล้ว'
-    }else if(data==='ST003'){
+    }else if(data==2){
       return 'อยู่ระหว่างดำเนินการคืน กสทช'
     }else{
       return data;

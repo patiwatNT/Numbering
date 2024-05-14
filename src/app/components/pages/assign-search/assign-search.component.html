@@ -11,7 +11,7 @@
           placeholder="หมายเลขโทรศัพท์"
           formControlName="phoneInfo"
           style="width: 100%"
-          [(ngModel)]="assignSearch"
+          [(ngModel)]="phoneInfo"
         />
         <div
         *ngIf="
@@ -60,6 +60,7 @@
           placeholder="Block Id"
           formControlName="blockId"
           style="width: 100%"
+          [(ngModel)]="blockId"
         />
         <div
         *ngIf="
@@ -80,17 +81,17 @@
     <div class="line"></div>
     <div class="assigned-search-detail-container" *ngIf="loading; else assignedSearchDetail">
       <div class="data-rows">
-        <div class="data-header"><div class="data-detail-text">ที่</div></div>
-        <div class="data-detail" style="width: 150%;"><div class="data-detail-text">Station Code</div></div>
-        <div class="data-detail" style="width: 150%;"><div class="data-detail-text">Station Name</div></div>
-        <div class="data-detail" style="width: 150%;"><div class="data-detail-text">หมายเลขเริ่มต้น</div></div>
-        <div class="data-detail" style="width: 150%;"><div class="data-detail-text">หมายเลขสิ้นสุด</div></div>
-        <div class="data-detail"><div class="data-detail-text">จำนวนเลขหมาย</div></div>
-        <div class="data-detail"  style="width: 80%"><div class="data-detail-text">ระบุ Location</div></div>
-        <div class="data-detail"  style="width: 80%"><div class="data-detail-text">ไม่ระบุ Location</div></div>
-        <div class="data-detail"><div class="data-detail-text">Provider</div></div>
-        <div class="data-detail" style="width: 50%"><div class="data-detail-text">พื้นที่</div></div>
-        <div class="data-footer"><div class="data-detail-text">Action</div></div>
+        <div class="data-header"><div class="data-detail-text"><b>ที่</b></div></div>
+        <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>Station Code</b></div></div>
+        <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>Station Name</b></div></div>
+        <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>หมายเลขเริ่มต้น</b></div></div>
+        <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>หมายเลขสิ้นสุด</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>จำนวนเลขหมาย</b></div></div>
+        <div class="data-detail"  style="width: 80%"><div class="data-detail-text"><b>ระบุ Location</b></div></div>
+        <div class="data-detail"  style="width: 80%"><div class="data-detail-text"><b>ไม่ระบุ Location</b></div></div>
+        <div class="data-detail"><div class="data-detail-text"><b>Provider</b></div></div>
+        <div class="data-detail" style="width: 50%"><div class="data-detail-text"><b>พื้นที่</b></div></div>
+        <div class="data-footer"><div class="data-detail-text"><b>Action</b></div></div>
       </div>
       <div *ngFor="let i of pagedData;let index = index">
         <div class="data-rows">
@@ -111,34 +112,44 @@
     <ng-template #assignedSearchDetail>
       <div class="assigned-search-detail-container" *ngIf="responseLoading&&pagedData.length!=0">
         <div class="data-rows">
-          <div class="data-header"><div class="data-detail-text">ที่</div></div>
-          <div class="data-detail" style="width: 150%;"><div class="data-detail-text">Station Code</div></div>
-          <div class="data-detail" style="width: 150%;"><div class="data-detail-text">Station Name</div></div>
-          <div class="data-detail" style="width: 150%;"><div class="data-detail-text">หมายเลขเริ่มต้น</div></div>
-          <div class="data-detail" style="width: 150%;"><div class="data-detail-text">หมายเลขสิ้นสุด</div></div>
-          <div class="data-detail"><div class="data-detail-text">จำนวนเลขหมาย</div></div>
-          <div class="data-detail"  style="width: 80%"><div class="data-detail-text">ระบุ Location</div></div>
-          <div class="data-detail"  style="width: 80%"><div class="data-detail-text">ไม่ระบุ Location</div></div>
-          <div class="data-detail"><div class="data-detail-text">Provider</div></div>
-          <div class="data-detail" style="width: 50%"><div class="data-detail-text">พื้นที่</div></div>
-          <div class="data-footer"><div class="data-detail-text">Action</div></div>
+          <div class="data-header"><div class="data-detail-text"><b>ที่</b></div></div>
+          <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>Station Code</b></div></div>
+          <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>Station Name</b></div></div>
+          <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>หมายเลขเริ่มต้น</b></div></div>
+          <div class="data-detail" style="width: 150%;"><div class="data-detail-text"><b>หมายเลขสิ้นสุด</b></div></div>
+          <div class="data-detail"><div class="data-detail-text"><b>จำนวนเลขหมาย</b></div></div>
+          <div class="data-detail"  style="width: 80%"><div class="data-detail-text"><b>ระบุ Location</b></div></div>
+          <div class="data-detail"  style="width: 80%"><div class="data-detail-text"><b>ไม่ระบุ Location</b></div></div>
+          <div class="data-detail"><div class="data-detail-text"><b>Provider</b></div></div>
+          <div class="data-detail" style="width: 50%"><div class="data-detail-text"><b>พื้นที่</b></div></div>
+          <div class="data-footer"><div class="data-detail-text"><b>Action</b></div></div>
         </div>
         <div *ngFor="let i of pagedData;let index = index">
           <div class="data-rows">
             <div class="data-header"><div class="data-detail-text">{{ index+first+1 }}</div></div>
             <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.stationCode }}</div></div>
-            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.stationName }}</div></div>
-            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.startTel }}</div></div>
-            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.endTel }}</div></div>
-            <div class="data-detail"><div class="data-detail-text">{{ i.telAmount }}</div></div>
-            <div class="data-detail"  style="width: 80%"><div class="data-detail-text" style="color: green;">{{ i.assignedLocation }}</div></div>
-            <div class="data-detail" style="width: 80%"><div class="data-detail-text" style="color: red;">{{ i.unassginedLocation }}</div></div>
-            <div class="data-detail"><div class="data-detail-text">{{ i.provider }}</div></div>
-            <div class="data-detail" style="width: 50%;"><div class="data-detail-text">{{ i.location }}</div></div>
+            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.stationNameTh }}</div></div>
+            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.assignedStart }}</div></div>
+            <div class="data-detail" style="width: 150%;"><div class="data-detail-text">{{ i.assignedEnd }}</div></div>
+            <div class="data-detail"><div class="data-detail-text">{{ i.assignedQty }}</div></div>
+            <div class="data-detail"  style="width: 80%"><div class="data-detail-text" style="color: green;">{{ i.okLocation==null?'0': i.okLocation}}</div></div>
+            <div class="data-detail" style="width: 80%"><div class="data-detail-text" style="color: red;">{{ i.noLocation==null?'0':i.noLocation}}</div></div>
+            <div class="data-detail"><div class="data-detail-text">
+              {{ 
+                i.providerId === 1 ? 'TOT' : 
+                i.providerId === 2 ? 'TT&T' : 
+                i.providerId === 3 ? 'TRUE-1' : 
+                i.providerId === 4 ? 'TRUE-2' : 
+                '0' 
+            }}
+              </div></div>
+            <div class="data-detail" style="width: 50%;"><div class="data-detail-text">{{ i.assignedRegion }}</div></div>
               <div class="data-footer-assign"><div class="data-detail-text">
-                <p-button icon="pi pi-exclamation-circle" title="ดูแลรายละเอียด Assigned"  class="btn2" (onClick)="showDialog(i.no)"></p-button>
-                <div style="padding: 6px;"></div>
-                <p-button icon="pi pi-calendar" title="ดู/แก้ไขเลขหมาย" class="btn2" (onClick)="changeServiceLocation(assignedForm.value.phoneInfo,i.no)"></p-button>
+                <p-button icon="pi pi-exclamation-circle" title="ดูรายละเอียด Assigned"  class="btn2" (onClick)="showDialog(i.assignedId)"></p-button>
+                <div style="padding: 2px;"></div>
+                <p-button icon="pi pi-pencil" title="แก้ไขจำนวนพร้อมให้บริการ" class="btn2" (onClick)="editAssigned(i)" *ngIf="adminFlag==='100'"></p-button>
+                <div style="padding: 2px;"></div>
+                <p-button icon="pi pi-calendar" title="ดู/แก้ไขเลขหมาย" class="btn2" (onClick)="changeServiceLocation(assignedForm.value.phoneInfo,i.assignedId)"></p-button>
               </div>
               </div>
           </div>
@@ -221,11 +232,11 @@
             <div class="dialog-data-container">
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">ช่วง Assigned</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.startTel}} - {{assignedRangeDetail.endTel}}</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedStart}} - {{assignedRangeDetail.assignedEnd}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">จำนวน</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.amount}}</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedQty}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">Station Code</div>
@@ -241,7 +252,7 @@
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">ตัวย่อ Station</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.stationNameShort}}</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.stationAbbr}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">โครงการ</div>
@@ -253,7 +264,7 @@
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">ส่วนงาน</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.division}}</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedRegion}}/{{assignedRangeDetail.assignedDept}}/{{assignedRangeDetail.assignedSector}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">Network</div>
@@ -269,11 +280,11 @@
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">Brand</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.brand}}</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.brandName}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">Install Location</div>
-                <div class="dialog-data-footer">{{assignedRangeDetail.installLocation}}</div>
+                <div class="dialog-data-footer">จังหวัด{{assignedRangeDetail.locationName}} {{assignedRangeDetail.postcode}}</div>
               </div>
               <div class="dialog-data-rows">
                 <div class="dialog-data-header">Latitude</div>
@@ -290,7 +301,193 @@
             </div>
           </ng-template>
           
-            </p-dialog>
+        </p-dialog>
+        <form [formGroup]="editAssignedForm">
+        <p-dialog header="Header" [(visible)]="editAssignedVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+          <ng-template pTemplate="header">
+            <div class="dialog-detail-assigned">ระบุจำนวนเลขหมายที่พร้อมให้บริการ</div>
+          </ng-template>
+        <div class="dialog-data-container">
+          <div class="dialog-data-rows">
+            <div class="dialog-data"><div class="dialog-data-text">ระบุจำนวนเลขหมาย</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">
+              <input
+              type="text"
+              pInputText
+              [placeholder]="'ระบุจำนวนไม่เกิน ' + placeHolderValue +' หมายเลข'"
+              formControlName="assignedValue"
+              style="width: 100%"
+              [(ngModel)]="assignedValue"
+            /></div></div>
+          </div>
+          <div class="dialog-data-rows">
+            <div class="dialog-data"><div class="dialog-data-text">ผู้บันทึกข้อมูล</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{ username }}</div></div>
+          </div>
+        </div>
+        <ng-template pTemplate="footer">
+          <p-confirmDialog></p-confirmDialog>
+          <p-button
+            icon="pi pi-check"
+            (onClick)="Confirm(assignedValue)"
+            label="บันทึกการแก้ไข"
+            pAutoFocus
+            [autofocus]="true"
+            severity="success"
+          ></p-button>
+          <p-button
+            icon="pi pi-check"
+            (click)="editAssignedVisible = false"
+            label="ยกเลิก"
+            pAutoFocus
+            [autofocus]="true"
+            severity="danger"
+          ></p-button>
+        </ng-template>
+          <!-- <div class="dialog-data-container" *ngIf="detailLoading; else detailBlog">
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ช่วง Assigned</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">จำนวน</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Code</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Name Th</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Name En</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ตัวย่อ Station</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">โครงการ</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Service Location</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ส่วนงาน</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Network</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Rank</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">System</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Brand</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Install Location</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Latitude</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Longitude</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">RCU</div>
+                <div class="dialog-data-footer"><p-skeleton width="100%" height="100%"></p-skeleton></div>
+              </div>
+          </div>
+          <ng-template #detailBlog>
+            <div class="dialog-data-container">
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ช่วง Assigned</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedStart}} - {{assignedRangeDetail.assignedEnd}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">จำนวน</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedQty}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Code</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.stationCode}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Name Th</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.stationNameTh}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Station Name En</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.stationNameEn}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ตัวย่อ Station</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.stationAbbr}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">โครงการ</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.project}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Service Location</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.serviceLocation}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">ส่วนงาน</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.assignedRegion}}/{{assignedRangeDetail.assignedDept}}/{{assignedRangeDetail.assignedSector}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Network</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.network}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Rank</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.rank}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">System</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.system}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Brand</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.brandName}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Install Location</div>
+                <div class="dialog-data-footer">จังหวัด{{assignedRangeDetail.locationName}} {{assignedRangeDetail.postcode}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Latitude</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.latitude}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">Longitude</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.longtitude}}</div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data-header">RCU</div>
+                <div class="dialog-data-footer">{{assignedRangeDetail.rcu}}</div>
+              </div>
+            </div>
+          </ng-template> -->
+        </p-dialog>
+      </form>
         <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="assignedRangeList.length" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
       </div>
       <div class="result-not-found" *ngIf="responseLoading&&pagedData.length===0">ไม่พบ Assigned Range ตามเงื่อนไข</div>

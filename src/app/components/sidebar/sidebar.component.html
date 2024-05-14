@@ -56,7 +56,7 @@
         <span class="tab-name">Reserve</span>
       </div>
     </li>
-    <li [routerLink]="['/admin/news']" *ngIf="userRole==='1'">
+    <li [routerLink]="['/admin/news']" *ngIf="adminFlag==1">
       <div class="tab-info">
         <span class="tab-icon">
           <img src="assets/icons/setting.png" height="30" />

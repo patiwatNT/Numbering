@@ -18,6 +18,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DialogModule } from 'primeng/dialog';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { da } from '../../../../../dist/numbering-frontend/browser/chunk-5RWOEKIM';
 
 @Component({
   selector: 'app-assign-search',
@@ -31,24 +35,34 @@ import { Router } from '@angular/router';
     CommonModule,
     PaginatorModule,
     SkeletonModule,
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule
   ],
   templateUrl: './assign-search.component.html',
   styleUrl: './assign-search.component.scss',
+  providers: [ConfirmationService],
 })
 export class AssignSearchComponent implements OnInit {
   assignedForm!: FormGroup;
+  editAssignedForm!: FormGroup;
   loading: boolean = false;
   first: number = 0;
   rows: number = 5;
   pagedData: any[] = [];
   assignedRangeList: any[] = [];
+  assignedAmount: any[] =[];
+  adminFlag :string = '';
   assignedRangeDetail: any = {};
-  visible:boolean = false;
-  detailLoading:boolean = false;
-  responseLoading:boolean = false;
-  init:boolean = false;
-  assignSearch:string = "";
+  visible: boolean = false;
+  editAssignedVisible: boolean = false;
+  username:string = this.cookies.get('user');
+  detailLoading: boolean = false;
+  responseLoading: boolean = false;
+  init: boolean = false;
+  phoneInfo: string = '';
+  assignedValue!: number;
+  placeHolderValue: string = '';
+  blockId: string = '';
   provider: DropDownData[] = [
     {
       name: 'ทั้งหมด',
@@ -70,7 +84,9 @@ export class AssignSearchComponent implements OnInit {
   constructor(
     private backendService: BackendService,
     private formBuilder: FormBuilder,
-    private router:Router
+    private router: Router,
+    private cookies:CookieService,
+    private confirmationService: ConfirmationService
   ) {
     this.assignedForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.pattern('^[0-9]*$')]],
@@ -88,21 +104,30 @@ export class AssignSearchComponent implements OnInit {
       }),
       blockId: ['', [Validators.pattern('^[0-9]*$')]],
     });
+    this.editAssignedForm = this.formBuilder.group({
+      assignedValue: [''],
+    });
+
   }
 
   ngOnInit(): void {
-    if (this.router.url.includes('/assignData')||this.router.url.includes('/info')) {
+    this.adminFlag = this.cookies.get('adminFlag');
+    if (
+      this.router.url.includes('/assignData') ||
+      this.router.url.includes('/info')
+    ) {
       this.init = true;
       this.getData();
     }
     // console.log("Block Detail list : ",this.blockDetailList);
-    this.backendService.findAllBlock().subscribe(
+    this.backendService.findAllProvider().subscribe(
       (response) => {
         console.log('Provider Repsponse', response);
+        response.splice(4, 2);
         for (let i of response) {
           this.provider.push({
-            name: i.provide,
-            value: i.provide,
+            name: i.providerName,
+            value: i.providerId,
           });
         }
       },
@@ -114,10 +139,12 @@ export class AssignSearchComponent implements OnInit {
       (response) => {
         console.log('Location Reposnse Success', response);
         for (let i of response) {
-          this.location.push({
-            name: i.name,
-            value: i.value,
-          });
+          if (i != null) {
+            this.location.push({
+              name: i,
+              value: i,
+            });
+          }
         }
       },
       (error) => {
@@ -128,10 +155,12 @@ export class AssignSearchComponent implements OnInit {
       (response) => {
         console.log('Division Response Success ', response);
         for (let i of response) {
-          this.division.push({
-            name: i.name,
-            value: i.id,
-          });
+          if (i != null) {
+            this.division.push({
+              name: i,
+              value: i,
+            });
+          }
         }
       },
       (error) => {
@@ -140,25 +169,25 @@ export class AssignSearchComponent implements OnInit {
     );
   }
 
-  getData(){
+  getData() {
     this.loading = true;
     const currentUrl = window.location.href;
-    const phoneInfo = currentUrl.slice(currentUrl.indexOf('=')+1);
-    let data = {"phoneInfo":phoneInfo}
+    const blockId = currentUrl.slice(currentUrl.indexOf('=') + 1);
+    let data = { blockId: blockId };
     this.backendService.findAssignedRange(data).subscribe(
-      (response)=>{
-        console.log("Success",response);
+      (response) => {
+        console.log('Success', response);
         this.assignedRangeList = response;
-        this.assignSearch = data.phoneInfo
+        this.blockId = data.blockId;
         this.updatePagedData(0);
         this.loading = false;
         this.responseLoading = true;
         console.log(this.assignedRangeList.length);
       },
-      (error)=> {
-        console.log("Error",error);
+      (error) => {
+        console.log('Error', error);
       }
-    )
+    );
   }
 
   search(form: any) {
@@ -180,11 +209,27 @@ export class AssignSearchComponent implements OnInit {
     this.backendService.findAssignedRange(assignedRangeDtoC).subscribe(
       (response) => {
         console.log('Get Response Success', response);
-        this.assignSearch = assignedRangeDtoC.phoneInfo;
+        this.phoneInfo = assignedRangeDtoC.phoneInfo;
         this.assignedRangeList = response;
-        this.updatePagedData(0);
-        this.loading = false;
+        this.backendService.findAssignedAmount(assignedRangeDtoC).subscribe(
+          (response) => {
+            console.log('Response Success : ', response);
+            this.assignedAmount = response;
+            let i = 0;
+            this.assignedRangeList.forEach((item) => {
+              // Add additional fields to 'item' as needed
+              item.okLocation = this.assignedAmount[i].okLocation; // Example: Adding a new field 'additionalField' with a value 'value'
+              item.noLocation = this.assignedAmount[i].noLocation
+              i++;
+            });
+            this.loading = false;
         this.responseLoading = true;
+          },
+          (error) => {
+            console.log('Error :', error);
+          }
+        );
+        this.updatePagedData(0);
       },
       (error) => {
         console.log('Error Response', error);
@@ -214,25 +259,69 @@ export class AssignSearchComponent implements OnInit {
     console.log(this.pagedData);
   }
 
-  showDialog(id:string) {
-    console.log("show Dialog");
+  showDialog(id: string) {
+    console.log('show Dialog');
     this.visible = true;
     this.detailLoading = true;
-    this.backendService.findAssignedRangeDetail(id).subscribe(
-      (reponse)=>{
-        console.log("Success : ",reponse);
+    this.backendService.findAssignedById(id).subscribe(
+      (reponse) => {
+        console.log('Success : ', reponse);
         this.assignedRangeDetail = reponse;
         this.detailLoading = false;
       },
-      (error)=>{
-        console.log("Failed : ",error);
+      (error) => {
+        console.log('Failed : ', error);
       }
-    )
+    );
   }
 
-  changeServiceLocation(phoneInfo:string,assignRangeId:string){
-    console.log("change Service Location");
-    console.log(phoneInfo,assignRangeId);
-    this.router.navigateByUrl('/changeServiceLocation?assignRangeId='+assignRangeId);
+  editAssigned(data: any) {
+    console.log(data);
+    this.editAssignedVisible = true;
+    this.placeHolderValue = data.assignedQty;
+    // this.detailLoading = true;
+    // this.backendService.findAssignedById(id).subscribe(
+    //   (reponse) => {
+    //     console.log('Success : ', reponse);
+    //     this.assignedRangeDetail = reponse;
+    //     this.detailLoading = false;
+    //   },
+    //   (error) => {
+    //     console.log('Failed : ', error);
+    //   }
+    // );
+  }
+
+  changeServiceLocation(phoneInfo: string, assignRangeId: string) {
+    console.log('change Service Location');
+    console.log(phoneInfo, assignRangeId);
+    this.router.navigateByUrl(
+      '/changeServiceLocation?assignRangeId=' + assignRangeId
+    );
+  }
+  Confirm(data:number) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการแก้ไขเลขหมาย',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'คุณยืนยันที่จะทำการแก้ไขจำนวนเลขหมายที่พร้อมให้บริการ '+data,
+      acceptLabel: 'ยืนยัน',
+      rejectLabel: 'ยกเลิก',
+      rejectButtonStyleClass: 'confirm-dialog-reject-style',
+      accept: () => {
+        console.log(data);
+        // let phoneDetailDto:any = {}
+        // phoneDetailDto = {"serviceNo":data,"locationCode":this.selectedLocation}
+        // console.log(phoneDetailDto);
+        // this.backendService.updateServiceLocation(phoneDetailDto).subscribe(
+        //   (response)=>{
+        //     console.log("Get Response Success",response);
+        //   },
+        //   (error)=>{
+        //     console.log("Error",error);
+        //   }
+        // )
+        // window.location.reload();
+      },
+    });
   }
 }

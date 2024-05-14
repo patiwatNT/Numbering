@@ -9,15 +9,16 @@
     padding-bottom: 20px;
   }
 
-  .report-n16-header {
+
+  .assigned-admin-header {
     font-size: 22px;
-    font-weight: bold;
     margin-top: 20px;
+    padding-left: 65px;
+    padding-right: 85px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    white-space: pre;
+    justify-content: space-between;
   }
 
   .line {
@@ -29,7 +30,7 @@
     position: relative;
   }
 
-  .report-n16-container {
+  .assigned-admin-container {
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -39,16 +40,19 @@
     margin-top: 20px;
     overflow: auto;
   }
+
   .data-rows {
     display: flex;
     flex-direction: rows;
     font-size: 16px;
+    padding-bottom: 10px;
   }
+  
   .data {
     background-color: #d9d9d9;
-    margin-top: 10px;
+    //margin-top: 10px;
     margin-right: 10px;
-    padding: 18px;
+    padding: 20px;
     width: 100%;
     text-align: center;
     display: flex;
@@ -61,31 +65,51 @@
     width: 100%;
   }
 
-  .number-amount-group{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  .number-amount-subgroup{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-
-  .greater-than-fifty{
+  .active-text {
     color: green;
   }
-
-  .less-than-fifty {
+  
+  .inactive-text {
+    color: red;
+  }
+  .inprogress-text{
     color: orange;
   }
 
-  .no-location_text{
-    color: red;
-  }
-
   :host ::ng-deep {
-    .p-button {
-      padding: 0px;
+    .btn1 {
+      .p-button {
+        background-color: #ffd100;
+        border: 1px solid #ffd100;
+        width: 100px;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  
+    .excel-btn {
+      .p-button {
+        background-color: green;
+        border: 1px solid green;
+        width: 100%;
+        height: 100%;
+        justify-content: flex-end;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    .btn2 {
+      .p-button {
+        background-color: #545859;
+        border: 1px solid #545859;
+        width: 25px;
+        height: 25px;
+        &:focus {
+          box-shadow: none;
+        }
+      }
     }
   }

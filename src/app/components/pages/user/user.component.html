@@ -3,12 +3,12 @@
         <div class="user-group">
             <span class="pi pi-user" style="font-size: 1.5rem;margin-right: 15px"></span>ข้อมูลผู้ใช้งาน</div>
         <div class="data-rows">
-            <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;">รหัสพนักงาน : <p-skeleton width="490px"></p-skeleton></div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;">ชื่อ-สกุล (ไทย) : <p-skeleton width="480px"></p-skeleton></div></div>
+            <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>รหัสพนักงาน : </b><p-skeleton width="490px"></p-skeleton></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>ชื่อ-สกุล (ไทย) : </b><p-skeleton width="480px"></p-skeleton></div></div>
         </div>
         <div class="data-rows">
-            <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;">สังกัด/ส่วนงาน : <p-skeleton width="480px"></p-skeleton></div></div>
-            <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;">ชื่อ-สกุล (อังกฤษ) : <p-skeleton width="460px"></p-skeleton></div></div>
+            <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>สังกัด/ส่วนงาน : </b><p-skeleton width="480px"></p-skeleton></div></div>
+            <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>ชื่อ-สกุล (อังกฤษ) : </b><p-skeleton width="460px"></p-skeleton></div></div>
         </div>
         <div style="padding-bottom: 20px;"></div>
     </div>
@@ -17,12 +17,12 @@
             <div class="user-group">
                 <span class="pi pi-user" style="font-size: 1.5rem;margin-right: 15px"></span>ข้อมูลผู้ใช้งาน</div>
             <div class="data-rows">
-                <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left;">รหัสพนักงาน : {{userDetail.empcode}}</div></div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left;">ชื่อ-สกุล (ไทย) : {{userDetail.title_th}} {{userDetail.first_name_th}} {{userDetail.last_name_th}}</div></div>
+                <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>รหัสพนักงาน : </b>{{userDetail.empcode}}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>ชื่อ-สกุล (ไทย) : </b>{{userDetail.title_th}} {{userDetail.first_name_th}} {{userDetail.last_name_th}}</div></div>
             </div>
             <div class="data-rows">
-                <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left;">สังกัด/ส่วนงาน : {{userDetail.dep_abbr}}</div></div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left;">ชื่อ-สกุล (อังกฤษ) : {{userDetail.title_en}} {{userDetail.first_name_en}} {{userDetail.last_name_en}}</div></div>
+                <div class="data" style="margin-left: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>สังกัด/ส่วนงาน : </b>{{userDetail.dep_abbr}}</div></div>
+                <div class="data" style="margin-right: 20px;"><div class="data-text" style="justify-content: left; white-space: pre;"><b>ชื่อ-สกุล (อังกฤษ) : </b>{{userDetail.title_en}} {{userDetail.first_name_en}} {{userDetail.last_name_en}}</div></div>
             </div>
             <div style="padding-bottom: 20px;"></div>
         </div>
@@ -55,16 +55,16 @@
                     <div class="data"><div class="data-text"><b>รายการสิทธิ์</b></div></div>
                     <div class="data" style="margin-right: 20px;"><div class="data-text"><b>สิทธิ์การเข้าถึง</b></div></div>
                 </div>
-                <div *ngFor="let item of user.numberingUserPrivilegeList;let index = index">
+                <div *ngFor="let item of user;let index = index">
                     <div class="data-rows">
                         <div class="data" style="width: 30%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
-                        <div class="data"><div class="data-text" style="justify-content: left;">{{item.privilegeName}}</div></div>
+                        <div class="data"><div class="data-text" style="justify-content: left;">{{item.nbrRolesDto.roleDesc}}</div></div>
                         <div class="data" style="margin-right: 20px;"><div class="data-text">
-                            <span *ngIf="checkAccess(item.accessRight)" class="pi pi-check-circle" style="font-size: 1rem;margin-right: 15px; color: green;">
+                            <span *ngIf="checkAccess(item.privilege)" class="pi pi-check-circle" style="font-size: 1rem;margin-right: 15px; color: green;">
                             </span>
-                            <span *ngIf="!checkAccess(item.accessRight)" class="pi pi-times-circle" style="font-size: 1rem;margin-right: 15px; color: red;">
+                            <span *ngIf="!checkAccess(item.privilege)" class="pi pi-times-circle" style="font-size: 1rem;margin-right: 15px; color: red;">
                             </span>
-                            {{item.accessRight}}
+                            {{item.privilege}}
                         </div></div>
                     </div>
                 </div>

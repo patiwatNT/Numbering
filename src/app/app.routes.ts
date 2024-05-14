@@ -20,12 +20,13 @@ import { UserComponent } from './components/pages/user/user.component';
 import { LoginComponent } from './components/pages/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { LoginGuardService } from './services/login-guard.service';
+import { AssignedAdminComponent } from './components/pages/assigned-admin/assigned-admin.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate:[LoginGuardService]
+    //canActivate:[LoginGuardService]
   },
   {
     path: 'main',
@@ -134,6 +135,11 @@ export const routes: Routes = [
   {
     path: 'report/N-16/detail',
     component : ReportN16DetailComponent,
+    canActivate:[AuthGuardService]
+  },
+  {
+    path: 'assigned/admin',
+    component : AssignedAdminComponent,
     canActivate:[AuthGuardService]
   },
   {

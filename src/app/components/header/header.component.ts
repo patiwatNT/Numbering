@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FormGroup } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -18,11 +19,12 @@ export class HeaderComponent implements OnInit{
   user:string|null = '';
   constructor(
     private backendService: BackendService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private cookies: CookieService
   ) {}
   ngOnInit(): void {
-    console.log(localStorage.getItem('user'));
-    this.user = localStorage.getItem('user');
+    console.log(this.cookies.get('user'));
+    this.user = this.cookies.get('user');
   }
   init() {
     this.backendService.init().subscribe(

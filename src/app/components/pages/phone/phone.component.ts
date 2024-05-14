@@ -15,7 +15,8 @@ import { BackendService } from '../../../services/BackendService';
 import { PhoneInfo } from '../../../models/phoneInfo';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Router } from '@angular/router';
-import { stat } from 'fs';
+import moment from 'moment';
+import { BlobOptions } from 'buffer';
 
 @Component({
   selector: 'app-phone',
@@ -42,7 +43,12 @@ export class PhoneComponent implements OnInit{
   checkEmpty: boolean = false;
   responeLoading: boolean = false;
   phoneSearch: string = ""
-
+  serviceCenter:any = {};
+  provider:any = {};
+  assigned:any = {};
+  block:any = {};
+  crmAsset:any = {};
+  notFound:boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -56,6 +62,8 @@ export class PhoneComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.router.url.includes('search')){
+      this.loading = true;
+      this.responeLoading = true;
       const currentUrl = window.location.href;
       const phoneInfo = currentUrl.slice(currentUrl.indexOf('=')+1);
       this.backendService.findPhoneInfoById(phoneInfo).subscribe(
@@ -63,22 +71,20 @@ export class PhoneComponent implements OnInit{
           console.log('Data sent successfully:', response);
           if (response != null) {
             this.phoneInfo = response;
-            this.phoneSearch = response.phone
+            this.phoneSearch = response.serviceNo
+            this.findLocationCode(response.locationCode);
+            this.findProvider(response.providerId);
+            this.findAssgined(response.assignedId);
+            this.findBlock(response.blockId);
+            this.showInfo = true;
+            this.notFound = false;
           } else {
-            let phoneInfo: PhoneInfo = {
-              phone: 'ไม่พบเลขหมายที่ค้นหา',
-              serviceLocation: '-',
-              crmStatus: '-',
-              provider: '-',
-              block: '-',
-              assigned: '-',
-              lastestBy: '-',
-            };
-            this.phoneInfo = phoneInfo;
+            this.notFound = true;
+            this.showInfo = false;
           }
           this.loading = false;
           this.responeLoading = false;
-          this.showInfo = true;
+          
         },
         (error) => {
           console.error('Error sending data:', error);
@@ -96,78 +102,28 @@ export class PhoneComponent implements OnInit{
     }
   }
 
-  isActive(data:any){
-    if(data.includes('ใช้งาน')){
-      return data.includes('ใช้งาน');
-    }else if(data.includes('Active')){
-      return data.includes('Active');
-    } 
-  }
-
-  isInactive(data:any){
-    if(data.includes('คืน กสทช. แล้ว')){
-      return data.includes('คืน กสทช. แล้ว');
-    }else if(data.includes('Inactive')){
-      return data.includes('Inactive');
-    } 
-  }
-
-  isInprogress(data:any){
-    if(data.includes('อยู่ระหว่างดำเนินการคืน กสทช.')){
-      return data.includes('อยู่ระหว่างดำเนินการคืน กสทช.');
-    }else if(data.includes('Inprogress')){
-      return data.includes('Inprogress');
-    } 
-  }
-
-  splitPhoneBlock(data:any): any{
-    console.log(data);
-    if(data!='-'){
-      let info = data.slice(0,data.lastIndexOf(' '));
-      let status = data.slice(data.lastIndexOf(' '));
-      return [info,status];
-    }else{
-      return data;
-    }
-  }
-
-  splitCrmStatus(data:any):any{
-    console.log(data);
-    if(data!='-'){
-      let status = data.slice(0,data.indexOf(' ')+1);
-      let updateBy = data.slice(data.indexOf(' '));
-      console.log("status : ",status);
-      console.log("update by : ",updateBy);
-      console.log(status,updateBy);
-      return[status,updateBy];
-    }else{
-      return data;
-    }
-  }
-
   sendDataToBackend(form: FormGroup) {
     this.loading = true;
     this.responeLoading = true;
+    console.log(form.value.phoneInfo);
     this.backendService.findPhoneInfoById(form.value.phoneInfo).subscribe(
       (response) => {
         console.log('Data sent successfully:', response);
         if (response != null) {
           this.phoneInfo = response;
+          this.findLocationCode(response.locationCode);
+          this.findProvider(response.providerId);
+          this.findAssgined(response.assignedId);
+          this.findBlock(response.blockId);
+          this.findCrmStatus(response.serviceNo)
+          this.showInfo = true;
+          this.notFound = false;
         } else {
-          let phoneInfo: PhoneInfo = {
-            phone: 'ไม่พบเลขหมายที่ค้นหา',
-            serviceLocation: '-',
-            crmStatus: '-',
-            provider: '-',
-            block: '-',
-            assigned: '-',
-            lastestBy: '-',
-          };
-          this.phoneInfo = phoneInfo;
+          this.notFound = true;
+          this.showInfo = false;
         }
         this.loading = false;
         this.responeLoading = false;
-        this.showInfo = true;
       },
       (error) => {
         console.error('Error sending data:', error);
@@ -196,4 +152,69 @@ export class PhoneComponent implements OnInit{
     console.log(error.required);
     return error.required;
   }
+
+  findLocationCode(locationCode:string){
+    this.backendService.findLocationCode(locationCode).subscribe(
+      (response)=>{
+        console.log("Get Location Success :",response);
+        this.serviceCenter = response;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
+  findProvider(providerId:string){
+    this.backendService.findProviderById(providerId).subscribe(
+      (response)=>{
+        console.log("Get Provider Success :",response);
+        this.provider = response;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
+  findAssgined(assignedId:string){
+    this.backendService.findAssignedById(assignedId).subscribe(
+      (response)=>{
+        console.log("Get Assgined Success :",response);
+        this.assigned = response;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
+  findBlock(blockId:number){
+    this.backendService.findBlockById(blockId).subscribe(
+      (response)=>{
+        console.log("Get Block Success :",response);
+        this.block = response;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
+  findCrmStatus(telNo:string){
+    this.backendService.findCrmStatus(telNo).subscribe(
+      (response)=>{
+        console.log("Get Crm Status Success :",response);
+        this.crmAsset = response;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
+  convertDate(data:any){
+    return moment(data).format('DD/MM/YYYY');
+  }
+
 }

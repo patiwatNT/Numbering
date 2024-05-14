@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit} from '@angular/core';
 import { TreeModule } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../services/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,15 +17,18 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent implements OnInit{
-  userRole!: string | null;
-  ngOnInit(): void {
-    this.userRole = localStorage.getItem('roleId');
-    console.log("User Role",this.userRole);
-  }
+export class SidebarComponent{
+  adminFlag:any
   loading:boolean = false;
-
-  constructor(private router: Router,private loginService:LoginService){}
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.userService.adminFlag$.subscribe((value) => {
+      this.adminFlag = this.cookies.get('adminFlag');
+      console.log(this.adminFlag);
+    });
+  }
+  constructor(private router: Router,private loginService:LoginService,private userService:UserService,private cookies:CookieService){}
   phoneInfoNode: TreeNode[] = [
     {
       label: 'ข้อมูลเลขหมาย',
@@ -89,7 +94,8 @@ export class SidebarComponent implements OnInit{
       (response:any)=>{
         console.log(response);
         this.loading = false;
-        localStorage.removeItem('token');
+        localStorage.clear();
+        this.cookies.delete('token');
         window.location.reload();
       },
       (error)=>{

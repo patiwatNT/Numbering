@@ -4,11 +4,11 @@
   <div class="block-blog" *ngIf="loading; else blockBlog">
     <div class="empty-space"></div>
     <div class="data-rows">
-      <div class="data-header"><div class="data-text">ที่</div></div>
-      <div class="data-detail"><div class="data-text">Provider</div></div>
-      <div class="data-detail"><div class="data-text">จำนวน Block</div></div>
-      <div class="data-detail"><div class="data-text">จำนวนหมายเลข</div></div>
-      <div class="data-footer"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+      <div class="data-header"><div class="data-text"><b>ที่</b></div></div>
+      <div class="data-detail"><div class="data-text"><b>Provider</b></div></div>
+      <div class="data-detail"><div class="data-text"><b>จำนวน Block</b></div></div>
+      <div class="data-detail"><div class="data-text"><b>จำนวนหมายเลข</b></div></div>
+      <div class="data-footer"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
     </div>
     <div *ngFor="let i of [1,2,3,4]">
       <div class="data-rows">
@@ -30,15 +30,15 @@
     <div class="block-blog">
       <div class="empty-space"></div>
       <div class="data-rows">
-        <div class="data-header"><div class="data-text">ที่</div></div>
-        <div class="data-detail"><div class="data-text">Provider</div></div>
-        <div class="data-detail"><div class="data-text">จำนวน Block</div></div>
-        <div class="data-detail"><div class="data-text">จำนวนหมายเลข</div></div>
-        <div class="data-footer"><div class="data-text">ค่าธรรมเนียมรายเดือน (บาท)</div></div>
+        <div class="data-header"><div class="data-text"><b>ที่</b></div></div>
+        <div class="data-detail"><div class="data-text"><b>Provider</b></div></div>
+        <div class="data-detail"><div class="data-text"><b>จำนวน Block</b></div></div>
+        <div class="data-detail"><div class="data-text"><b>จำนวนหมายเลข</b></div></div>
+        <div class="data-footer"><div class="data-text"><b>ค่าธรรมเนียมรายเดือน (บาท)</b></div></div>
       </div>
-      <div *ngFor="let i of blockList">
+      <div *ngFor="let i of blockList;let index = index">
         <div class="data-rows">
-          <div class="data-header"><div class="data-text">{{ i.blockId }}</div></div>
+          <div class="data-header"><div class="data-text">{{ index+1 }}</div></div>
           <div class="data-detail">
             <div class="data-text">
             <p-button class="btn3" [link]="true" title="ดูรายละเอียด Assigned" (onClick)="showProviderDetail(i.provide)">

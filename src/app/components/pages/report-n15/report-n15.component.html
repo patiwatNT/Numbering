@@ -5,18 +5,18 @@
     <div class="line"></div>
     <div class="report-n15-container" *ngIf="loading; else container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">สำนัก</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">ฝ่าย</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">ส่วน</div></div>
-            <div class="data" style="width: 30%"><div class="data-text">ศูนย์บริการฯ<br>(Service Location)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>สำนัก</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>ฝ่าย</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>ส่วน</b></div></div>
+            <div class="data" style="width: 30%"><div class="data-text"><b>ศูนย์บริการฯ<br>(Service Location)</b></div></div>
             <div class="number-amount-group" style="margin-right: 10px;">
-                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
                     <div class="number-amount-subgroup">
-                        <div class="data"><div class="data-text">Assigned</div></div>
-                        <div class="data"><div class="data-text">Active</div></div>
-                        <div class="data"><div class="data-text">Available</div></div>
-                        <div class="data"><div class="data-text">% Utilization (Assigned)</div></div>
+                        <div class="data"><div class="data-text"><b>Assigned</b></div></div>
+                        <div class="data"><div class="data-text"><b>Active</b></div></div>
+                        <div class="data"><div class="data-text"><b>Available</b></div></div>
+                        <div class="data"><div class="data-text"><b>% Utilization (Assigned)</b></div></div>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="data-rows">
-            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
             <div class="number-amount-group" style="margin-right: 10px;">
                     <div class="number-amount-subgroup">
                         <div class="data"><div class="data-text"><p-skeleton width="100px"></p-skeleton></div></div>
@@ -61,47 +61,47 @@
     
     <div class="report-n15-container">
         <div class="data-rows">
-            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">ที่</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">สำนัก</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">ฝ่าย</div></div>
-            <div class="data" style="width: 10%"><div class="data-text">ส่วน</div></div>
-            <div class="data" style="width: 30%"><div class="data-text">ศูนย์บริการฯ<br>(Service Location)</div></div>
+            <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text"><b>ที่</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>สำนัก</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>ฝ่าย</b></div></div>
+            <div class="data" style="width: 10%"><div class="data-text"><b>ส่วน</b></div></div>
+            <div class="data" style="width: 30%"><div class="data-text"><b>ศูนย์บริการฯ<br>(Service Location)</b></div></div>
             <div class="number-amount-group" style="margin-right: 10px;">
-                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text">จำนวนเลขหมาย</div></div>
+                <div class="data" style="width: 98.5%; justify-content: center;"><div class="data-text"><b>จำนวนเลขหมาย</b></div></div>
                     <div class="number-amount-subgroup">
-                        <div class="data"><div class="data-text">Assigned</div></div>
-                        <div class="data"><div class="data-text">Active</div></div>
-                        <div class="data"><div class="data-text">Available</div></div>
-                        <div class="data"><div class="data-text">% Utilization (Assigned)</div></div>
+                        <div class="data"><div class="data-text"><b>Assigned</b></div></div>
+                        <div class="data"><div class="data-text"><b>Active</b></div></div>
+                        <div class="data"><div class="data-text"><b>Available</b></div></div>
+                        <div class="data"><div class="data-text"><b>% Utilization (Assigned)</b></div></div>
                 </div>
             </div>
         </div>
         <div *ngFor="let item of reportN15List;let index = index">
             <div class="data-rows">
                 <div class="data" style="width: 10%; margin-left: 20px;"><div class="data-text">{{index+1}}</div></div>
+                <div class="data" style="width: 10%"><div class="data-text">{{item.region}}</div></div>
                 <div class="data" style="width: 10%"><div class="data-text">{{item.department}}</div></div>
-                <div class="data" style="width: 10%"><div class="data-text">{{item.division}}</div></div>
-                <div class="data" style="width: 10%"><div class="data-text">{{item.segment}}</div></div>
-                <div class="data" style="width: 30%"><div class="data-text" [ngClass]="{'no-location-text':item.serviceLocation==='No Location : No Location'}">{{item.serviceLocation}}</div></div>
+                <div class="data" style="width: 10%"><div class="data-text">{{item.sector}}</div></div>
+                <div class="data" style="width: 30%"><div class="data-text" [ngClass]="{'no-location-text':item.locationCode==='No Location'}">{{item.locationCode !='No Location'? item.locationCode + ' : '+ item.locationAbbr:'No Location'}}</div></div>
                 <div class="number-amount-group" style="margin-right: 10px;">
                         <div class="number-amount-subgroup">
-                            <div class="data"><div class="data-text">{{item.numberAmountAssigned}}</div></div>
-                            <div class="data"><div class="data-text">{{item.numberAmountActive}}</div></div>
-                            <div class="data"><div class="data-text">{{item.numberAmountAvailable}}</div></div>
-                            <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': utilization(item.numberAmountAssigned,item.numberAmountActive) >= 50,'less-than-fifty': utilization(item.numberAmountAssigned,item.numberAmountActive) < 50
-                              }">{{utilization(item.numberAmountAssigned,item.numberAmountActive)}}.00%</div></div>
+                            <div class="data"><div class="data-text">{{item.qtyAssigned}}</div></div>
+                            <div class="data"><div class="data-text">{{item.qtyActive}}</div></div>
+                            <div class="data"><div class="data-text">{{item.qtyEmpty}}</div></div>
+                            <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': item.percentUtl >= 50,'less-than-fifty': item.percentUtl < 50
+                              }"><b>{{item.percentUtl}}.00%</b></div></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="data-rows">
-            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text">รวม</div></div>
+            <div class="data" style="width: 88%; margin-left: 20px;"><div class="data-text"><b>รวม</b></div></div>
             <div class="number-amount-group" style="margin-right: 10px;">
                     <div class="number-amount-subgroup">
                         <div class="data"><div class="data-text">{{sumNumberAmountAssigned}}</div></div>
                         <div class="data"><div class="data-text">{{sumNumberAmountActive}}</div></div>
                         <div class="data"><div class="data-text">{{sumNumberAmountAvailable}}</div></div>
-                        <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) >= 50,'less-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) < 50}">{{utilization(sumNumberAmountAssigned,sumNumberAmountActive)}}.00%</div></div>
+                        <div class="data"><div class="data-text" [ngClass]="{'greater-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) >= 50,'less-than-fifty': utilization(sumNumberAmountAssigned,sumNumberAmountActive) < 50}"><b>{{utilization(sumNumberAmountAssigned,sumNumberAmountActive)}}.00%</b></div></div>
                 </div>
             </div>
         </div>

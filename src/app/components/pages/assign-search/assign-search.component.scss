@@ -72,7 +72,6 @@
     padding: 20px;
     min-width: 50px;
     text-align: center;
-    font-weight: bold;
     display: flex;
   }
   
@@ -83,7 +82,6 @@
     padding: 20px;
     width: 100%;
     text-align: center;
-    font-weight: bold;
     display: flex;
   }
 
@@ -100,7 +98,6 @@
     padding: 20px;
     min-width: 100px;
     text-align: center;
-    font-weight: bold;
     display: flex;
   }
 
@@ -112,7 +109,6 @@
     padding: 20px;
     min-width: 50px;
     text-align: center;
-    font-weight: bold;
   }
   
   .data-detail-skeleton {
@@ -122,7 +118,6 @@
     padding: 20px;
     width: 100%;
     text-align: center;
-    font-weight: bold;
   }
   .data-footer-skeleton {
     background-color: #d9d9d9;
@@ -131,7 +126,6 @@
     padding: 20px;
     min-width: 100px;
     text-align: center;
-    font-weight: bold;
   }
 
   .data-footer-assign {
@@ -140,7 +134,6 @@
     margin-right: 30px;
     padding: 10px;
     text-align: center;
-    font-weight: bold;
     min-width: 100px;
     display: flex;
   }
@@ -179,6 +172,20 @@
     background-color: #d9d9d9;
     margin-top: 10px;
     padding: 20px;
+    width: 100%;
+  }
+  .dialog-data{
+    background-color: #d9d9d9;
+    margin-top: 10px;
+    margin-right: 10PX;
+    padding: 20px;
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+  }
+  .dialog-data-text{
+    display: flex;
+    align-self: center;
     width: 100%;
   }
   .result-not-found{

@@ -44,7 +44,7 @@
           <div class="news-title-text">
             <div [innerHTML]="i.newsTitle"></div>
           </div>
-          <div class="edit-news-group">
+          <div class="edit-news-group" *ngIf="roleId ==='1'">
             <img
               src="assets/icons/pen.png"
               height="20"

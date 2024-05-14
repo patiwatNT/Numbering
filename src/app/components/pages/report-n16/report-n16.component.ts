@@ -26,41 +26,57 @@ export class ReportN16Component implements OnInit{
   }
   sendData(){
     this.loading = true;
-    this.backendService.findAllReportN16().subscribe(
+    this.backendService.findAllReportN16Inc().subscribe(
       (response)=>{
         console.log("Get Response Success : ",response);
-        this.reportN16List = response;
-        this.reportN16IncList.push(this.reportN16List[0]);
-        this.reportN16OnlyList.push(this.reportN16List[0]);
-        for(let i of this.reportN16List){
-          if(i.block.includes('INC')){
-            this.reportN16IncList.push(i);
-          }else if(i.block.includes('ONLY')){
-            this.reportN16OnlyList.push(i);
-          }
-        }
+        this.reportN16IncList = response
+
 
         // Add Comma in Sum Section
-        const sumNumberAmount = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.numberAmount,0);
-        const sumMonthlyFee = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.monthlyFee,0);
-        const sumAnnualFee = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.annualFee,0);
+        const sumNumberAmount = this.reportN16IncList.reduce((acc, curr) => acc + curr.qty,0);
+        const sumMonthlyFee = this.reportN16IncList.reduce((acc, curr) => acc + curr.amt,0);
+        const sumAnnualFee = this.reportN16IncList.reduce((acc, curr) => acc + curr.amtYearly,0);
         this.sumNumberAmount = this.addComma(sumNumberAmount);
-        this.sumMonthlyFee = this.addComma(sumMonthlyFee);
+        this.sumMonthlyFee = this.addCommaDecimal(sumMonthlyFee);
+        this.sumAnnualFee = this.addCommaDecimal(sumAnnualFee);
+
+        // Add Comma to Value in BlockList
+        this.reportN16IncList = this.reportN16IncList.map((item:any) => ({
+          ...item,
+          qtyRange: this.addComma(item.qtyRange),
+          qty: this.addComma(item.qty),
+          amt: this.addCommaDecimal(item.amt),
+          amtYearly: this.addCommaDecimal(item.amtYearly),
+          }));
+          this.loading = false;
+      },
+      (error)=>{
+        console.log("Error : ",error);
+      }
+    )
+
+    this.backendService.findAllReportN16Only().subscribe(
+      (response)=>{
+        console.log("Get Response Success : ",response);
+        this.reportN16OnlyList = response
+
+
+        // Add Comma in Sum Section
+        const sumNumberAmount = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.qty,0);
+        const sumMonthlyFee = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.amt,0);
+        const sumAnnualFee = this.reportN16OnlyList.reduce((acc, curr) => acc + curr.amtYearly,0);
+        this.sumNumberAmount = this.addComma(sumNumberAmount);
+        this.sumMonthlyFee = this.addCommaDecimal(sumMonthlyFee);
         this.sumAnnualFee = this.addCommaDecimal(sumAnnualFee);
 
         // Add Comma to Value in BlockList
         this.reportN16OnlyList = this.reportN16OnlyList.map((item:any) => ({
           ...item,
-          numberAmount: this.addComma(item.numberAmount),
-          monthlyFee: this.addComma(item.monthlyFee),
-          annualFee: this.addCommaDecimal(item.annualFee),
+          qtyRange: this.addComma(item.qtyRange),
+          qty: this.addComma(item.qty),
+          amt: this.addCommaDecimal(item.amt),
+          amtYearly: this.addCommaDecimal(item.amtYearly),
         }));
-        this.reportN16IncList = this.reportN16IncList.map((item:any) => ({
-          ...item,
-          numberAmount: this.addComma(item.numberAmount),
-          monthlyFee: this.addComma(item.monthlyFee),
-          annualFee: this.addCommaDecimal(item.annualFee),
-          }));
           this.loading = false;
       },
       (error)=>{

@@ -27,16 +27,23 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
       return this.http.get(`${this.apiUrl}/news/findById/${id}`);
     }
 
-    findPhoneInfoById(data: any): Observable<any>{
-      return this.http.get<PhoneInfo>(`${this.apiUrl}/phone-info/findById/${data}`);
+    findPhoneInfoById(serviceNo: string): Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-service-numbers/findByServiceNo/${serviceNo}`);
     }
+    // findPhoneInfoById(serviceNo: string): Observable<any>{
+    //   return this.http.get(`${this.apiUrl}/nbr-service-numbers/findAll`);
+    // }
 
     findAllBlock(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/block/findAll`);
+      return this.http.get(`${this.apiUrl}/nbr-blocks/getBlockList`);
+    }
+
+    findAllProvider(): Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-providers/findAll`);
     }
 
     findBlockDetail(data: BlockDetailDtoC): Observable<any>{
-      return this.http.post(`${this.apiUrl}/block-detail/findBlockDetail`,data);
+      return this.http.post(`${this.apiUrl}/nbr-blocks/findBlockDetail`,data);
     }
 
     findByStatusGroup(statusGroup: String): Observable<any>{
@@ -44,23 +51,23 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     }
 
     findNumberingLocation(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/numbering-location/findAll`);
+      return this.http.get(`${this.apiUrl}/nbr-assigned/findAssignedRegion`);
     }
 
     findAllAssigned(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/assigned/findAll`);
+      return this.http.get(`${this.apiUrl}/nbr-assigned/findAllAssigned`);
     }
 
     findAllDivision(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/division/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-assigned/findAssignedSector`)
     }
 
     findAssignedRange(data:any): Observable<any>{
-      return this.http.post(`${this.apiUrl}/assigned-range/findByCriteria`,data)
+      return this.http.post(`${this.apiUrl}/nbr-assigned/findAssigned`,data)
     }
 
     findAssignedRangeDetail(id:any): Observable<any>{
-      return this.http.get(`${this.apiUrl}/assigned-range-detail/findByMainId/${id}`)
+      return this.http.get(`${this.apiUrl}/nbr-service-numbers/findByAssignedId/${id}`)
     }
 
     findPhoneDetail(assignRangeId:string): Observable<any>{
@@ -68,19 +75,25 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     }
 
     findServiceLocation(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/service-location/findAllServiceLocation`)
+      return this.http.get(`${this.apiUrl}/tot-service-center/findServiceCenter`)
     }
 
     updateServiceLocation(data:any): Observable<any>{
-      return this.http.post(`${this.apiUrl}/phone-detail/updateServiceLocation`,data)
+      return this.http.post(`${this.apiUrl}/nbr-service-numbers/updateServiceLocation`,data)
     }
  
     findAllNumberingReport():Observable<any>{
-      return this.http.get(`${this.apiUrl}/numbering-report/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report/findAll`)
     }
 
-    findAllReportN11():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-11/findAll`)
+    findReportN11Active():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-11/findReportN11Active`)
+    }
+    findReportN11Inactive():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-11/findReportN11Inactive`)
+    }
+    findReportN11InProgress():Observable<any>{
+      return this.http.get(`${this.apiUrl}/report-n-11/findReportN11InProgress`)
     }
 
     findAllReportN12():Observable<any>{
@@ -95,8 +108,12 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
       return this.http.get(`${this.apiUrl}/report-n-15/findAll`)
     }
 
-    findAllReportN16():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16/findAll`)
+    findAllReportN16Inc():Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-report-1000/findReportN16Inc`)
+    }
+
+    findAllReportN16Only():Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-report-1000/findReportN16Only`)
     }
 
     findDataExport():Observable<any>{
@@ -104,27 +121,46 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     }
 
     findReportN16Block1000():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16-block-1000/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report-1000/findAll`)
     }
     findReportN16Block500Inc():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16-block-500-inc/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report-500/findAllOnly`)
     }
     findReportN16Block100Inc():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16-block-100-inc/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report-100/findAll`)
     }
     findReportN16Block500Only():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16-block-500-only/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report-500/findAll`)
     }
     findReportN16Block100Only():Observable<any>{
-      return this.http.get(`${this.apiUrl}/report-n-16-block-100-only/findAll`)
+      return this.http.get(`${this.apiUrl}/nbr-report-100/findAllOnly`)
     }
-    findUserDetail(username:string):Observable<any>{
-      return this.http.get(`${this.apiUrl}/numbering-users/findUserDetail/${username}`)
+    // findUserDetail(username:string):Observable<any>{
+    //   return this.http.get(`${this.apiUrl}/numbering-users/findUserDetail/${username}`)
+    // }
+    findByEmpCode(empCode:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-users-roles/findByEmpId/${empCode}`)
     }
     findAllPrivilegs():Observable<any>{
       return this.http.get(`${this.apiUrl}/numbering-privileges/findAll`)
     }
-    findByUsername(username:string):Observable<any>{
-      return this.http.get(`${this.apiUrl}/numbering-users/findByUsername/${username}`)
+    findAllRole(empCode:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-roles/findAll/${empCode}`)
+    }
+    findLocationCode(locationCode:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/tot-service-center/findByLocationCode/${locationCode}`)
+    }
+    findProviderById(id:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-providers/findByProviderId/${id}`)
+    }findAssignedById(id:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-assigned/findByAssignedId/${id}`)
+    }findBlockById(id:number):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-blocks/findByBlockId/${id}`)
+    }
+    findCrmStatus(telNo:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-crm-asset/findByTelNo/${telNo}`)
+    }
+    findAssignedAmount(data:any):Observable<any>{
+      return this.http.post(`${this.apiUrl}/nbr-assigned/findAssignedAmount`,data)
     }
   }

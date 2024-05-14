@@ -34,14 +34,14 @@ export class BlockComponent implements OnInit {
         const sumFeeAmount = this.blockList.reduce((acc, curr) => acc + curr.feeAmount,0);
         this.sumBlockAmount = this.addComma(sumBlockAmount);
         this.sumNumberAmount = this.addComma(sumNumberAmount);
-        this.sumFeeAmount = this.addComma(sumFeeAmount);
+        this.sumFeeAmount = this.addCommaDecimal(sumFeeAmount);
 
         // Add Comma to Value in BlockList
         this.blockList = response.map((item:Block) => ({
           ...item,
           blockAmount: this.addComma(item.blockAmount),
           numberAmount: this.addComma(item.numberAmount),
-          feeAmount: this.addComma(item.feeAmount)
+          feeAmount: this.addCommaDecimal(item.feeAmount)
           }));
           this.loading = false;
       },
@@ -53,6 +53,13 @@ export class BlockComponent implements OnInit {
   }
 
   addComma(data: any) {
+    let temp = Number(data).toFixed(0);
+    
+    temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return temp;
+  }
+
+  addCommaDecimal(data: any) {
     let temp = Number(data).toFixed(2);
     
     temp = temp.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -61,7 +68,9 @@ export class BlockComponent implements OnInit {
 
   showProviderDetail(data:any){
     if(data==='TT&T'){
-      data = 'TT%26T'
+      data = 'TT%26T';
+    }else if(data === 'TRUE-1'){
+      data = 'TRUE';
     }
     this.router.navigateByUrl("/block/search/info?provider="+data)
   }
