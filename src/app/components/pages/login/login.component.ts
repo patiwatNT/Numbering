@@ -72,7 +72,7 @@ export class LoginComponent {
         this.responseStatus = response.result;
         if (this.responseStatus != 'fail') {
           //localStorage.setItem('user', username);
-          this.cookies.set('user', username)
+          this.cookies.set('user', response.data.first_name_th + ' ' + response.data.last_name_th)
           //localStorage.setItem('token', response.data.token);
           this.cookies.set('token',response.data.token);
           this.userService.Token = response.data.token;

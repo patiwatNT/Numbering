@@ -9,6 +9,7 @@
             placeholder="ค้นหาเลขหมาย"
             formControlName="phoneInfo"
             style="width: 100%"
+            maxlength="9"
             [(ngModel)]="phoneSearch"
           />
         </div>
@@ -81,7 +82,9 @@
             <div class="data-header"><div class="data-text"><b>ศูนย์บริการ (Service Location)</b></div></div>
             <div class="data-footer">
               <ng-container *ngIf="serviceCenter!=null; else noLocation">
-                {{ serviceCenter.locationName }} ({{phoneInfo.locationCode}})<br>ส่วนงาน {{ serviceCenter.sector }} / ฝ่าย {{ serviceCenter.department }} / สำนัก {{ serviceCenter.region }}
+                <p-button class="btn3" [link]="true" title="แก้ไขศูนย์บริการ" (onClick)="changeServiceLocation(phoneInfo)">
+                  {{ serviceCenter.locationName }} ({{phoneInfo.locationCode}})<br>ส่วนงาน {{ serviceCenter.sector }} / ฝ่าย {{ serviceCenter.department }} / สำนัก {{ serviceCenter.region }}
+                </p-button>
               </ng-container>
               <ng-template #noLocation>
                 <div style="color: red;"> No Location (ไม่พบศูนย์บริการฯ)</div>
@@ -107,7 +110,7 @@
           </div>
           <div class="data-rows">
             <div class="data-header"><div class="data-text"><b>Provider</b></div></div>
-            <div class="data-footer">{{ provider.providerName }} ({{provider.providerDesc}})</div>
+            <div class="data-footer">{{ provider.providerName!=null?provider.providerName:'' }} ({{provider.providerDesc!=null?provider.providerDesc:''}})</div>
           </div>
           <div class="data-rows">
             <div class="data-header"><div class="data-text"><b>Block</b></div></div>
@@ -140,7 +143,7 @@
             <div class="data-rows">
               <div class="data-header"><div class="data-text"><b>ข้อมูลล่าสุดโดย</b></div></div>
               <div class="data-footer">
-                {{ phoneInfo.modifiedBy }} เมื่อ {{convertDate(phoneInfo.lastModified)}}</div>
+                {{ modifiedBy!=null?modifiedBy:'' }} เมื่อ {{ phoneInfo.crmLastModified > phoneInfo.lastModified ? convertDate(phoneInfo.crmLastModified) : phoneInfo.crmLastModified < phoneInfo.lastModified ? convertDate(phoneInfo.lastModified) : '' }}</div>
             </div>
           </ng-container>
           <ng-template #modifiedByBlog>
@@ -185,7 +188,69 @@
             <div style="padding-bottom: 10px;"></div>
           </div>
         </div>
-      
     </ng-template>
   </div>
 </form>
+<p-dialog
+        header="Header"
+        [(visible)]="visible"
+        [modal]="true"
+        [style]="{ width: '50vw' }"
+        [draggable]="false"
+        [resizable]="false"
+      >
+        <ng-template pTemplate="header">
+          <div class="dialog-detail-assigned">หมายเลข : {{ temp.serviceNo }}</div>
+        </ng-template>
+        <div class="dialog-data-container">
+          <div class="dialog-data-rows">
+            <div class="dialog-data">
+                <div class="dialog-data-text">
+                ศูนย์บริการ (Service Location)
+                </div>
+            </div>
+            <div class="dropdown-data">
+                <p-dropdown [options]="serviceLocation" [(ngModel)]="selectedLocation" [group]="true">
+                <ng-template let-group pTemplate="group">
+                  <div class="flex align-items-center">
+                    <span>{{ group.label }}</span>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="dialog-data-rows">
+            <div class="dialog-data"><div class="dialog-data-text">สถานะใน CRM</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{ temp.crmStatus == '1'?'Active':'Inactive'}}</div></div>
+          </div>
+          <div class="dialog-data-rows">
+            <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดเมื่อ</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{ temp.crmLastModified > temp.lastModified ? convertDate(temp.crmLastModified) : temp.crmLastModified < temp.lastModified ? convertDate(temp.lastModified) : '' }}</div></div>
+          </div>
+          <div class="dialog-data-rows">
+            <div class="dialog-data"><div class="dialog-data-text">ข้อมูลล่าสุดโดย</div></div>
+            <div class="dialog-data"><div class="dialog-data-text">{{modifiedBy}}</div></div>
+          </div>
+        </div>
+        <ng-template pTemplate="footer">
+          <p-confirmDialog></p-confirmDialog>
+          <p-button
+            icon="pi pi-check"
+            (onClick)="Confirm(temp.serviceNo)"
+            label="บันทึกการแก้ไข"
+            pAutoFocus
+            [autofocus]="true"
+            severity="success"
+            [loading]=confirmLoading
+          ></p-button>
+          <p-button
+            icon="pi pi-check"
+            (click)="visible = false"
+            label="ยกเลิก"
+            pAutoFocus
+            [autofocus]="true"
+            severity="danger"
+            [loading]=confirmLoading
+          ></p-button>
+        </ng-template>
+      </p-dialog>

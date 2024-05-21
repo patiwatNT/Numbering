@@ -65,12 +65,445 @@
                     '0' 
                 }}</div></div>
                 <div class="data" style="width: 50%"><div class="data-text">{{ item.assignedRegion }}</div></div>
-                <div class="data" style="margin-right: 20px;"><div class="data-text"><p-button icon="pi pi-exclamation-circle" title="ดูรายละเอียด Assigned"  class="btn2" ></p-button>
+                <div class="data" style="margin-right: 20px;"><div class="data-text"><p-button icon="pi pi-pencil" title="แก้ไขช่วง Assigned" (onClick)="editAssigned(item.assignedStart,item.assignedEnd,item.assignedId)" class="btn2"></p-button>
                     <div style="padding: 2px;"></div>
-                    <p-button icon="pi pi-pencil" title="แก้ไขจำนวนพร้อมให้บริการ" class="btn2" ></p-button>
+                    <p-button icon="pi pi-exclamation-circle" title="ดู/แก้ไขรายละเอียด Assigned" (onClick)="editAssignedDetail(item)" class="btn2" ></p-button>
                     <div style="padding: 2px;"></div>
-                    <p-button icon="pi pi-calendar" title="ดู/แก้ไขเลขหมาย" class="btn2" ></p-button></div></div>
+                    <p-button icon="pi pi-list" title="ดูรายเลขหมาย" class="btn2" (onClick)="changeServiceLocation(item.assignedId)"></p-button></div></div>
               </div>
         </div>
+        <form [formGroup]="addAssignedForm">
+          <p-toast />
+            <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+            <ng-template pTemplate="header">
+              <div class="dialog-detail-assigned">เพิ่มช่วง Assigned</div>
+            </ng-template>
+          <div class="dialog-data-container">
+            <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ช่วงเลขหมายที่ต้องการเพิ่มต้องอยู่ใน ช่วงเลขหมาย {{blockObj.blockStart}}-{{blockObj.blockEnd}} จำนวน {{blockObj.blockAmount}} เลขหมาย</b></div></div>
+              </div>
+            <div class="dialog-data-rows">
+              <div class="dialog-data"><div class="dialog-data-text"><b>หมายเลขเริ่มต้น</b></div></div>
+              <div class="dialog-data"><div class="dialog-data-text">
+                <input
+                type="text"
+                pInputText
+                [placeholder]="'ระบุหมายเลขโทรศัพท์'"
+                formControlName="blockStart"
+                style="width: 100%"
+                maxlength="9"
+              />
+              <div
+              *ngIf="
+                addAssignedForm.get('blockStart')!.invalid &&
+                (addAssignedForm.get('blockStart')!.dirty ||
+                addAssignedForm.get('blockStart')!.touched) &&
+                valid('blockStart')
+              "
+              class="error-message-title"
+            >
+              กรุณากรอกเฉพาะตัวเลข
+            </div>
+            <div
+              class="error-message-title"
+              *ngIf="
+                addAssignedForm.get('blockStart')!.invalid &&
+                (addAssignedForm.get('blockStart')!.touched || checkEmpty) &&
+                required('blockStart')
+              "
+            >
+              กรุณากรอกข้อมูล
+            </div>
+            </div></div>
+            </div>
+            <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>หมายเลขสิ้นสุด</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'ระบุหมายเลขโทรศัพท์'"
+                  formControlName="blockEnd"
+                  style="width: 100%"
+                  maxlength="9"
+                />
+                <div
+              *ngIf="
+                addAssignedForm.get('blockEnd')!.invalid &&
+                (addAssignedForm.get('blockEnd')!.dirty ||
+                addAssignedForm.get('blockEnd')!.touched) &&
+                valid('blockEnd')
+              "
+              class="error-message-title"
+            >
+              กรุณากรอกเฉพาะตัวเลข
+            </div>
+            <div
+              class="error-message-title"
+              *ngIf="
+                addAssignedForm.get('blockEnd')!.invalid &&
+                (addAssignedForm.get('blockEnd')!.touched || checkEmpty) &&
+                required('blockEnd')
+              "
+            >
+              กรุณากรอกข้อมูล
+            </div>
+              </div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>พื้นที่/สำนัก</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="blockArea"
+                        [options]="blockArea"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>ศูนย์บริการ</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown [options]="serviceLocation" formControlName="selectedLocation" appendTo="body" [group]="true">
+                    <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center">
+                        <span>{{ group.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ผู้บันทึกข้อมูล</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  {{user}}</div></div>
+              </div>
+          </div>
+          <ng-template pTemplate="footer">
+            <p-confirmDialog></p-confirmDialog>
+            <p-button
+              icon="pi pi-check"
+              (onClick)="addAssignedConfirm(addAssignedForm,blockObj)"
+              label="บันทึกการแก้ไข"
+              pAutoFocus
+              [autofocus]="true"
+              severity="success"
+              [loading]="addAssignedLoading"
+            ></p-button>
+            <p-button
+              icon="pi pi-check"
+              (click)="visible = false"
+              label="ยกเลิก"
+              pAutoFocus
+              [autofocus]="true"
+              severity="danger"
+              [loading]="addAssignedLoading"
+            ></p-button>
+          </ng-template>
+            </p-dialog>
+        </form>
+        <form [formGroup]="editAssignedForm">
+            <p-dialog header="Header" [(visible)]="editAssignedVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+            <ng-template pTemplate="header">
+              <div class="dialog-detail-assigned">แก้ไขช่วง Assigned</div>
+            </ng-template>
+          <div class="dialog-data-container">
+            <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ช่วงเลขหมายต้องอยู่ในช่วง {{blockObj.blockStart}}-{{blockObj.blockEnd}}</b></div></div>
+              </div>
+            <div class="dialog-data-rows">
+              <div class="dialog-data"><div class="dialog-data-text"><b>หมายเลขเริ่มต้น</b></div></div>
+              <div class="dialog-data"><div class="dialog-data-text">
+                <input
+                type="text"
+                pInputText
+                [placeholder]="'ระบุหมายเลขโทรศัพท์'"
+                formControlName="assignedStart"
+                style="width: 100%"
+                maxlength="9"
+              />
+              <div
+              *ngIf="
+                editAssignedForm.get('assignedStart')!.invalid &&
+                (editAssignedForm.get('assignedStart')!.dirty ||
+                editAssignedForm.get('assignedStart')!.touched) &&
+                valid('assignedStart')
+              "
+              class="error-message-title"
+            >
+              กรุณากรอกเฉพาะตัวเลข
+            </div>
+            <div
+              class="error-message-title"
+              *ngIf="
+                editAssignedForm.get('assignedStart')!.invalid &&
+                (editAssignedForm.get('assignedStart')!.touched || checkEmpty) &&
+                required('assignedStart')
+              "
+            >
+              กรุณากรอกข้อมูล
+            </div></div></div>
+            </div>
+            <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>หมายเลขสิ้นสุด</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'ระบุหมายเลขโทรศัพท์'"
+                  formControlName="assignedEnd"
+                  style="width: 100%"
+                  maxlength="9"
+                />
+                <div
+                *ngIf="
+                  editAssignedForm.get('assignedEnd')!.invalid &&
+                  (editAssignedForm.get('assignedEnd')!.dirty ||
+                  editAssignedForm.get('assignedEnd')!.touched) &&
+                  valid('assignedEnd')
+                "
+                class="error-message-title"
+              >
+                กรุณากรอกเฉพาะตัวเลข
+              </div>
+              <div
+                class="error-message-title"
+                *ngIf="
+                  editAssignedForm.get('assignedEnd')!.invalid &&
+                  (editAssignedForm.get('assignedEnd')!.touched || checkEmpty) &&
+                  required('assignedEnd')
+                "
+              >
+                กรุณากรอกข้อมูล
+              </div></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>ศูนย์บริการ</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown [options]="serviceLocation" formControlName="selectedLocation" appendTo="body" [group]="true">
+                    <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center">
+                        <span>{{ group.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ผู้บันทึกข้อมูล</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  {{user}}</div></div>
+              </div>
+          </div>
+          <ng-template pTemplate="footer">
+            <p-confirmDialog></p-confirmDialog>
+            <p-button
+              icon="pi pi-check"
+              (onClick)="editAssignedConfirm(editAssignedForm,blockObj)"
+              label="บันทึกการแก้ไข"
+              pAutoFocus
+              [autofocus]="true"
+              severity="success"
+              [loading]="editAssignedLoading"
+            ></p-button>
+            <p-button
+              icon="pi pi-check"
+              (click)="editAssignedVisible = false"
+              label="ยกเลิก"
+              pAutoFocus
+              [autofocus]="true"
+              severity="danger"
+              [loading]="editAssignedLoading"
+            ></p-button>
+          </ng-template>
+            </p-dialog>
+        </form>
+        <form [formGroup]="editAssignedDetailForm">
+            <p-dialog header="Header" [(visible)]="editAssignedDetailVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+            <ng-template pTemplate="header">
+              <div class="dialog-detail-assigned">เพิ่มรายละเอียดช่วง Assigned</div>
+            </ng-template>
+          <div class="dialog-data-container">
+            <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>Assigned ID {{assignedId}} ช่วง Assigned {{assignedStart}}-{{assignedEnd}} จำนวน {{assignedQty}} เลขหมาย</b></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>สำนัก</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="assignedRegion"
+                        [options]="assignedRegion"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>ฝ่าย</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="assignedDept"
+                        [options]="assignedDept"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>ส่วน</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="assignedSector"
+                        [options]="assignedSector"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>รหัสชุมสาย 10 หลัก</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'รหัสชุมสาย 10 หลัก'"
+                  formControlName="stationCode"
+                  style="width: 100%"
+                /></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ชื่อชุมสาย (ย่อ)</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'ชื่อชุมสาย (ย่อ)'"
+                  formControlName="stationAbbr"
+                  style="width: 100%"
+                /></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ชื่อชุมสาย (ไทย)</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'ชื่อชุมสาย (ไทย)'"
+                  formControlName="stationCodeTtt"
+                  style="width: 100%"
+                /></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ชื่อชุมสาย (อังกฤษ)</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'ชื่อชุมสาย (อังกฤษ)'"
+                  formControlName="stationNameEn"
+                  style="width: 100%"
+                /></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>จังหวัด</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="province"
+                        [options]="province"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data">
+                    <div class="dialog-data-text">
+                    <b>Product Type</b>
+                    </div>
+                </div>
+                <div class="dropdown-data">
+                    <p-dropdown
+                        formControlName="serviceType"
+                        [options]="serviceType"
+                        optionLabel="name"
+                        value="all"
+                        appendTo="body"
+                    ></p-dropdown>
+                </div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>เอกสารอ้างอิง</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  <input
+                  type="text"
+                  pInputText
+                  [placeholder]="'เอกสารอ้างอิง'"
+                  formControlName="docRef"
+                  style="width: 100%"
+                /></div></div>
+              </div>
+              <div class="dialog-data-rows">
+                <div class="dialog-data"><div class="dialog-data-text"><b>ผู้บันทึกข้อมูล</b></div></div>
+                <div class="dialog-data"><div class="dialog-data-text">
+                  {{user}}</div></div>
+              </div>
+          </div>
+          <ng-template pTemplate="footer">
+            <p-confirmDialog></p-confirmDialog>
+            <p-button
+              icon="pi pi-check"
+              (onClick)="editAssignedDetailConfirm(editAssignedDetailForm)"
+              label="บันทึกการแก้ไข"
+              pAutoFocus
+              [autofocus]="true"
+              severity="success"
+              [loading]="editAssignedDetailLoading"
+            ></p-button>
+            <p-button
+              icon="pi pi-check"
+              (click)="editAssignedDetailVisible = false"
+              label="ยกเลิก"
+              pAutoFocus
+              [autofocus]="true"
+              severity="danger"
+              [loading]="editAssignedDetailLoading"
+            ></p-button>
+          </ng-template>
+            </p-dialog>
+        </form>
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="assignedRangeList.length" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
     </div>
 </div>

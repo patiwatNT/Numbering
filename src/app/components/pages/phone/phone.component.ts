@@ -17,6 +17,11 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { BlobOptions } from 'buffer';
+import { ConfirmationService, SelectItemGroup } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-phone',
@@ -30,14 +35,19 @@ import { BlobOptions } from 'buffer';
     TableModule,
     InputMaskModule,
     SkeletonModule,
+    ConfirmDialogModule,
+    DialogModule,
+    DropdownModule
   ],
   templateUrl: './phone.component.html',
   styleUrl: './phone.component.scss',
+  providers:[ConfirmationService]
 })
 export class PhoneComponent implements OnInit{
   phoneInfo!: PhoneInfo;
   phoneForm!: FormGroup;
   loading: boolean = false;
+  confirmLoading:boolean = false;
   products!: any;
   showInfo: boolean = false;
   checkEmpty: boolean = false;
@@ -48,11 +58,18 @@ export class PhoneComponent implements OnInit{
   assigned:any = {};
   block:any = {};
   crmAsset:any = {};
+  temp: any = {};
+  modifiedBy:string = '';
   notFound:boolean = false;
+  visible:boolean = false;
+  selectedLocation: string | undefined;
+  serviceLocation: SelectItemGroup[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private cookies: CookieService
   ) {
     this.phoneForm = this.formBuilder.group({
       phoneInfo: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
@@ -109,13 +126,14 @@ export class PhoneComponent implements OnInit{
     this.backendService.findPhoneInfoById(form.value.phoneInfo).subscribe(
       (response) => {
         console.log('Data sent successfully:', response);
-        if (response != null) {
+        if (response != null&&response.blockId!=null) {
           this.phoneInfo = response;
           this.findLocationCode(response.locationCode);
           this.findProvider(response.providerId);
           this.findAssgined(response.assignedId);
           this.findBlock(response.blockId);
           this.findCrmStatus(response.serviceNo)
+          this.findModified(response.modifiedBy)
           this.showInfo = true;
           this.notFound = false;
         } else {
@@ -177,6 +195,18 @@ export class PhoneComponent implements OnInit{
     )
   }
 
+  findModified(empCode:string){
+    this.backendService.findLastModified(empCode).subscribe(
+      (response)=>{
+        console.log("Get Modified Success :",response);
+        this.modifiedBy = response.firstNameTh + ' ' + response.lastNameTh;
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+  }
+
   findAssgined(assignedId:string){
     this.backendService.findAssignedById(assignedId).subscribe(
       (response)=>{
@@ -215,6 +245,70 @@ export class PhoneComponent implements OnInit{
 
   convertDate(data:any){
     return moment(data).format('DD/MM/YYYY');
+  }
+
+  changeServiceLocation(data:any){
+    console.log('change service location');
+    this.temp = data;
+    console.log(this.temp);
+    this.visible = true;
+    this.backendService.findServiceLocation().subscribe(
+      (response)=>{
+        console.log("Get Response Success",response);
+        this.serviceLocation = response;
+        this.selectedLocation = this.temp.locationCode;
+        console.log(this.selectedLocation);
+      },
+      (error)=>{
+        console.log("Error",error);
+      }
+    )
+    //this.detailLoading = true;
+  }
+  Confirm(data:string) {
+    this.confirmationService.confirm({
+      header: 'ยืนยันการแก้ไข Service Location',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'คุณยืนยันที่จะทำการแก้ไข Service Location ของ หมายเลข '+data,
+      acceptLabel: 'ยืนยัน',
+      rejectLabel: 'ยกเลิก',
+      rejectButtonStyleClass: 'confirm-dialog-reject-style',
+      accept: () => {
+        console.log('ยืนยันการเพิ่มข่าว');
+        console.log(this.selectedLocation);
+        this.confirmLoading = true;
+        let phoneDetailDto:any = {}
+        let empCode = this.cookies.get('empCode');
+        phoneDetailDto = {"serviceNo":data,"locationCode":this.selectedLocation,"modifiedBy":empCode}
+        console.log(phoneDetailDto);
+        this.backendService.updateServiceLocation(phoneDetailDto).subscribe(
+          (response)=>{
+            console.log("Get Response Success",response);
+            this.sendDataToBackend(this.phoneForm);
+            this.visible = false;
+            this.confirmLoading = false;
+          },
+          (error)=>{
+            console.log("Error",error);
+          }
+        )
+      },
+    });
+  }
+
+  Close() {
+    this.confirmationService.confirm({
+      header: 'ยกเลิกการเพิ่มข่าวประชาสัมพันธ์',
+      icon: 'pi pi-exclamation-triangle',
+      message: 'การยกเลิกจยุติขั้นตอนที่คุณกำลังดำเนินการอยู่',
+      acceptLabel: 'ยืนยัน',
+      rejectLabel: 'ยกเลิก',
+      rejectButtonStyleClass: 'confirm-dialog-reject-style',
+      accept: () => {
+        console.log('ยกเลิกการเพิ่มข่าว');
+        this.router.navigateByUrl('/main');
+      },
+    });
   }
 
 }

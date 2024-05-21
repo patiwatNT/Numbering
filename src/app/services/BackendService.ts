@@ -62,6 +62,10 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
       return this.http.get(`${this.apiUrl}/nbr-assigned/findAssignedSector`)
     }
 
+    findAllDept(): Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-assigned/findAssignedDept`)
+    }
+
     findAssignedRange(data:any): Observable<any>{
       return this.http.post(`${this.apiUrl}/nbr-assigned/findAssigned`,data)
     }
@@ -162,5 +166,23 @@ import { BlockDetailDtoC } from '../models/blockDetailDtoC';
     }
     findAssignedAmount(data:any):Observable<any>{
       return this.http.post(`${this.apiUrl}/nbr-assigned/findAssignedAmount`,data)
+    }
+    findProvince():Observable<any>{
+      return this.http.get(`https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json`)
+    }
+    findAllProduct():Observable<any>{
+      return this.http.get(`${this.apiUrl}/nbr-product-type/findAllProductType`)
+    }
+    findLastModified(empCode:string):Observable<any>{
+      return this.http.get(`${this.apiUrl}/nt-staff/findByEmpCode/${empCode}`)
+    }
+    addAssignedRange(data:any):Observable<any>{
+      return this.http.post(`${this.apiUrl}/nbr-assigned/addAssignedRange`,data,{responseType: 'text'})
+    }
+    editAssignedRange(data:any):Observable<any>{
+      return this.http.post(`${this.apiUrl}/nbr-assigned/editAssignedRange`,data,{responseType: 'text'})
+    }
+    editAssignedRangeDetail(data:any):Observable<any>{
+      return this.http.post(`${this.apiUrl}/nbr-assigned/editAssignedRangeDetail`,data,{responseType: 'text'})
     }
   }
